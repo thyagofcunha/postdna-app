@@ -1768,7 +1768,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] lg:hidden"
             />
           )}
         </AnimatePresence>
@@ -1776,16 +1776,17 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <aside 
           onMouseEnter={() => setIsSidebarHovered(true)}
           onMouseLeave={() => setIsSidebarHovered(false)}
-          className={`fixed lg:static inset-y-0 left-0 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
+          className={`fixed lg:static inset-y-0 left-0 bg-black text-white p-6 flex flex-col gap-6 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 border-2 border-black
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             ${isCollapsed ? 'lg:w-[100px] items-center lg:px-4' : 'lg:w-72'}
+            rounded-[24px]
           `}
         >
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shrink-0"><Zap size={16} className="text-black"/></div>
+             <div className="w-9 h-9 rounded-xl bg-[#c4973b] flex items-center justify-center shrink-0 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"><Zap size={20} className="text-black"/></div>
              {!isCollapsed && (
-               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-sm font-black uppercase tracking-tighter italic whitespace-nowrap">Post<span className="text-[#c4973b]">DNA</span></motion.span>
+               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-lg font-black uppercase tracking-tighter italic font-fraunces">Post<span className="text-[#c4973b]">DNA</span></motion.span>
              )}
           </div>
           
@@ -1793,7 +1794,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {!isCollapsed && (
             <button 
                onClick={() => setIsSidebarPinned(!isSidebarPinned)}
-               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
+               className={`hidden lg:flex w-6 h-6 rounded-full border-2 items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#FF5C00] border-black text-black' : 'bg-white/10 border-white/20 text-gray-500'}`}
             >
                <div className={`w-2 h-2 rounded-full ${isSidebarPinned ? 'bg-black' : 'bg-current'}`} />
             </button>
@@ -1802,47 +1803,44 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   
         {/* Brand Kit mini */}
         {!isCollapsed ? (
-          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border border-white/5 rounded-[18px] p-3 space-y-2.5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
-                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
+          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border-2 border-white/10 rounded-2xl p-4 space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center overflow-hidden shrink-0 border-2 border-black">
+                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-1"/> : <Zap size={16} className="text-black"/>}
               </div>
               <div className="min-w-0">
-                <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
-                <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-[#FF5C00] font-mono">Brand Kit</p>
+                <p className="text-xs font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
               </div>
-            </div>
-            <div className="flex gap-1">
-              {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 h-2 rounded-full" style={{backgroundColor:c}}/>)}
             </div>
           </motion.div>
         ) : (
-          <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
-             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={14} style={{color:primaryColor}}/>}
+          <div className="w-11 h-11 rounded-xl bg-white border-2 border-black flex items-center justify-center overflow-hidden">
+             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={18} className="text-black"/>}
           </div>
         )}
   
-        <nav className="flex-1 flex flex-col gap-6 mt-4">
+        <nav className="flex-1 flex flex-col gap-8 mt-4">
           {NAV_ITEMS.map(section => (
             <div key={section.section}>
               {!isCollapsed && (
-                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 px-3 mb-2 whitespace-nowrap">{t(section.section)}</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-500 px-3 mb-3 whitespace-nowrap font-mono">{t(section.section)}</p>
               )}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-2">
                 {section.items.map(item => (
                   <button key={item.key}
                     onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
                     title={isCollapsed ? t(item.label) : ''}
-                    className={`group flex items-center gap-3 p-3 lg:p-2.5 rounded-xl text-xs font-bold tracking-tight transition-all relative ${
+                    className={`group flex items-center gap-4 p-3 rounded-xl text-sm font-bold tracking-tight transition-all relative border-2 ${
                       dashView === item.key
-                        ? 'bg-[#c4973b]/10 text-[#c4973b] border border-[#c4973b]/20'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                    } ${isCollapsed ? 'justify-center' : ''}`}>
-                    <span className={dashView === item.key ? 'text-[#c4973b]' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
-                    {!isCollapsed && <span className="whitespace-nowrap">{t(item.label)}</span>}
+                        ? 'bg-[#c4973b] text-black border-black shadow-[3px_3px_0px_white]'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'
+                    } ${isCollapsed ? 'justify-center border-none' : ''}`}>
+                    <span className={dashView === item.key ? 'text-black' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
+                    {!isCollapsed && <span className="whitespace-nowrap font-fraunces italic">{t(item.label)}</span>}
                     
                     {isCollapsed && dashView === item.key && (
-                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-[#c4973b] rounded-l-full shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
+                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-[#c4973b] rounded-l-full shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
                     )}
                   </button>
                 ))}
@@ -1851,29 +1849,20 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           ))}
         </nav>
   
-        {/* Plan & Credits badge */}
-        <div className={`bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[20px] relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
+        {/* Credits */}
+        <div className={`border-2 border-black rounded-3xl relative overflow-hidden group transition-all ${isCollapsed ? 'p-2 bg-[#c4973b]' : 'p-5 bg-white text-black shadow-[4px_4px_0px_#FF5C00]'}`}>
           {!isCollapsed ? (
-            <>
-              <div className="absolute top-0 right-0 w-12 h-12 bg-[#c4973b]/10 rounded-full blur-xl group-hover:bg-[#c4973b]/20 transition-all"/>
-              <div className="flex justify-between items-center relative z-10">
-                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
-                 <span className="text-[10px] text-white font-black">{totalCredits} CR</span>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                 <p className="text-[10px] font-black uppercase tracking-widest font-mono text-gray-500">Saldo Intel</p>
+                 <Zap size={14} className="text-[#FF5C00]" />
               </div>
-              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
-                 <motion.div 
-                   initial={{ width: 0 }}
-                   animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }}
-                   className="h-full bg-[#c4973b]" />
-              </div>
-              <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-                 <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V7</span>
-              </div>
-            </>
+              <p className="text-2xl font-black font-fraunces italic">{totalCredits} CR</p>
+              <button onClick={()=>setIsLimitModalOpen(true)} className="w-full bg-black text-white py-2 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#FF5C00] transition-colors">Upgrade →</button>
+            </div>
           ) : (
              <div className="flex flex-col items-center gap-1">
-                <span className="text-[8px] font-black text-[#c4973b]">{totalCredits}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#c4973b] animate-pulse" />
+                <span className="text-xs font-black text-black">{totalCredits}</span>
              </div>
           )}
         </div>
@@ -2002,13 +1991,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         </div>
       </div>
       <div>
-        <h1 className="text-xl lg:text-3xl font-black uppercase italic tracking-tighter leading-none mb-2 text-white">
+        <h1 className="text-xl lg:text-4xl font-black uppercase italic tracking-tighter leading-none mb-2 text-[#1A1A1A] font-fraunces">
           {t('dashboard.welcomeActive')} {firstName || 'Chefe'}.
         </h1>
-        <div className="text-gray-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3">
+        <div className="text-gray-500 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3 font-mono">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-gray-300">{t('dashboard.trained')}</span>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500 border border-black animate-pulse" />
+            <span className="text-black">{t('dashboard.trained')}</span>
           </div>
           <span className="text-white/20">|</span>
           <span className="text-[#c4973b] font-black">{PLAN_SPECS[plan]?.name} · {totalCredits} CR</span>
@@ -2017,7 +2006,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
 
       <div className="flex items-center gap-4">
         {/* Seletor de Idioma Rápido */}
-        <div className="flex glass rounded-full p-1 border border-white/5">
+        <div className="flex bg-black rounded-full p-1 border-2 border-black">
           {['pt-BR', 'es'].map(lang => (
             <button key={lang}
               onClick={() => {
@@ -2025,7 +2014,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 i18n.changeLanguage(lang);
               }}
               className={`px-3 py-1.5 rounded-full text-[10px] font-black transition-all ${
-                i18n.language === lang ? 'bg-[#c4973b] text-black' : 'text-gray-400 hover:text-white'
+                i18n.language === lang ? 'bg-[#c4973b] text-black border border-black shadow-[1px_1px_0px_white]' : 'text-gray-400 hover:text-white'
               }`}
             >
               {lang === 'pt-BR' ? 'PT' : 'ES'}
@@ -2033,13 +2022,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           ))}
         </div>
         
-        <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+        <div className="flex items-center gap-3 pl-4 border-l-2 border-black">
           <div className="text-right hidden sm:block">
-            <div className="text-[10px] font-black uppercase tracking-tighter leading-none">{brand?.businessName || t('common.brandKit')}</div>
-            <div className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1">{(t('dashboard.agenda.subtitle', { plan, count: slots?.length || 0 }) || "").split('·')[0]}</div>
+            <div className="text-[10px] font-black uppercase tracking-tighter leading-none font-fraunces">{brand?.businessName || t('common.brandKit')}</div>
+            <div className="text-[9px] text-[#FF5C00] font-black uppercase tracking-widest mt-1 font-mono">{totalCredits} CR</div>
           </div>
-          <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center">
-            {brand.logo ? <img src={brand.logo} className="w-7 h-7 object-contain rounded" /> : <User size={20} className="text-gray-400" />}
+          <div className="w-10 h-10 rounded-xl border-2 border-black bg-white flex items-center justify-center shadow-[2px_2px_0px_black]">
+            {brand.logo ? <img src={brand.logo} className="w-7 h-7 object-contain rounded" /> : <User size={20} className="text-black" />}
           </div>
         </div>
       </div>
@@ -2049,135 +2038,126 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   // ── HOME VIEW ──
   const HomeView = () => {
     const recent = agenda.slice(0, 3);
-    const savedIdeasCount = brand.suggestions?.length || 0;
-
     const contentItems = [
-      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={16}/>, cost: 1, minPlan: 'free', highlight: true },
-      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={16}/>, cost: 10, minPlan: 'free' },
-      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={16}/>, cost: 8, minPlan: 'basico' },
-      { id: 'POST', label: 'Post Estático', icon: <Camera size={16}/>, cost: 4, minPlan: 'free' },
-      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={16}/>, cost: 3, minPlan: 'free' },
-      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={16}/>, cost: 2, minPlan: 'free' },
-      { id: 'BLOG', label: 'Blog', icon: <Globe size={16}/>, cost: 8, minPlan: 'completo' },
-    ].filter(item => item.id !== 'BLOG' || plan === 'completo');
-
-    const isLocked = (minPlan) => {
-      const hierarchy = ['free', 'basico', 'crescimento', 'completo'];
-      return hierarchy.indexOf(plan) < hierarchy.indexOf(minPlan);
-    };
+      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={24}/>, cost: 1, highlight: true },
+      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={24}/>, cost: 10 },
+      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={24}/>, cost: 8 },
+      { id: 'POST', label: 'Post Estático', icon: <Camera size={24}/>, cost: 4 },
+      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={24}/>, cost: 3 },
+      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={24}/>, cost: 2 },
+    ];
 
     return (
-      <div className="space-y-12 pb-20">
+      <div className="flex-1 overflow-y-auto px-10 pb-20 pt-8 space-y-16 scrollbar-hide">
         
-        {/* Bloco 2: O que vamos criar hoje? */}
-        <section className="space-y-6">
-          <div className="text-center md:text-left space-y-1">
-            <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white">O que vamos criar hoje?</h2>
-            <p className="text-gray-400 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
+        {/* Seção 1: O que vamos criar hoje? */}
+        <section className="space-y-8">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+               <div className="w-1.5 h-10 bg-[#FF5C00] border-2 border-black rounded-full" />
+               <h2 className="text-5xl font-black uppercase italic tracking-tighter font-fraunces">Criar agora</h2>
+            </div>
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] ml-5">ESCOLHA O FORMATO PARA O SEU CONTEÚDO CONSCIENTE</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-            {contentItems.map((item) => {
-              const locked = isLocked(item.minPlan);
-              if (item.id === 'SUGGESTION') {
-                return (
-                  <button 
-                    key={item.id}
-                    onClick={refreshSuggestions}
-                    className="relative group p-4 rounded-[28px] border border-[#c4973b]/40 bg-[#c4973b]/5 hover:bg-[#c4973b]/10 transition-all flex flex-col items-center justify-center gap-3 text-center shadow-xl shadow-[#c4973b]/5"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-[#c4973b] text-black flex items-center justify-center shadow-lg shadow-[#c4973b]/20 group-hover:scale-110 transition-transform">
-                      {item.icon}
-                    </div>
-                    <div className="space-y-1">
-                      <span className="block font-black uppercase tracking-tighter text-[10px] text-white leading-none">{item.label}</span>
-                      <span className="block text-[8px] font-black italic uppercase text-[#c4973b]">{item.cost} crédito</span>
-                    </div>
-                  </button>
-                );
-              }
-              return (
-                <button 
-                  key={item.id}
-                  onClick={() => !locked && handleCreateByType(item.id)}
-                  className={`relative group p-4 rounded-[28px] border transition-all flex flex-col items-center justify-center gap-3 text-center ${
-                    locked ? 'opacity-40 cursor-not-allowed border-white/5 bg-white/5' : 
-                    'border-white/5 bg-white/[0.03] hover:border-white/10 hover:bg-white/[0.05]'
-                  }`}
-                >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${locked ? 'border-white/5 text-gray-400' : 'border-white/10 text-gray-400 group-hover:text-white transition-colors'}`}>
-                    {locked ? <Lock size={16}/> : item.icon}
-                  </div>
-                  <div className="space-y-1">
-                    <span className="block font-black uppercase tracking-tighter text-[10px] text-gray-400 group-hover:text-white transition-colors leading-none">{item.label}</span>
-                    <span className="block text-[8px] font-black uppercase text-gray-400">{item.cost} créditos</span>
-                  </div>
-                  {locked && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <div className="bg-black/95 px-2 py-1 rounded-lg text-[7px] font-black text-white uppercase tracking-widest border border-white/10">
-                        Plano Completo
-                      </div>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+            {contentItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                   if (item.id === 'SUGGESTION') {
+                      setIsSherlockConfirmOpen(true);
+                      setSherlockSearchType('temas');
+                   } else {
+                      if (totalCredits < item.cost) {
+                        setIsLimitModalOpen(true);
+                        return;
+                      }
+                      handleCreateByType(item.id);
+                   }
+                }}
+                className={`flex flex-col items-center justify-between p-8 brute-card aspect-square text-center relative overflow-hidden group transition-all ${item.highlight ? 'bg-[#c4973b]' : 'bg-white hover:bg-[#FDFBF7]'}`}
+              >
+                <div className="text-black group-hover:scale-110 transition-transform duration-300">
+                  {item.icon}
+                </div>
+                <div className="space-y-1 mt-4">
+                  <p className="text-[12px] font-black uppercase tracking-tighter leading-tight font-fraunces">
+                    {t(item.label)}
+                  </p>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-black/40 font-mono">
+                    {item.cost} CR
+                  </p>
+                </div>
+                {/* Visual Accent */}
+                <div className="absolute top-[-25px] right-[-25px] w-14 h-14 bg-black rotate-45 group-hover:bg-[#FF5C00] transition-colors" />
+              </button>
+            ))}
           </div>
         </section>
 
-        {/* Bloco 3: Ideias Salvas */}
-        {brand.saved_suggestions?.length > 0 && (
-          <section className="p-6 rounded-[32px] bg-gradient-to-r from-[#c4973b]/10 to-transparent border border-[#c4973b]/20 flex items-center justify-between group cursor-pointer hover:bg-[#c4973b]/20 transition-all" onClick={() => setDashView('ideias')}>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#c4973b]/20 text-[#c4973b] flex items-center justify-center animate-pulse">
-                <Sparkles size={24} />
-              </div>
-              <div>
-                <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
-                  {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias do Sherlock aguardando →
-                </h4>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4973b]/60 mt-1">
-                  Clique para ver e transformar em conteúdo consciente
-                </p>
-              </div>
+        {/* Seção 2: Sherlock (Destaque Bruto) */}
+        <section className="p-10 brute-card bg-black text-white flex flex-col md:flex-row items-center justify-between relative overflow-hidden group shadow-[10px_10px_0px_#c4973b] border-4 border-black">
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+            <div className="w-24 h-24 rounded-[32px] bg-[#c4973b] text-black border-4 border-white shadow-[6px_6px_0px_rgba(255,251,0,0.2)] flex items-center justify-center -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+              <Zap size={48} fill="currentColor" />
             </div>
-            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 group-hover:text-white transition-all">
-              <ChevronRight size={20} />
+            <div className="space-y-3 text-center md:text-left">
+              <h4 className="text-4xl font-black uppercase italic tracking-tighter font-fraunces leading-none">
+                {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias pendentes
+              </h4>
+              <p className="text-[11px] font-black uppercase tracking-[0.5em] text-[#c4973b] font-mono leading-none">
+                Estratégia Sherlock aguardando execução
+              </p>
             </div>
-          </section>
-        )}
-
-        {/* Bloco 4: Criados recentemente */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3">
-            <History size={16} className="text-gray-400"/>
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Criados recentemente</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <button 
+            onClick={() => setDashView('ideias')}
+            className="mt-8 md:mt-0 brute-button bg-[#FDFBF7] text-black border-4 border-black hover:scale-105 active:scale-95 transition-all text-xs tracking-widest px-10"
+          >
+            VER AGORA <ChevronRight size={20} className="ml-2" />
+          </button>
+          
+          {/* Subtle Brute Pattern */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+        </section>
+
+        {/* Seção 3: Histórico Recente */}
+        <section className="space-y-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+               <History size={20} className="text-black" />
+               <h3 className="text-lg font-black uppercase italic tracking-tighter font-fraunces">Últimas ativações</h3>
+            </div>
+            <button className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black font-mono transition-colors">Ver tudo →</button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {recent.length > 0 ? recent.map((c, i) => (
               <div key={i} 
                 onClick={() => setSelectedItem(c)}
-                className="group p-5 rounded-[24px] glass border border-white/5 hover:border-white/10 transition-all cursor-pointer relative overflow-hidden"
+                className="group p-8 brute-card bg-white hover:bg-[#FDFBF7] transition-all cursor-pointer relative"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-400">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-black text-white font-mono">
                     {c.type}
                   </span>
-                  <span className={`text-[8px] font-black uppercase tracking-widest flex items-center gap-1 ${c.status === 'Aprovado' ? 'text-green-500' : 'text-orange-400'}`}>
-                    {c.status === 'Aprovado' && <Check size={10}/>} {c.status}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${c.status === 'Aprovado' ? 'bg-green-500' : 'bg-[#FF5C00] animate-pulse'} border border-black`} />
+                    <span className="text-[9px] font-black uppercase tracking-widest">{c.status}</span>
+                  </div>
                 </div>
-                <h5 className="text-xs font-bold text-gray-300 line-clamp-2 leading-snug group-hover:text-white transition-colors">
+                <h5 className="text-xl font-black font-fraunces italic leading-tight group-hover:text-[#FF5C00] transition-colors line-clamp-2">
                   {c.topic}
                 </h5>
-                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                   <span className="text-[8px] font-bold text-gray-400 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
-                   <span className="text-[8px] font-black uppercase text-[#c4973b] group-hover:translate-x-1 transition-transform">Abrir →</span>
+                <div className="mt-8 pt-6 border-t font-mono flex items-center justify-between opacity-40">
+                   <span className="text-[9px] font-bold uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
+                   <span className="text-[9px] font-black uppercase">Abrir</span>
                 </div>
               </div>
             )) : (
-              <div className="col-span-full py-12 text-center glass border border-white/5 rounded-[32px]">
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Nenhum conteúdo gerado ainda.</p>
+              <div className="col-span-full py-16 text-center brute-card bg-white dashed border-dashed">
+                <p className="text-xs font-black uppercase tracking-widest text-gray-400 font-mono">O Squad ainda não gerou nada hoje.</p>
               </div>
             )}
           </div>
@@ -2316,9 +2296,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2">
+    <div className="flex h-screen bg-[#FDFBF7] text-[#1A1A1A] overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2 p-2">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden glass border-l border-white/5 my-2 mr-2 rounded-[40px] shadow-2xl">
+      <div className="flex-1 flex flex-col overflow-hidden brute-card bg-white rounded-[32px] overflow-hidden">
         <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
@@ -2334,30 +2314,28 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           />
         )}
       </AnimatePresence>
-      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#050505]">
-        {/* Credit Banner Global */}
-        <div className="flex-shrink-0 -mx-8 mb-8 overflow-hidden">
-          <div className="bg-[#c4973b]/5 border-b border-white/5 px-8 py-5 flex items-center justify-between group hover:bg-[#c4973b]/10 transition-all">
-            <div className="flex flex-col">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#c4973b] text-black flex items-center justify-center shadow-lg shadow-[#c4973b]/20">
-                  <Zap size={16} fill="currentColor" />
-                </div>
-                <div>
-                  <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
-                    {totalCredits} créditos disponíveis <span className="text-gray-400 ml-2">—</span> <span className="text-[10px] text-[#c4973b] tracking-widest ml-2">{resetDateStr}</span>
-                  </h4>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
-                    ≈ {estCarousels} carrosséis · ou {estPosts} posts estáticos · ou como preferir
-                  </p>
-                </div>
+      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#FDFBF7]">
+        {/* Credit Banner Global - Estilo Bruto */}
+        <div className="flex-shrink-0 px-10 py-6">
+          <div className="brute-card bg-black text-white p-6 flex flex-col md:flex-row items-center justify-between group hover:shadow-[6px_6px_0px_#FF5C00] transition-all border-4 border-black">
+            <div className="flex items-center gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-[#FF5C00] text-black flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_white]">
+                <Zap size={22} fill="currentColor" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="text-2xl font-black uppercase italic tracking-tighter font-fraunces text-white leading-none">
+                  {totalCredits} créditos disponíveis <span className="text-[#c4973b] ml-1">◆</span>
+                </h4>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 font-mono">
+                  {resetDateStr} · RECUPERAÇÃO AUTOMÁTICA
+                </p>
               </div>
             </div>
             <button 
               onClick={() => setIsLimitModalOpen(true)}
-              className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-[#c4973b] hover:text-black transition-all shadow-xl"
+              className="mt-6 md:mt-0 brute-button bg-[#c4973b] text-black border-2 border-black hover:scale-105"
             >
-              UPGRADE & CRÉDITOS →
+              ADQUIRIR MAIS INTEL →
             </button>
           </div>
         </div>
