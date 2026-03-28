@@ -293,10 +293,43 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, re
                   <Check size={20} /> APROVAR E AGENDAR
                 </button>
                 <div className="flex gap-2">
-                  <button className="flex-1 py-4 text-gray-600 font-black uppercase tracking-widest text-[9px] hover:text-white transition-colors bg-white/5 rounded-xl border border-white/5">
+                  <button 
+                    onClick={() => {
+                        const btn = document.activeElement;
+                        const originalText = btn.innerText;
+                        btn.innerText = "REGERANDO...";
+                        btn.disabled = true;
+                        setTimeout(() => {
+                           // Mock change
+                           item.caption = "✨ Versão Regerada: " + (item.caption || "");
+                           if(item.slides?.[currentSlide]) {
+                              item.slides[currentSlide].headline = "NOVO: " + item.slides[currentSlide].headline;
+                           }
+                           btn.innerText = originalText;
+                           btn.disabled = false;
+                           setActiveTab('copy');
+                        }, 1500);
+                    }}
+                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-[#c4973b] transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
                     REGERAR TEXTO
                   </button>
-                  <button className="flex-1 py-4 text-gray-600 font-black uppercase tracking-widest text-[9px] hover:text-white transition-colors bg-white/5 rounded-xl border border-white/5">
+                  <button 
+                    onClick={() => {
+                        const btn = document.activeElement;
+                        const originalText = btn.innerText;
+                        btn.innerText = "TROCANDO...";
+                        btn.disabled = true;
+                        setTimeout(() => {
+                           // Mock change
+                           if(item.slides?.[currentSlide]) {
+                              item.slides[currentSlide].image = "https://picsum.photos/seed/" + Date.now() + "/800/1000";
+                           }
+                           btn.innerText = originalText;
+                           btn.disabled = false;
+                           setActiveTab('preview');
+                        }, 1500);
+                    }}
+                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-[#c4973b] transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
                     TROCAR DESIGN
                   </button>
                 </div>

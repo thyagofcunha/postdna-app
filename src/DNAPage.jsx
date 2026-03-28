@@ -517,6 +517,15 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                    >
                       Resetar Todo o App
                    </button>
+                   <button 
+                     onClick={() => {
+                        setLocal(p => ({ ...p, credit_balance: (p.credit_balance || 0) + 100 }));
+                        alert("100 Créditos de teste adicionados!");
+                     }}
+                     className="px-6 py-3 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 text-[#c4973b] text-[9px] font-black uppercase tracking-widest hover:bg-[#c4973b] hover:text-black transition-all shadow-xl"
+                   >
+                      + 100 Créditos (Modo Teste)
+                   </button>
                 </div>
              </div>
           </Section>

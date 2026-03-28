@@ -1828,7 +1828,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {totalCredits} CRÉDITOS DISPONÍVEIS
         </p>
         <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V5</span>
+           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V6</span>
            <span className="text-[6px] font-bold uppercase tracking-widest">PostDNA Squad Control</span>
         </div>
       </div>
@@ -2088,7 +2088,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               </div>
               <div>
                 <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
-                  {brand.saved_suggestions?.length} ideias do Sherlock aguardando →
+                  {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias do Sherlock aguardando →
                 </h4>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4973b]/60 mt-1">
                   Clique para ver e transformar em conteúdo consciente
@@ -2352,7 +2352,11 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           <SavedIdeasPage 
             brand={brand} 
             onSelectIdea={(idea) => {
-              setBrand(prev => ({ ...prev, selectedType: idea.suggested_format }));
+              setBrand(prev => ({ 
+                ...prev, 
+                selectedType: idea.suggested_format,
+                saved_suggestions: (prev.saved_suggestions || []).map(s => s.id === idea.id ? { ...s, status: 'used' } : s)
+              }));
               setTopicHint(idea.title);
               setDashView('criar');
             }}
