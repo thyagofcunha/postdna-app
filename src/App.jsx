@@ -558,7 +558,7 @@ export default function App() {
       if (s) {
         const saved = JSON.parse(s);
         if (saved.userName) return 'dashboard';
-        return 'onboarding'; // Se começou mas não terminou
+        return 'onboarding'; 
       }
     } catch(e) {}
     return 'landing';
@@ -603,7 +603,11 @@ export default function App() {
       const s = localStorage.getItem('sc_brand'); 
       if (s) {
         const saved = JSON.parse(s);
-        return { ...defaultBrand, ...saved }; 
+        const final = { ...defaultBrand, ...saved };
+        if (final.colors) {
+           final.colors = final.colors.map(c => sanitizeColor(c, '#c4973b'));
+        }
+        return final; 
       }
     } catch(e) {}
     return defaultBrand;
