@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@radix-ui/react-icons"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 
@@ -57,7 +57,7 @@ export const BentoCard = ({
         className="pointer-events-auto flex items-center gap-1 text-sm font-medium text-[#00BFC6] hover:underline"
       >
         {cta}
-        <ArrowRightIcon className="ml-2 h-4 w-4" />
+        <ArrowRight className="ml-2 h-4 w-4" />
       </a>
     </div>
     <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
