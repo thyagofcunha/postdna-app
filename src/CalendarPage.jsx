@@ -195,7 +195,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                          <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest ${item?.status === 'Publicado' ? 'bg-green-500/10 text-green-500' : 'bg-blue-500/10 text-blue-400'}`}>
                             {item?.status === 'Publicado' ? 'Publicado' : 'Agendado'}
                          </span>
-                         <p className="text-[8px] font-bold text-gray-600 uppercase tracking-widest">{item?.approvedAt ? new Date(item.approvedAt).toLocaleTimeString([], {hour: '2d-digit', minute:'2d-digit'}) : '--:--'}</p>
+                         <p className="text-[8px] font-bold text-gray-600 uppercase tracking-widest">{item?.approvedAt ? new Date(item.approvedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '--:--'}</p>
                       </div>
                       <p className="text-xs font-black uppercase italic tracking-tighter text-white">{item?.topic || 'Untitled'}</p>
                       <p className="text-[10px] text-gray-500 font-bold leading-relaxed line-clamp-3 italic">"{item?.caption || 'Sem legenda disponível...'}"</p>
