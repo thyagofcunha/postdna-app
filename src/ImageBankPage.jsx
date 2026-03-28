@@ -85,10 +85,10 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
                 placeholder="BUSCAR POR TAGS OU NOME..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 pr-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-bold text-white uppercase tracking-widest focus:outline-none focus:border-[#c4973b]/50 transition-all w-64"
+                className="pl-12 pr-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-bold text-white uppercase tracking-widest focus:outline-none focus:border-accent/50 transition-all w-64"
               />
             </div>
-            <label className="gold-gradient px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest text-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#c4973b]/10 flex items-center gap-2">
+            <label className="intel-gradient px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest text-black cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-xl shadow-accent/10 flex items-center gap-2">
               <Upload size={14} /> Fazer Upload
               <input type="file" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} accept="image/png, image/jpeg, image/webp" />
             </label>
@@ -100,7 +100,7 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
       <div className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-[28px] p-6">
          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl shrink-0">📸</div>
          <div className="space-y-1">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é o Banco de Imagens?</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que é o Banco de Imagens?</h4>
             <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
                O designer de IA do PostDNA usa estas imagens para criar seus posts. 
                Suba fotos de <strong className="text-white">produto, marca e lifestyle</strong>. 
@@ -116,13 +116,13 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         className={`h-40 border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center transition-all ${
-          dragActive ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/[0.02]'
+          dragActive ? 'border-cyan-500/50 bg-cyan-500/5' : 'border-white/5 bg-white/[0.02]'
         }`}
       >
         {isUploading ? (
           <div className="flex flex-col items-center gap-4">
-             <div className="w-10 h-10 border-4 border-[#c4973b]/20 border-t-[#c4973b] rounded-full animate-spin" />
-             <span className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Subindo e catalogando com IA...</span>
+             <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
+             <span className="text-[10px] font-black uppercase tracking-widest text-cyan-500">Subindo e catalogando com IA...</span>
           </div>
         ) : (
           <>
@@ -147,7 +147,7 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
             key={cat.id}
             onClick={() => setCategoryFilter(cat.id)}
             className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border flex items-center gap-2 ${
-              categoryFilter === cat.id ? 'bg-[#c4973b] text-black border-[#c4973b]' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/10'
+              categoryFilter === cat.id ? 'border-cyan-500 text-cyan-500 border-cyan-500' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/10'
             }`}
           >
             {cat.icon} {cat.label}

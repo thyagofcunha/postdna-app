@@ -34,10 +34,10 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
       <div className="w-full max-w-5xl glass border border-white/10 rounded-[40px] overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
         
         {/* Header decoration */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gradient-to-b from-[#c4973b]/20 to-transparent blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gradient-to-b from-accent/20 to-transparent blur-[100px] pointer-events-none" />
         
         <div className="p-10 text-center space-y-4 relative z-10 flex-shrink-0">
-          <div className="w-16 h-16 rounded-2xl bg-[#c4973b]/10 text-[#c4973b] flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(196,151,59,0.1)]">
+          <div className="w-16 h-16 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(0,191,198,0.1)]">
             <Zap size={32} />
           </div>
           <h2 className="text-4xl font-black uppercase italic tracking-tighter text-white leading-none">
@@ -52,7 +52,7 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-10 pt-0 relative z-10 overflow-auto">
           
           {/* PLANO BÁSICO */}
-          <div className={`p-8 rounded-[32px] border transition-all flex flex-col justify-between ${brand.plan === 'basico' ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10'}`}>
+          <div className={`p-8 rounded-[32px] border transition-all flex flex-col justify-between ${brand.plan === 'basico' ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10'}`}>
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-black uppercase italic tracking-tighter text-gray-400">Básico</h3>
@@ -63,13 +63,13 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
               </div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> 80 créditos mensais
+                  <CheckCircle2 size={14} className="text-accent"/> 80 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> Estratégia Sherlock
+                  <CheckCircle2 size={14} className="text-accent"/> Estratégia Sherlock
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> Postagens Ilimitadas
+                  <CheckCircle2 size={14} className="text-accent"/> Postagens Ilimitadas
                 </li>
               </ul>
             </div>
@@ -81,13 +81,13 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
           </div>
 
           {/* PLANO CRESCIMENTO (POPULAR) */}
-          <div className={`p-8 rounded-[32px] border relative overflow-hidden transition-all flex flex-col justify-between ${brand.plan === 'crescimento' ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-[#c4973b]/30 bg-[#c4973b]/5 hover:border-[#c4973b]/50'}`}>
+          <div className={`p-8 rounded-[32px] border relative overflow-hidden transition-all flex flex-col justify-between ${brand.plan === 'crescimento' ? 'border-[#c4973b] bg-accent/5' : 'border-[#c4973b]/30 bg-accent/5 hover:border-[#c4973b]/50'}`}>
             <div className="absolute top-0 right-0 p-4">
-               <div className="bg-[#c4973b] px-3 py-1 rounded-full text-[8px] font-black italic uppercase tracking-widest text-black shadow-lg shadow-[#c4973b]/20">Popular</div>
+               <div className="bg-accent px-3 py-1 rounded-full text-[8px] font-black italic uppercase tracking-widest text-black shadow-lg shadow-accent/20">Popular</div>
             </div>
             <div className="space-y-6">
               <div>
-                <h3 className="text-xl font-black uppercase italic tracking-tighter text-[#c4973b]">Crescimento</h3>
+                <h3 className="text-xl font-black uppercase italic tracking-tighter text-accent">Crescimento</h3>
                 <div className="flex items-end gap-1 mt-1">
                   <span className="text-3xl font-black text-white">R$147</span>
                   <span className="text-[10px] uppercase font-black text-gray-600">/mês</span>
@@ -95,25 +95,25 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
               </div>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-gray-300 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> 240 créditos mensais
+                  <CheckCircle2 size={14} className="text-accent"/> 240 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> Prioridade na Fila IA
+                  <CheckCircle2 size={14} className="text-accent"/> Prioridade na Fila IA
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> Análise de Concorrência
+                  <CheckCircle2 size={14} className="text-accent"/> Análise de Concorrência
                 </li>
               </ul>
             </div>
             <button 
               onClick={() => onUpgrade('crescimento')}
-              className="w-full py-5 rounded-xl gold-gradient text-black font-black uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all mt-8 shadow-xl">
+              className="w-full py-5 rounded-xl intel-gradient text-black font-black uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all mt-8 shadow-xl">
               {brand.plan === 'crescimento' ? 'Seu Plano Atual' : 'Escolher Crescimento'}
             </button>
           </div>
 
           {/* PLANO COMPLETO */}
-          <div className={`p-8 rounded-[32px] border transition-all flex flex-col justify-between ${brand.plan === 'completo' ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10'}`}>
+          <div className={`p-8 rounded-[32px] border transition-all flex flex-col justify-between ${brand.plan === 'completo' ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10'}`}>
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl font-black uppercase italic tracking-tighter text-gray-400">Completo</h3>
@@ -123,14 +123,14 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
                 </div>
               </div>
               <ul className="space-y-3">
-                <li className="flex items-center gap-3 text-[#c4973b] font-black text-[10px] uppercase tracking-wider">
+                <li className="flex items-center gap-3 text-accent font-black text-[10px] uppercase tracking-wider">
                   <BookOpen size={14}/> Inclui ARTIGOS DE BLOG
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> 400 créditos mensais
+                  <CheckCircle2 size={14} className="text-accent"/> 400 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-[#c4973b]"/> Suporte VIP 24/7
+                  <CheckCircle2 size={14} className="text-accent"/> Suporte VIP 24/7
                 </li>
               </ul>
             </div>

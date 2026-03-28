@@ -61,10 +61,10 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
     return (
       <div className="flex flex-col gap-10">
         {/* INFO CARD */}
-        <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
-           <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">📅</div>
+        <div className="flex items-start gap-4 bg-accent/5 border border-accent/20 rounded-[28px] p-6 shadow-xl shadow-accent/5">
+           <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-xl shrink-0">📅</div>
            <div className="space-y-1">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é o Calendário de Marca?</h4>
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que é o Calendário de Marca?</h4>
               <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
                  O Calendário é o <strong className="text-white">histórico de execução</strong> do seu Squad. 
                  Assim que você aprova um conteúdo (Copy + Design), ele é registrado aqui automaticamente para controle de consistência e frequência.
@@ -74,8 +74,8 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
 
         <div className="flex flex-col items-center justify-center py-10 text-center space-y-6 animate-in fade-in duration-700">
           <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center relative group">
-             <div className="absolute inset-0 bg-[#c4973b]/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-             <CalendarIcon size={40} className="text-[#c4973b] relative z-10" />
+             <div className="absolute inset-0 bg-accent/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
+             <CalendarIcon size={40} className="text-accent relative z-10" />
           </div>
           <div className="space-y-2">
             <p className="text-sm font-black uppercase tracking-widest text-white">Seu calendário ainda está virgem</p>
@@ -84,7 +84,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
             </p>
           </div>
           <button onClick={() => setDashView('criar')}
-            className="gold-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
+            className="intel-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
             <Sparkles size={14} /> + Criar primeiro conteúdo
           </button>
         </div>
@@ -107,7 +107,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
             {stats.total > 0 && (
               <div className="flex items-center gap-4 pl-6 border-l border-white/10">
                 <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
-                   <strong className="text-[#c4973b]">{stats.total}</strong> APROVADOS
+                   <strong className="text-accent">{stats.total}</strong> APROVADOS
                 </span>
                 <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
                    <strong className="text-green-500">{stats.published}</strong> PUBLICADOS
@@ -133,16 +133,16 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                 onClick={() => d && dayContent && setSelectedDay(d)}
                 className={`aspect-square rounded-[24px] p-3 flex flex-col items-center justify-between transition-all relative overflow-hidden group border ${
                   d ? 'bg-white/3 border-white/5 cursor-pointer hover:border-white/10' : 'opacity-0 pointer-events-none'
-                } ${dayContent ? 'bg-white/5 border-white/10' : ''} ${isSelected ? 'border-[#c4973b]/60 bg-[#c4973b]/10' : ''}`}>
+                } ${dayContent ? 'bg-white/5 border-white/10' : ''} ${isSelected ? 'border-accent/20 bg-accent/10' : ''}`}>
                 
-                {d && <span className={`text-xs font-black ${dayContent ? 'text-[#c4973b]' : 'text-gray-800'}`}>{d}</span>}
+                {d && <span className={`text-xs font-black ${dayContent ? 'text-accent' : 'text-gray-800'}`}>{d}</span>}
                 
                 <div className="flex flex-col gap-1 w-full mt-auto">
                   {dayContent?.slice(0, 3).map((c, idx) => (
                     <div key={idx} className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-white/5 border border-white/5">
-                      <div className="text-[#c4973b] opacity-60">{getTypeIcon(c?.type)}</div>
+                      <div className="text-accent opacity-60">{getTypeIcon(c?.type)}</div>
                       <div className="h-0.5 flex-1 bg-white/10 rounded-full overflow-hidden">
-                         <div className="h-full bg-[#c4973b] w-full" />
+                         <div className="h-full bg-accent w-full" />
                       </div>
                     </div>
                   ))}
@@ -151,7 +151,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                   )}
                 </div>
 
-                {isSelected && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#c4973b] shadow-[0_0_8px_#c4973b]" />}
+                {isSelected && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent)]" />}
               </div>
             );
           })}
@@ -202,7 +202,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                       
                       <button 
                         onClick={() => onOpenDetails?.(item)}
-                        className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-[#c4973b]/40 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all">
+                        className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-accent/40 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all">
                         Detalhes Completos <ExternalLink size={10}/>
                       </button>
                    </div>

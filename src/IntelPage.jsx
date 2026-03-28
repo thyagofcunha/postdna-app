@@ -18,8 +18,8 @@ function getMarketIntelligence(brand, t) {
       { title: 'A ascensão do treino por dados no futebol amador',      reason: 'Conteúdos sobre tecnologia e performance cresceram 68% no nicho em março',  trend: '+68%' },
       { title: 'Erros de treino que destroem o joelho antes dos 40',    reason: 'Lesões e prevenção são o tema de maior engajamento em perfis de treinadores', trend: '+41%' },
       { title: 'Como jogar melhor sem treinar mais — método e não volume', reason: 'Conteúdos contra-intuitivos geram 3x mais compartilhamentos no nicho',      trend: '+3x saves' },
-      { title: 'Before/after: de jogador lento a referência do time',    reason: 'Provas sociais visuais têm 2.8x mais alcance que posts teóricos',             trend: '+2.8x alcance' },
-      { title: 'Preparação física para o jogo de fim de semana',        reason: 'Conteúdo prático e imediato tem taxa de save 45% maior no segmento',          trend: '+45% saves' },
+      { title: 'Antes/Depois: de jogador lento a referência do time',    reason: 'Provas sociais visuais têm 2.8x mais alcance que posts teóricos',             trend: '+2.8x alcance' },
+      { title: 'Preparação física para o jogo de fim de semana',        reason: 'Conteúdo prático e imediato tem taxa de salvamentos 45% maior no segmento',          trend: '+45% salvamentos' },
     ],
     patterns: {
       format:   { label: 'Carrossel (6-8 slides)', detail: 'Formato favorito do nicho — mantém atenção na sequência de dicas táticas', icon: '📊' },
@@ -36,7 +36,7 @@ function getMarketIntelligence(brand, t) {
       { title: 'Antes e depois com transparência de processo',         reason: 'Documentar o "como" aumentou o alcance médio em 82% no nicho em março', trend: '+82%' },
       { title: 'Mitos e verdades sobre o cabelo que viralizam',        reason: 'Formato de desmistificação tem o maior compartilhamento do segmento',   trend: '+3x shares' },
       { title: 'Por que o resultado dura mais com profissional',       reason: 'Argumento de autoridade reduz objeções e aumenta conversão 38%',       trend: '+38% conv.' },
-      { title: 'Rotina de manutenção em casa (pós-atendimento)',       reason: 'Conteúdo de cuidado contínuo fideliza mais do que qualquer promoção',  trend: 'top saves' },
+      { title: 'Rotina de manutenção em casa (pós-atendimento)',       reason: 'Conteúdo de cuidado contínuo fideliza mais do que qualquer promoção',  trend: 'top salvamentos' },
       { title: 'Resultados reais de clientes (sem filtro excessivo)', reason: 'Autenticidade venceu perfeição — alcance 2.2x maior para conteúdo real', trend: '+2.2x' },
     ],
     patterns: {
@@ -53,8 +53,8 @@ function getMarketIntelligence(brand, t) {
     topics: [
       { title: 'Alimentação real vs. dieta milagre — comparativo honesto', reason: 'Desconstrução de mitos é formato com maior taxa de save no nicho', trend: '+75% saves' },
       { title: 'O papel do cortisol no ganho de peso — sem complicar',     reason: 'Ciência acessível cresce 55% em alcance frente a posts motivacionais', trend: '+55%' },
-      { title: 'Por que você para a dieta no final de semana',             reason: 'Comportamento real da audiência como tema — alto compartilhamento',    trend: '+60% shares' },
-      { title: 'Rotina de 10 minutos que substitui 1h de academia',       reason: 'Praticidade extrema tem 3x engajamento no público de 25-40 anos',      trend: '+3x eng.' },
+      { title: 'Por que você para a dieta no final de semana',             reason: 'Comportamento real da audiência como tema — alto compartilhamento',    trend: '+60% compartilhamentos' },
+      { title: 'Rotina de 10 minutos que substitui 1h de academia',       reason: 'Praticidade extrema tem 3x engajamento no público de 25-40 anos',      trend: '+3x engaj.' },
       { title: 'O que profissionais de saúde comem no dia a dia',         reason: 'Bastidores de especialistas geram identificação e autoridade',         trend: 'top retenção' },
     ],
     patterns: {
@@ -71,8 +71,8 @@ function getMarketIntelligence(brand, t) {
     topics: [
       { title: 'Como fechar mais vendas sem desconto — método real',       reason: 'Conteúdo antidesperdiço de margem cresce 71% no nicho desde Q1/25', trend: '+71%' },
       { title: 'Erros que impedem MEIs de escalar para LTDA',             reason: 'Transição empresarial é o tema de maior procura no segmento',        trend: '+3x pesquisas' },
-      { title: 'Por que o seu produto está certo mas o cliente não compra', reason: 'Psicologia de vendas gera 2.5x mais compartilhamento no IG',        trend: '+2.5x shares' },
-      { title: 'Rotina de 3h que substituiu 8h de trabalho reativo',      reason: 'Produtividade extrema tem o maior save rate do segmento em março',   trend: 'top saves' },
+      { title: 'Por que o seu produto está certo mas o cliente não compra', reason: 'Psicologia de vendas gera 2.5x mais compartilhamento no IG',        trend: '+2.5x compartilhamentos' },
+      { title: 'Rotina de 3h que substituiu 8h de trabalho reativo',      reason: 'Produtividade extrema tem a maior taxa de salvamentos do segmento em março',   trend: 'top salvamentos' },
       { title: 'O que os seus concorrentes fazem que você ainda não viu',  reason: 'Análise competitiva como conteúdo cria autoridade e gera curiosidade', trend: '+58%' },
     ],
     patterns: {
@@ -91,7 +91,7 @@ function getMarketIntelligence(brand, t) {
       { title: 'O que o vendedor de loja não te conta sobre o MDF',            reason: 'Conteúdo conta-intuitivo tem alta virabilidade no segmento',     trend: '+2.1x shares' },
       { title: 'Erro de medição que arruinou a cozinha de um cliente',         reason: 'Histórias de erro geram alto engajamento por identificação',    trend: 'top comentários' },
       { title: 'Por que móvel sob medida custa mais e vale mais',              reason: 'Argumento de valor justifica preço e reduz objeção de custo',   trend: '+44% conv.' },
-      { title: 'Tempo real: como um closet sai do zero em 3 dias',            reason: 'Conteúdo de bastidores/processo tem save rate 3x maior',        trend: '+3x saves' },
+      { title: 'Tempo real: como um closet sai do zero em 3 dias',            reason: 'Conteúdo de bastidores/processo tem taxa de salvamento 3x maior',        trend: '+3x salvamentos' },
     ],
     patterns: {
       format:   { label: 'Carrossel processo + Reel (se disponível)', detail: 'Sequência de fotos do "em obras" ao resultado final performa muito', icon: '🪵' },
@@ -143,18 +143,18 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
     <div className="flex flex-col items-center justify-center flex-1 py-28 gap-8 text-center">
       <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
         className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center">
-        <Search size={44} className="text-gray-700"/>
+        <Search size={44} className="text-gray-400"/>
       </motion.div>
       <div>
         <h3 className="text-3xl font-black uppercase italic tracking-tighter mb-3">
           {t('intelPage.emptyState.title').split('.')[0]}.<br/>{t('intelPage.emptyState.title').split('.')[1]}
         </h3>
-        <p className="text-gray-600 text-sm max-w-md mx-auto">
+        <p className="text-gray-400 text-sm max-w-md mx-auto">
           {t('intelPage.emptyState.subtitle')}
         </p>
       </div>
       <button onClick={onCreateFirst}
-        className="gold-gradient text-black px-10 py-4 rounded-[20px] font-black uppercase tracking-widest text-sm shadow-xl flex items-center gap-3 hover:scale-[1.02] transition-transform">
+        className="intel-gradient text-black px-10 py-4 rounded-[20px] font-black uppercase tracking-widest text-sm shadow-xl flex items-center gap-3 hover:scale-[1.02] transition-transform">
         <Plus size={18}/> {t('dashboard.suggestions.createBtn')}
       </button>
 
@@ -176,11 +176,11 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
     <div className="space-y-8 pb-10">
 
       {/* INFO CARD */}
-      <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
-         <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">🔍</div>
+      <div className="flex items-start gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-accent/5">
+         <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-xl shrink-0">🔍</div>
          <div className="space-y-1">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é a Inteligência de Mercado?</h4>
-            <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que é a Inteligência de Mercado?</h4>
+            <p className="text-[11px] text-gray-300 font-bold leading-relaxed">
                O Sherlock analisa as <strong className="text-white">tendências e padrões</strong> do seu nicho em tempo real. 
                Identificamos quais temas estão com maior alcance acadêmico, quais formatos convertem mais e o melhor tom de voz para sua audiência. 
                Use estes dados para validar suas ideias antes de criar.
@@ -192,9 +192,9 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none mb-1">
-            {t('intelPage.title').split('.')[0]} <span className="text-[#c4973b]">{t('intelPage.title').split('.')[1]}</span>
+            {t('intelPage.title').split('.')[0]} <span className="text-accent">{t('intelPage.title').split('.')[1]}</span>
           </h2>
-          <p className="text-gray-600 text-xs font-bold uppercase tracking-widest">
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">
             {t('intelPage.subtitle', { niche: intel.niche })}
           </p>
         </div>
@@ -202,16 +202,16 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
         {/* Last update + refresh */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="text-right">
-            <p className="text-[9px] font-black uppercase tracking-widest text-gray-700">{t('intelPage.lastUpdate')}</p>
-            <p className="text-[10px] font-bold text-gray-500">
+            <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('intelPage.lastUpdate')}</p>
+            <p className="text-[10px] font-bold text-gray-300">
               {lastUpdate ? lastUpdate.toLocaleString(i18n.language === 'es' ? 'es-ES' : 'pt-BR', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '—'}
             </p>
           </div>
           <button onClick={handleUpdate} disabled={updating}
             className={`flex items-center gap-2 px-4 py-2 rounded-[14px] border text-[10px] font-black uppercase tracking-widest transition-all ${
               updating
-                ? 'bg-[#c4973b]/10 border-[#c4973b]/30 text-[#c4973b] cursor-wait'
-                : 'bg-white/5 border-white/10 text-gray-500 hover:border-[#c4973b]/40 hover:text-white'
+                ? 'bg-accent/10 border-[#c4973b]/30 text-accent cursor-wait'
+                : 'bg-white/5 border-white/10 text-gray-300 hover:border-accent/40 hover:text-white'
             }`}>
             <RefreshCw size={12} className={updating ? 'animate-spin' : ''}/>
             {updating ? t('intelPage.updating') : t('intelPage.refresh')}
@@ -223,15 +223,15 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       <AnimatePresence>
         {updating && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="flex items-center gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[18px] p-4">
-            <div className="w-9 h-9 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-lg shrink-0">🔍</div>
+            className="flex items-center gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[18px] p-4">
+            <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center text-lg shrink-0">🔍</div>
             <div>
-              <p className="text-xs font-black uppercase tracking-widest text-[#c4973b]">{t('intelPage.sherlockWorking')}</p>
-              <p className="text-[10px] text-gray-500 font-bold">{t('intelPage.sherlockAnalyzing', { niche: intel.niche })}</p>
+              <p className="text-xs font-black uppercase tracking-widest text-accent">{t('intelPage.sherlockWorking')}</p>
+              <p className="text-[10px] text-gray-300 font-bold">{t('intelPage.sherlockAnalyzing', { niche: intel.niche })}</p>
             </div>
             <div className="flex gap-1 ml-auto">
               {[0,1,2].map(i => (
-                <motion.div key={i} className="w-1.5 h-1.5 rounded-full bg-[#c4973b]"
+                <motion.div key={i} className="w-1.5 h-1.5 rounded-full bg-accent"
                   animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.2 }}/>
               ))}
@@ -243,10 +243,10 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── BLOCK 1: Temas em alta ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-base">🔍</div>
+          <div className="w-8 h-8 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-base">🔍</div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{t('intelPage.trending.title')}</h3>
-            <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">{t('intelPage.trending.subtitle')}</p>
+            <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{t('intelPage.trending.subtitle')}</p>
           </div>
         </div>
 
@@ -255,7 +255,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
             <motion.div key={i}
               initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
               className={`glass rounded-[24px] p-5 border transition-all relative overflow-hidden group cursor-pointer ${
-                activeTopicIdx === i ? 'border-[#c4973b]/50 bg-[#c4973b]/5' : 'border-white/5 hover:border-[#c4973b]/25'
+                activeTopicIdx === i ? 'border-accent/20 bg-accent/5' : 'border-white/5 hover:border-accent/25'
               }`}
               onClick={() => setActiveTopicIdx(activeTopicIdx === i ? null : i)}
             >
@@ -266,15 +266,15 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
                   style={{ color: primaryColor, borderColor: primaryColor + '40', background: primaryColor + '15' }}>
                   {topic.trend}
                 </span>
-                <span className="text-[9px] text-gray-700 font-black uppercase tracking-widest">#{i+1}</span>
+                <span className="text-[9px] text-gray-400 font-black uppercase tracking-widest">#{i+1}</span>
               </div>
 
               <h4 className="font-bold text-sm text-white leading-snug mb-2">{topic.title}</h4>
-              <p className="text-[10px] text-gray-600 leading-relaxed mb-4">{topic.reason}</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed mb-4">{topic.reason}</p>
 
               <button
                 onClick={e => { e.stopPropagation(); onCreateFirst(topic.title); }}
-                className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-[#c4973b] hover:text-white transition-colors">
+                className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-accent hover:text-white transition-colors">
                 <Plus size={11}/> {t('intelPage.trending.createBtn')}
               </button>
             </motion.div>
@@ -285,10 +285,10 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── BLOCK 2: O que está funcionando ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-base">♟️</div>
+          <div className="w-8 h-8 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-base">♟️</div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{t('intelPage.stats.title')}</h3>
-            <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">{t('intelPage.stats.subtitle')}</p>
+            <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{t('intelPage.stats.subtitle')}</p>
           </div>
         </div>
 
@@ -299,14 +299,14 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
               className="glass rounded-[22px] p-5 border border-white/5 space-y-3">
               <span className="text-2xl">{p.icon}</span>
               <div>
-                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 mb-1.5">
+                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-400 mb-1.5">
                   {key === 'format'   ? t('intelPage.stats.format')  :
                    key === 'hook'     ? t('intelPage.stats.hook')  :
                    key === 'tone'     ? t('intelPage.stats.tone')  : t('intelPage.stats.time')}
                 </p>
                 <p className="font-black text-sm text-white leading-snug">{p.label}</p>
               </div>
-              <p className="text-[10px] text-gray-600 leading-relaxed border-t border-white/5 pt-3">{p.detail}</p>
+              <p className="text-[10px] text-gray-400 leading-relaxed border-t border-white/5 pt-3">{p.detail}</p>
             </motion.div>
           ))}
         </div>
@@ -316,17 +316,17 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── BLOCK 3: Histórico (IG) ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-base">📈</div>
+          <div className="w-8 h-8 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-base">📈</div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{t('intelPage.ig.title')}</h3>
-            <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">{t('intelPage.ig.subtitle')}</p>
+            <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{t('intelPage.ig.subtitle')}</p>
           </div>
         </div>
 
         {hasIG ? (
           <div className="glass border border-white/5 rounded-[28px] p-8 space-y-6">
             {/* Simulated top posts */}
-            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{t('intelPage.ig.accountLabel', { handle: brand.igHandle })}</p>
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-accent">{t('intelPage.ig.accountLabel', { handle: brand.igHandle })}</p>
             <div className="space-y-3">
               {[
                 { type: 'CARROSSEL', topic: 'Por que treinar sem método é pior que não treinar',        reach: '4.2k', eng: '8.1%', saves: 312 },
@@ -345,38 +345,38 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
                   <div className="flex gap-4 shrink-0 text-right">
                     <div>
                       <p className="text-xs font-black text-white">{p.reach}</p>
-                      <p className="text-[8px] text-gray-600 uppercase font-black tracking-widest">{t('common.reach')}</p>
+                      <p className="text-[8px] text-gray-400 uppercase font-black tracking-widest">alcance</p>
                     </div>
                     <div>
                       <p className="text-xs font-black text-green-400">{p.eng}</p>
-                      <p className="text-[8px] text-gray-600 uppercase font-black tracking-widest">eng.</p>
+                      <p className="text-[8px] text-gray-400 uppercase font-black tracking-widest">engaj.</p>
                     </div>
                     {p.saves > 0 && (
                       <div>
-                        <p className="text-xs font-black text-[#c4973b]">{p.saves}</p>
-                        <p className="text-[8px] text-gray-600 uppercase font-black tracking-widest">saves</p>
+                        <p className="text-xs font-black text-accent">{p.saves}</p>
+                        <p className="text-[8px] text-gray-400 uppercase font-black tracking-widest">salvos</p>
                       </div>
                     )}
                   </div>
                 </div>
               ))}
             </div>
-            <p className="text-[9px] text-gray-700 italic pt-2">{t('intelPage.ig.simulatedInfo')}</p>
+            <p className="text-[9px] text-gray-400 italic pt-2">{t('intelPage.ig.simulatedInfo')}</p>
           </div>
         ) : (
           <div className="glass border border-white/5 rounded-[28px] p-10 flex flex-col items-center text-center gap-5">
             <div className="w-16 h-16 rounded-[24px] bg-white/5 border border-white/5 flex items-center justify-center">
-              <Eye size={32} className="text-gray-700"/>
+              <Eye size={32} className="text-gray-400"/>
             </div>
             <div>
               <h4 className="font-black text-lg uppercase italic tracking-tighter mb-2">{t('intelPage.ig.ctaTitle')}</h4>
-              <p className="text-gray-600 text-sm max-w-sm">
+              <p className="text-gray-400 text-sm max-w-sm">
                 {t('intelPage.ig.ctaSub')}
               </p>
             </div>
             <button 
               onClick={() => onCreateFirst?.('dna')}
-              className="flex items-center gap-2 px-8 py-4 rounded-[22px] gold-gradient text-black text-sm font-black uppercase tracking-widest hover:scale-[1.05] transition-transform shadow-xl">
+              className="flex items-center gap-2 px-8 py-4 rounded-[22px] intel-gradient text-black text-sm font-black uppercase tracking-widest hover:scale-[1.05] transition-transform shadow-xl">
               <Zap size={16}/> CONECTAR INSTAGRAM AGORA
             </button>
           </div>
@@ -386,15 +386,15 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── SHERLOCK SIGNATURE ── */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
         className="flex items-center gap-4 bg-white/3 border border-white/5 rounded-[20px] p-5">
-        <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-xl shrink-0">🔍</div>
+        <div className="w-10 h-10 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-xl shrink-0">🔍</div>
         <div>
-          <p className="text-[9px] font-black uppercase tracking-widest text-[#c4973b] mb-0.5">{t('intelPage.sherlock.title')}</p>
-          <p className="text-[10px] text-gray-500 font-bold">
+          <p className="text-[9px] font-black uppercase tracking-widest text-accent mb-0.5">{t('intelPage.sherlock.title')}</p>
+          <p className="text-[10px] text-gray-300 font-bold">
             {t('intelPage.sherlock.desc')}
           </p>
         </div>
         {lastUpdate && (
-          <p className="text-[8px] font-black uppercase tracking-widest text-gray-700 shrink-0 text-right">
+          <p className="text-[8px] font-black uppercase tracking-widest text-gray-400 shrink-0 text-right">
             {lastUpdate.toLocaleDateString(i18n.language === 'es' ? 'es-ES' : 'pt-BR', { day: '2-digit', month: 'short' })}<br/>
             {lastUpdate.toLocaleTimeString(i18n.language === 'es' ? 'es-ES' : 'pt-BR', { hour: '2-digit', minute: '2-digit' })}
           </p>

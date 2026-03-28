@@ -10,10 +10,11 @@ export default defineConfig({
   ],
   server: {
     port: 5175,
-    host: true
+    host: true,
+    allowedHosts: ['www.postdna.com.br', 'postdna.com.br', 'postdna-app-production.up.railway.app', '.up.railway.app']
   },
   preview: {
-    allowedHosts: ['postdna-app-production.up.railway.app', '.up.railway.app'],
+    allowedHosts: ['www.postdna.com.br', 'postdna.com.br', 'postdna-app-production.up.railway.app', '.up.railway.app'],
     host: true,
     port: parseInt(process.env.PORT) || 8080
   }

@@ -10,23 +10,23 @@ import { extractDNA } from './dnaUtils';
 // ─── VOICE SLIDER ──────────────────────────────────────────────────────────────
 const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onChange }) => (
   <div className="space-y-3">
-    <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-gray-600">
+    <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-gray-400">
       <span>{leftLabel}</span><span>{label}</span><span>{rightLabel}</span>
     </div>
-    <div className="flex gap-3 text-[10px] text-gray-600">
-      <div className={`flex-1 p-3 rounded-xl border transition-all ${value <= 2 ? 'border-[#c4973b]/40 bg-[#c4973b]/5' : 'border-white/5 bg-white/5'} italic`}>
+    <div className="flex gap-3 text-[10px] text-gray-400">
+      <div className={`flex-1 p-3 rounded-xl border transition-all ${value <= 2 ? 'border-[#c4973b]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
         {leftEx}
       </div>
-      <div className={`flex-1 p-3 rounded-xl border transition-all text-right ${value >= 4 ? 'border-[#c4973b]/40 bg-[#c4973b]/5' : 'border-white/5 bg-white/5'} italic`}>
+      <div className={`flex-1 p-3 rounded-xl border transition-all text-right ${value >= 4 ? 'border-[#c4973b]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
         {rightEx}
       </div>
     </div>
     <input type="range" min="1" max="5" step="1" value={value}
       onChange={e => onChange(Number(e.target.value))}
-      className="w-full cursor-pointer" style={{ accentColor: '#c4973b' }} />
+      className="w-full cursor-pointer" style={{ accentColor: 'var(--accent)' }} />
     <div className="flex justify-between">
       {[1,2,3,4,5].map(n => (
-        <div key={n} className={`w-2 h-2 rounded-full transition-all ${n <= value ? 'bg-[#c4973b]' : 'bg-white/10'}`} />
+        <div key={n} className={`w-2 h-2 rounded-full transition-all ${n <= value ? 'bg-accent' : 'bg-white/10'}`} />
       ))}
     </div>
   </div>
@@ -36,7 +36,7 @@ const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onC
 const Section = ({ title, icon, children, onSave, saveLabel, saving }) => (
   <div className="glass border border-white/5 rounded-[28px] p-7 space-y-6">
     <div className="flex items-center gap-3">
-      <div className="w-9 h-9 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-[#c4973b]">
+      <div className="w-9 h-9 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-accent">
         {icon}
       </div>
       <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{title}</h3>
@@ -44,7 +44,7 @@ const Section = ({ title, icon, children, onSave, saveLabel, saving }) => (
     {children}
     {onSave && (
       <button onClick={onSave}
-        className="flex items-center gap-2 px-5 py-2.5 rounded-[14px] bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white hover:border-[#c4973b]/40 transition-all">
+        className="flex items-center gap-2 px-5 py-2.5 rounded-[14px] bg-white/5 border border-white/10 text-xs font-black uppercase tracking-widest text-gray-300 hover:text-white hover:border-accent/40 transition-all">
         <Save size={13}/> {saving ? '...' : saveLabel}
       </button>
     )}
@@ -59,7 +59,7 @@ const Toast = ({ message, visible }) => (
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-[#c4973b] text-black px-6 py-3 rounded-[20px] font-black uppercase tracking-widest text-xs shadow-2xl flex items-center gap-2"
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-accent text-black px-6 py-3 rounded-[20px] font-black uppercase tracking-widest text-xs shadow-2xl flex items-center gap-2"
       >
         <Check size={14}/> {message}
       </motion.div>
@@ -125,15 +125,15 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
   // ── LIVE PREVIEW ──
   const LivePreview = () => {
-    const primary = local.colors?.[0] || '#c4973b';
+    const primary = local.colors?.[0] || 'var(--accent)';
     const bg      = local.colors?.[1] || '#000000';
     const name    = local.businessName || brand.businessName || 'PostDNA';
     const handle  = local.igHandle || brand.igHandle || '@suamarca';
     const logo    = local.logo || brand.logo;
     return (
       <div className="sticky top-8 space-y-4">
-        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-600 text-center flex items-center gap-2 justify-center">
-          <Sparkles size={10} className="text-[#c4973b]"/> LIVE PREVIEW
+        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 text-center flex items-center gap-2 justify-center">
+          <Sparkles size={10} className="text-accent"/> LIVE PREVIEW
         </p>
         <motion.div layout
           className="w-[200px] mx-auto aspect-[9/16] rounded-[32px] overflow-hidden border border-white/10 shadow-2xl flex flex-col relative"
@@ -156,9 +156,9 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
             <h3 className={`text-lg uppercase tracking-tight leading-tight text-white italic ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-black'}`}>
               DNA<br/><span style={{ color: primary }}>IDENTIFIED.</span>
             </h3>
-            <p className="text-[8px] font-bold text-gray-600 uppercase tracking-widest">PostDNA AI Agent</p>
+            <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">PostDNA AI Agent</p>
             <div className="flex items-center justify-between pt-1">
-              <span className="text-[8px] font-black uppercase text-gray-500">{handle}</span>
+              <span className="text-[8px] font-black uppercase text-gray-300">{handle}</span>
               <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: primary }}>
                 <ChevronRight size={10} className="text-black"/>
               </div>
@@ -166,7 +166,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
           </div>
         </motion.div>
         <div className="bg-white/3 border border-white/5 rounded-[16px] p-3 space-y-2">
-          <p className="text-[8px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.colors')}</p>
+          <p className="text-[8px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.colors')}</p>
           <div className="flex gap-1">
             {(local.colors || brand.colors || []).slice(0,3).map((c,i) => (
               <div key={i} className="flex-1 rounded-lg overflow-hidden">
@@ -189,7 +189,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
         <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none mb-1">
           {t('dnaPage.title')}
         </h2>
-        <p className="text-gray-600 text-xs font-bold uppercase tracking-widest">
+        <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">
           {t('dnaPage.subtitle')}
         </p>
       </div>
@@ -215,7 +215,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
             {/* Logo */}
             <div className="space-y-3">
-              <p className="text-[9px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.logo')}</p>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.logo')}</p>
               <div className="flex items-center gap-5">
                 <div className="w-20 h-20 rounded-[20px] bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
                   {local.logo
@@ -224,13 +224,13 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         <p className="text-2xl font-black text-white" style={{ color: local.colors?.[0] }}>
                           {(local.businessName || 'P').substring(0,1).toUpperCase()}
                         </p>
-                        <p className="text-[7px] text-gray-600 uppercase">DNA</p>
+                        <p className="text-[7px] text-gray-400 uppercase">DNA</p>
                       </div>
                   }
                 </div>
                 <div className="flex flex-col gap-2">
                   <button onClick={() => fileRef.current?.click()}
-                    className="flex items-center gap-2 px-4 py-2 rounded-[12px] bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-[#c4973b]/40 transition-all">
+                    className="flex items-center gap-2 px-4 py-2 rounded-[12px] bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest hover:border-accent/40 transition-all">
                     <Upload size={12}/> {local.logo ? t('dnaPage.actions.uploadLogo') : t('dnaPage.actions.addLogo')}
                   </button>
                   {local.logo && (
@@ -246,7 +246,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
             {/* Colors */}
             <div className="space-y-3">
-              <p className="text-[9px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.colors')}</p>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.colors')}</p>
               <div className="flex gap-5">
                 {[
                   { label: t('onboarding.step1.primary'), idx: 0 },
@@ -255,7 +255,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                 ].map(({ label, idx }) => (
                   <div key={idx} className="flex flex-col items-center gap-2">
                     <div className="relative group cursor-pointer">
-                      <div className="w-16 h-16 rounded-2xl border-2 border-white/10 hover:border-[#c4973b]/50 transition-all"
+                      <div className="w-16 h-16 rounded-2xl border-2 border-white/10 hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.3)] transition-all"
                         style={{ background: local.colors?.[idx] || '#888' }}/>
                       <input type="color" value={local.colors?.[idx] || '#888888'}
                         onChange={e => {
@@ -268,13 +268,13 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         {t('common.edit')}
                       </div>
                     </div>
-                    <p className="text-[8px] font-black uppercase tracking-widest text-gray-600">{label}</p>
+                    <p className="text-[8px] font-black uppercase tracking-widest text-gray-400">{label}</p>
                     <p className="text-[8px] font-mono text-gray-700">{(local.colors?.[idx] || '').toUpperCase()}</p>
                   </div>
                 ))}
               </div>
               {brand.website && (
-                <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-gray-600 hover:text-[#c4973b] transition-colors">
+                <button className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-accent transition-colors">
                   <RefreshCw size={11}/> {t('dnaPage.actions.reExtract')} ({brand.website})
                 </button>
               )}
@@ -282,13 +282,13 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
             {/* Font */}
             <div className="space-y-3">
-              <p className="text-[9px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.typography')}</p>
+              <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.typography')}</p>
               <div className="bg-white/5 border border-white/5 rounded-[18px] p-4 flex items-center justify-between">
                 <p className={`text-lg text-white ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-black'}`}>
                   {FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.sample || 'Seu produto. Sua marca.'}
                 </p>
                 <button onClick={() => setShowFontPicker(v => !v)}
-                  className="text-[9px] font-black uppercase tracking-widest text-gray-600 hover:text-[#c4973b] transition-colors whitespace-nowrap ml-4">
+                  className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-accent transition-colors whitespace-nowrap ml-4">
                   {t('dnaPage.actions.chooseFont')}
                 </button>
               </div>
@@ -298,10 +298,10 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                   {FONT_OPTIONS.map(f => (
                     <button key={f.key}
                       onClick={() => { setLocal(p => ({ ...p, fontStyle: f.key })); setShowFontPicker(false); }}
-                      className={`p-4 rounded-[16px] border text-left transition-all ${local.fontStyle === f.key ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
+                      className={`p-4 rounded-[16px] border text-left transition-all ${local.fontStyle === f.key ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
                       <p className={`text-sm text-white ${f.css} mb-1`}>{f.sample}</p>
-                      <p className="text-[8px] uppercase tracking-widest text-gray-600 font-bold">{f.name}</p>
-                      {local.fontStyle === f.key && <Check size={12} className="absolute top-3 right-3 text-[#c4973b]"/>}
+                      <p className="text-[8px] uppercase tracking-widest text-gray-400 font-bold">{f.name}</p>
+                      {local.fontStyle === f.key && <Check size={12} className="absolute top-3 right-3 text-accent"/>}
                     </button>
                   ))}
                 </motion.div>
@@ -311,8 +311,8 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
           {/* 2. Estilo de Conteúdo */}
           <Section title={t('dnaPage.sections.style')} icon={<ImageIcon size={16}/>} onSave={save} saveLabel={t('common.save')}>
-            <p className="text-[9px] font-black uppercase tracking-widest text-gray-600 -mt-2">
-              {t('dnaPage.fields.vibe')}: <span className="text-[#c4973b]">{STYLE_VIBES.find(s=>s.key===local.visualStyle)?.label || 'Vibrante'}</span>
+            <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 -mt-2">
+              {t('dnaPage.fields.vibe')}: <span className="text-accent">{STYLE_VIBES.find(s=>s.key===local.visualStyle)?.label || 'Vibrante'}</span>
             </p>
             {!showStylePicker ? (
               <div className="flex items-center gap-4 bg-white/5 border border-white/5 rounded-[18px] p-4">
@@ -320,12 +320,12 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                   <p className="font-black text-sm uppercase tracking-tight text-white">
                     {STYLE_VIBES.find(s=>s.key===local.visualStyle)?.label || 'Vibrante'}
                   </p>
-                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">
+                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
                     {STYLE_VIBES.find(s=>s.key===local.visualStyle)?.desc}
                   </p>
                 </div>
                 <button onClick={() => setShowStylePicker(true)}
-                  className="text-[9px] font-black uppercase tracking-widest text-gray-600 hover:text-[#c4973b] transition-colors whitespace-nowrap">
+                  className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-accent transition-colors whitespace-nowrap">
                   {t('dnaPage.actions.chooseStyle')}
                 </button>
               </div>
@@ -335,10 +335,10 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                 {STYLE_VIBES.map(v => (
                   <button key={v.key}
                     onClick={() => { setLocal(p => ({ ...p, visualStyle: v.key })); setShowStylePicker(false); }}
-                    className={`p-5 rounded-[20px] border-2 text-left transition-all relative ${local.visualStyle === v.key ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
-                    {local.visualStyle === v.key && <Check size={14} className="absolute top-3 right-3 text-[#c4973b]"/>}
+                    className={`p-5 rounded-[20px] border-2 text-left transition-all relative ${local.visualStyle === v.key ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
+                    {local.visualStyle === v.key && <Check size={14} className="absolute top-3 right-3 text-accent"/>}
                     <h4 className="font-black text-sm uppercase tracking-tight mb-1">{v.label}</h4>
-                    <p className="text-[9px] text-gray-600 uppercase font-bold tracking-widest">{v.desc}</p>
+                    <p className="text-[9px] text-gray-400 uppercase font-bold tracking-widest">{v.desc}</p>
                   </button>
                 ))}
               </motion.div>
@@ -361,7 +361,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                 value={local.voice?.energy || 3}
                 onChange={v => setLocal(p => ({ ...p, voice: { ...p.voice, energy: v } }))} />
               <div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-gray-600 mb-2">{t('dnaPage.fields.forbiddenWords')}</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('dnaPage.fields.forbiddenWords')}</p>
                 <input type="text" placeholder="..."
                   defaultValue={local.voice?.forbiddenWords || ''}
                   onBlur={e => setLocal(p => ({ ...p, voice: { ...p.voice, forbiddenWords: e.target.value } }))}
@@ -381,7 +381,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                 { key: 'salesLink',      label: t('onboarding.step2.siteLabel'),       ph: t('onboarding.step2.sitePh')           },
               ].map(({ key, label, ph }) => (
                 <div key={key}>
-                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-600 mb-1 pl-1">{label}</label>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1">{label}</label>
                   <input type="text" placeholder={ph} defaultValue={local[key] || ''}
                     onBlur={e => setLocal(p => ({ ...p, [key]: e.target.value }))}
                     className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
@@ -399,7 +399,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                 { key: 'previousAttempts', label: t('onboarding.step6.attemptsLabel'), ph: t('onboarding.step6.attemptsPh')              },
               ].map(({ key, label, ph }) => (
                 <div key={key}>
-                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-600 mb-1 pl-1">{label}</label>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1">{label}</label>
                   <textarea rows={2} placeholder={ph} defaultValue={local.persona?.[key] || ''}
                     onBlur={e => setLocal(p => ({ ...p, persona: { ...p.persona, [key]: e.target.value } }))}
                     className="w-full bg-white/5 border border-white/10 rounded-[14px] px-4 py-3 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700 resize-none"/>
@@ -411,7 +411,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
           {/* 6. Conexão Instagram */}
           <Section title="Conexão Instagram" icon={<Globe size={16}/>}>
              <div className="space-y-4">
-                <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                <p className="text-[11px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed">
                    Conecte sua conta profissional para que o Sherlock analise seus melhores posts e automatize o agendamento.
                 </p>
                 
@@ -430,14 +430,14 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         }));
                         showMsg("Instagram Conectado!");
                     }}
-                    className="flex items-center gap-3 px-6 py-4 rounded-[20px] bg-[#c4973b]/10 border border-[#c4973b]/20 hover:bg-[#c4973b]/20 transition-all w-full md:w-auto"
+                    className="flex items-center gap-3 px-6 py-4 rounded-[20px] bg-accent/10 border border-[#c4973b]/20 hover:bg-accent/20 transition-all w-full md:w-auto"
                   >
-                    <div className="w-8 h-8 rounded-lg bg-[#c4973b] flex items-center justify-center text-black">
+                    <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-black">
                        <Zap size={16} />
                     </div>
                     <div className="text-left">
                        <p className="text-[10px] font-black uppercase tracking-widest text-white">Conectar Instagram Business</p>
-                       <p className="text-[9px] text-[#c4973b] font-bold uppercase tracking-widest">Ativar Sherlock Reports</p>
+                       <p className="text-[9px] text-accent font-bold uppercase tracking-widest">Ativar Sherlock Reports</p>
                     </div>
                   </button>
                 ) : (
@@ -445,7 +445,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                      <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-0.5">
                            <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                              <User size={20} className="text-gray-600" />
+                              <User size={20} className="text-gray-400" />
                            </div>
                         </div>
                         <div>
@@ -470,7 +470,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
           <Section title={t('dnaPage.sections.language')} icon={<Globe size={16}/>} onSave={save} saveLabel={t('common.save')}>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.interfaceLang')}</p>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.interfaceLang')}</p>
                   <div className="flex gap-2">
                     {['pt-BR', 'es'].map(lang => (
                       <button key={lang}
@@ -478,19 +478,19 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                           setLocal(p => ({ ...p, interfaceLanguage: lang }));
                           i18n.changeLanguage(lang);
                         }}
-                        className={`flex-1 py-3 rounded-xl border font-black uppercase tracking-widest text-[10px] transition-all ${local.interfaceLanguage === lang ? 'border-[#c4973b] bg-[#c4973b]/10 text-white' : 'border-white/5 bg-white/5 text-gray-500'}`}>
+                        className={`flex-1 py-3 rounded-xl border font-black uppercase tracking-widest text-[10px] transition-all ${local.interfaceLanguage === lang ? 'border-[#c4973b] bg-accent/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'}`}>
                         {lang === 'pt-BR' ? 'Português' : 'Español'}
                       </button>
                     ))}
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-600">{t('dnaPage.fields.contentLang')}</p>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.contentLang')}</p>
                   <div className="flex gap-2">
                     {['pt-BR', 'es'].map(lang => (
                       <button key={lang}
                         onClick={() => setLocal(p => ({ ...p, contentLanguage: lang }))}
-                        className={`flex-1 py-3 rounded-xl border font-black uppercase tracking-widest text-[10px] transition-all ${local.contentLanguage === lang ? 'border-[#c4973b] bg-[#c4973b]/10 text-white' : 'border-white/5 bg-white/5 text-gray-500'}`}>
+                        className={`flex-1 py-3 rounded-xl border font-black uppercase tracking-widest text-[10px] transition-all ${local.contentLanguage === lang ? 'border-[#c4973b] bg-accent/10 text-white' : 'border-white/5 bg-white/5 text-gray-300'}`}>
                         {lang === 'pt-BR' ? 'PT-BR' : 'ES-LATAM'}
                       </button>
                     ))}
@@ -502,7 +502,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
           {/* 8. Reset de Dados (Pânico) */}
           <Section title="Manutenção do Squad" icon={<RefreshCw size={16}/>}>
              <div className="space-y-4">
-                <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                <p className="text-[11px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed">
                    Use estas opções apenas em caso de erros persistentes ou se desejar recomeçar sua estratégia do zero.
                 </p>
                 <div className="flex flex-wrap gap-4">
@@ -522,7 +522,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         setLocal(p => ({ ...p, credit_balance: (p.credit_balance || 0) + 100 }));
                         alert("100 Créditos de teste adicionados!");
                      }}
-                     className="px-6 py-3 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 text-[#c4973b] text-[9px] font-black uppercase tracking-widest hover:bg-[#c4973b] hover:text-black transition-all shadow-xl"
+                     className="px-6 py-3 rounded-xl bg-accent/10 border border-[#c4973b]/20 text-accent text-[9px] font-black uppercase tracking-widest hover:bg-accent hover:text-black transition-all shadow-xl"
                    >
                       + 100 Créditos (Modo Teste)
                    </button>
@@ -532,7 +532,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
 
           {/* Global save */}
           <button onClick={save}
-            className="w-full gold-gradient text-black py-4 rounded-[20px] font-black uppercase tracking-widest text-sm hover:scale-[1.01] transition-transform shadow-xl flex items-center justify-center gap-3">
+            className="w-full intel-gradient text-black py-4 rounded-[20px] font-black uppercase tracking-widest text-sm hover:scale-[1.01] transition-transform shadow-xl flex items-center justify-center gap-3">
             <Save size={18}/> {t('dnaPage.actions.saveAll')}
           </button>
         </div>
@@ -546,13 +546,13 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
         {logoProposal && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
              <motion.div initial={{scale:0.9, opacity:0}} animate={{scale:1, opacity:1}} exit={{scale:0.9, opacity:0}}
-               className="glass border border-white/10 rounded-[40px] p-10 max-w-md w-full text-center space-y-8 shadow-[0_0_100px_rgba(196,151,59,0.15)]">
+               className="glass border border-white/10 rounded-[40px] p-10 max-w-md w-full text-center space-y-8 shadow-[0_0_100px_rgba(0,191,198,0.15)]">
                 <div className="space-y-3">
                    <div className="w-16 h-16 rounded-[24px] bg-white/5 border border-white/10 p-3 mx-auto flex items-center justify-center overflow-hidden">
                       <img src={logoProposal.logo} className="w-full h-full object-contain" />
                    </div>
                    <h3 className="text-2xl font-black uppercase italic tracking-tighter">DNA Capturado!</h3>
-                   <p className="text-xs text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                   <p className="text-xs text-gray-300 font-bold uppercase tracking-widest leading-relaxed">
                       O Sherlock identificou novas cores e estilo nesta logo. Deseja manter sua paleta atual ou atualizar para o novo DNA?
                    </p>
                 </div>
@@ -570,7 +570,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         setLogoProposal(null);
                         showMsg("DNA Atualizado!");
                      }}
-                     className="w-full gold-gradient text-black py-5 rounded-[22px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-xl">
+                     className="w-full intel-gradient text-black py-5 rounded-[22px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform shadow-xl">
                       <Check size={16}/> ADOTAR NOVO DNA (Recomendado)
                    </button>
                    <button 
@@ -579,7 +579,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
                         setLogoProposal(null);
                         showMsg("Logo adicionada!");
                      }}
-                     className="w-full py-4 rounded-[22px] bg-white/5 border border-white/10 text-gray-500 font-black uppercase tracking-widest text-[10px] hover:text-white transition-colors">
+                     className="w-full py-4 rounded-[22px] bg-white/5 border border-white/10 text-gray-300 font-black uppercase tracking-widest text-[10px] hover:text-white transition-colors">
                       MANTÊR MINHA PALETA ATUAL
                    </button>
                 </div>

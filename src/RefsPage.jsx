@@ -22,7 +22,7 @@ function HandleInput({ value, onChange, onAdd, placeholder, disabled }) {
   return (
     <div className="flex gap-2">
       <div className="relative flex-1">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 font-black text-sm">@</span>
+        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-black text-sm">@</span>
         <input
           type="text"
           value={value}
@@ -30,13 +30,13 @@ function HandleInput({ value, onChange, onAdd, placeholder, disabled }) {
           onKeyDown={handleKey}
           placeholder={placeholder}
           disabled={disabled}
-          className="w-full h-12 bg-white/5 border border-white/10 rounded-[16px] pl-9 pr-4 font-bold text-sm outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700 disabled:opacity-40"
+          className="w-full h-12 bg-white/5 border border-white/10 rounded-[16px] pl-9 pr-4 font-bold text-sm outline-none focus:border-accent/60 transition-all placeholder:text-gray-400 disabled:opacity-40"
         />
       </div>
       <button
         onClick={onAdd}
         disabled={!value.trim() || disabled}
-        className="h-12 px-5 rounded-[16px] gold-gradient text-black font-black text-xs uppercase tracking-widest disabled:opacity-30 disabled:cursor-not-allowed hover:scale-[1.02] transition-transform"
+        className="h-12 px-5 rounded-[16px] intel-gradient text-black font-black text-xs uppercase tracking-widest disabled:opacity-30 disabled:cursor-not-allowed hover:scale-[1.02] transition-transform"
       >
         <Plus size={16}/>
       </button>
@@ -45,7 +45,7 @@ function HandleInput({ value, onChange, onAdd, placeholder, disabled }) {
 }
 
 // ─── HANDLE CHIP ─────────────────────────────────────────────────────────────
-function HandleChip({ handle, onRemove, color = '#c4973b' }) {
+function HandleChip({ handle, onRemove, color = '#00BFC6' }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.85 }}
@@ -104,12 +104,12 @@ export default function RefsPage({ brand, setBrand }) {
     <div className="space-y-8 pb-10 max-w-3xl">
 
       {/* VITAL BANNER */}
-      <div className="bg-gradient-to-r from-red-500/10 via-[#c4973b]/10 to-transparent border-l-4 border-red-500 rounded-r-[24px] p-6 space-y-2">
+      <div className="bg-gradient-to-r from-red-500/10 via-accent/10 to-transparent border-l-4 border-red-500 rounded-r-[24px] p-6 space-y-2">
          <div className="flex items-center gap-3">
             <Zap size={20} className="text-red-500 animate-pulse" />
             <span className="text-xs font-black uppercase tracking-widest text-red-500">Passo mais importante da estratégia</span>
          </div>
-         <p className="text-[11px] text-gray-400 font-bold leading-relaxed max-w-2xl">
+         <p className="text-[11px] text-gray-300 font-bold leading-relaxed max-w-2xl">
             Sem referências, o Sherlock e seus agentes de copy não sabem "quem eles são". 
             Um perfil sem referências gera <strong className="text-white">conteúdo comum e robótico</strong>. 
             Adicione pelo menos uma conta para dar vida ao seu conteúdo.
@@ -119,22 +119,22 @@ export default function RefsPage({ brand, setBrand }) {
       {/* Header */}
       <div>
         <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none mb-1">
-          Referências <span className="text-[#c4973b]">da Marca.</span>
+          Referências <span className="text-accent">da Marca.</span>
         </h2>
-        <p className="text-gray-600 text-xs font-bold uppercase tracking-widest">
+        <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">
           Contas que moldam o estilo do seu conteúdo gerado — sem precisar de API
         </p>
       </div>
 
       {/* Como funciona */}
-      <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[22px] p-5">
-        <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center text-xl shrink-0">🔍</div>
+      <div className="flex items-start gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[22px] p-5">
+        <div className="w-10 h-10 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-xl shrink-0">🔍</div>
         <div className="space-y-1">
-          <p className="text-xs font-black uppercase tracking-widest text-[#c4973b]">Como isso afeta o seu conteúdo</p>
-          <p className="text-[11px] text-gray-400 leading-relaxed font-bold">
+          <p className="text-xs font-black uppercase tracking-widest text-accent">Como isso afeta o seu conteúdo</p>
+          <p className="text-[11px] text-gray-300 leading-relaxed font-bold">
             Os agentes <strong className="text-white">Sherlock</strong> e <strong className="text-white">Copywriter</strong> usam essas contas como contexto direto no prompt.
             Um carrossel gerado "para o nicho de negócios" é genérico.
-            Um gerado "com o estilo direto e provocador de <span className="text-[#c4973b]">@vendarketing</span>" é específico, relevante e parece feito por alguém que conhece o mercado.
+            Um gerado "com o estilo direto e provocador de <span className="text-accent">@vendarketing</span>" é específico, relevante e parece feito por alguém que conhece o mercado.
           </p>
         </div>
       </div>
@@ -143,15 +143,15 @@ export default function RefsPage({ brand, setBrand }) {
       <section className="glass border border-white/5 rounded-[28px] p-7 space-y-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[#c4973b]/10 border border-[#c4973b]/20 flex items-center justify-center">
-              <Sparkles size={16} className="text-[#c4973b]"/>
+            <div className="w-9 h-9 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center">
+              <Sparkles size={16} className="text-accent"/>
             </div>
             <div>
               <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">Contas que me inspiram</h3>
-              <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">até 5 perfis · modelam o tom e o estilo do conteúdo</p>
+              <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">até 5 perfis · modelam o tom e o estilo do conteúdo</p>
             </div>
           </div>
-          <span className={`text-[10px] font-black uppercase tracking-widest ${inspirations.length >= 5 ? 'text-[#c4973b]' : 'text-gray-700'}`}>
+          <span className={`text-[10px] font-black uppercase tracking-widest ${inspirations.length >= 5 ? 'text-accent' : 'text-gray-400'}`}>
             {inspirations.length}/5
           </span>
         </div>
@@ -169,21 +169,21 @@ export default function RefsPage({ brand, setBrand }) {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               className="flex flex-wrap gap-2">
               {inspirations.map(h => (
-                <HandleChip key={h} handle={h} onRemove={() => removeInspiration(h)} color="#c4973b"/>
+                <HandleChip key={h} handle={h} onRemove={() => removeInspiration(h)} color="#00BFC6"/>
               ))}
             </motion.div>
           )}
         </AnimatePresence>
 
         {inspirations.length === 0 && (
-          <div className="text-center py-6 text-gray-700">
+          <div className="text-center py-6 text-gray-400">
             <Users size={28} className="mx-auto mb-2 opacity-20"/>
             <p className="text-[10px] font-bold uppercase tracking-widest">Nenhuma referência adicionada ainda</p>
           </div>
         )}
 
-        <p className="text-[10px] text-gray-600 leading-relaxed border-t border-white/5 pt-4">
-          <span className="text-gray-500 font-black">Por que isso importa: </span>
+        <p className="text-[10px] text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+          <span className="text-gray-300 font-black">Por que isso importa: </span>
           Quanto mais referências você adicionar, mais preciso fica o estilo do conteúdo gerado.
           Nosso agente usa essas contas como referência de linguagem, formato e abordagem editorial.
         </p>
@@ -198,10 +198,10 @@ export default function RefsPage({ brand, setBrand }) {
             </div>
             <div>
               <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">Meus concorrentes</h3>
-              <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">até 3 perfis · o Sherlock garante diferenciação</p>
+              <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">até 3 perfis · o Sherlock garante diferenciação</p>
             </div>
           </div>
-          <span className={`text-[10px] font-black uppercase tracking-widest ${competitors.length >= 3 ? 'text-red-400' : 'text-gray-700'}`}>
+          <span className={`text-[10px] font-black uppercase tracking-widest ${competitors.length >= 3 ? 'text-red-400' : 'text-gray-400'}`}>
             {competitors.length}/3
           </span>
         </div>
@@ -226,14 +226,14 @@ export default function RefsPage({ brand, setBrand }) {
         </AnimatePresence>
 
         {competitors.length === 0 && (
-          <div className="text-center py-6 text-gray-700">
+          <div className="text-center py-6 text-gray-400">
             <Target size={28} className="mx-auto mb-2 opacity-20"/>
             <p className="text-[10px] font-bold uppercase tracking-widest">Nenhum concorrente mapeado ainda</p>
           </div>
         )}
 
-        <p className="text-[10px] text-gray-600 leading-relaxed border-t border-white/5 pt-4">
-          <span className="text-gray-500 font-black">Por que isso importa: </span>
+        <p className="text-[10px] text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+          <span className="text-gray-300 font-black">Por que isso importa: </span>
           O Sherlock usa esses perfis para identificar o que o mercado já está fazendo,
           garantindo que o seu conteúdo se posicione de forma diferente e não repita o que todos já fazem.
         </p>
@@ -249,25 +249,25 @@ export default function RefsPage({ brand, setBrand }) {
           >
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">
-                <Zap size={16} className="text-[#c4973b]"/>
+                <Zap size={16} className="text-accent"/>
               </div>
               <div>
                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">Contexto injetado nos agentes</h3>
-                <p className="text-[9px] text-gray-600 font-bold uppercase tracking-widest">o que Sherlock e Copywriter recebem nas próximas gerações</p>
+                <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">o que Sherlock e Copywriter recebem nas próximas gerações</p>
               </div>
             </div>
             <div className="bg-black/40 border border-white/5 rounded-[20px] p-5 font-mono space-y-3">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#c4973b] mb-3">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-accent mb-3">
                 Contexto de referências · {brand.businessName || brand.product || 'sua marca'}
               </p>
               {promptLines.map((line, i) => (
-                <p key={i} className="text-[11px] text-gray-400 leading-relaxed">
-                  <span className="text-[#c4973b] font-black">{i === 0 ? '# REFERÊNCIAS' : '# CONCORRENTES'}</span><br/>
+                <p key={i} className="text-[11px] text-gray-300 leading-relaxed">
+                  <span className="text-accent font-black">{i === 0 ? '# REFERÊNCIAS' : '# CONCORRENTES'}</span><br/>
                   {line}
                 </p>
               ))}
             </div>
-            <p className="text-[9px] text-gray-700 italic pl-1">
+            <p className="text-[9px] text-gray-400 italic pl-1">
               Este contexto é adicionado automaticamente ao início do prompt do Sherlock e do Copywriter em cada geração.
             </p>
           </motion.section>
@@ -280,12 +280,12 @@ export default function RefsPage({ brand, setBrand }) {
           className={`flex items-center gap-2 px-6 py-3 rounded-[16px] font-black text-xs uppercase tracking-widest transition-all ${
             saved
               ? 'bg-green-500/10 border border-green-500/30 text-green-400'
-              : 'bg-white/5 border border-white/10 text-gray-400 hover:border-[#c4973b]/40 hover:text-white'
+              : 'bg-white/5 border border-white/10 text-gray-300 hover:border-accent/40 hover:text-white'
           }`}>
           {saved ? <><Check size={14}/> Referências salvas</> : 'Confirmar referências'}
         </button>
         {(inspirations.length + competitors.length) > 0 && (
-          <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest">
+          <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
             {inspirations.length + competitors.length} conta{inspirations.length + competitors.length !== 1 ? 's' : ''} cadastrada{inspirations.length + competitors.length !== 1 ? 's' : ''}
           </p>
         )}

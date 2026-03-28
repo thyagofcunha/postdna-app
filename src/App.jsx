@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Check, Plus, Image as ImageIcon, Palette, Calendar, Zap,
+  Check, Plus, Image as ImageIcon, Palette, Calendar, Zap, Cpu, Shield,
   ChevronRight, ChevronLeft, Globe, Type, LayoutDashboard, Loader2,
   Star, TrendingUp, Clock, MoreVertical, Sparkles, Target,
   DollarSign, Users, Mic, MessageSquare, User, Fingerprint,
-  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft, ExternalLink
+  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft, ExternalLink, Bell, RefreshCw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DNAPage from './DNAPage';
@@ -20,7 +20,9 @@ import SavedIdeasPage from './SavedIdeasPage';
 import ImageBankPage from './ImageBankPage';
 import DeliveryPage from './DeliveryPage';
 import LandingPage from './LandingPage';
-// CalendarPage component removed import, will be defined inline below
+import SettingsPage from './SettingsPage';
+import CancellationFlow from './CancellationFlow';
+
 const sanitizeColor = (c, fallback = '#000000') => 
   (typeof c === 'string' && c.startsWith('#') && (c.length === 4 || c.length === 7 || c.length === 9)) ? c : fallback;
 
@@ -82,11 +84,11 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
   if ((approvedContent || []).length === 0) {
     return (
       <div className="flex flex-col gap-10">
-        <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
-           <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">📅</div>
+        <div className="flex items-start gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
+           <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-xl shrink-0">📅</div>
            <div className="space-y-1">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é o Calendário de Marca?</h4>
-              <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que é o Calendário de Marca?</h4>
+              <p className="text-[11px] text-gray-300 font-bold leading-relaxed">
                  O Calendário é o <strong className="text-white">histórico de execução</strong> do seu Squad. 
                  Assim que você aprova um conteúdo (Copy + Design), ele é registrado aqui automaticamente para controle de consistência e frequência.
               </p>
@@ -95,17 +97,17 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
 
         <div className="flex flex-col items-center justify-center py-10 text-center space-y-6 animate-in fade-in duration-700">
           <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center relative group">
-             <div className="absolute inset-0 bg-[#c4973b]/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-             <Calendar size={40} className="text-[#c4973b] relative z-10" />
+             <div className="absolute inset-0 bg-accent/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
+             <Calendar size={40} className="text-accent relative z-10" />
           </div>
           <div className="space-y-2">
             <p className="text-sm font-black uppercase tracking-widest text-white">Seu calendário ainda está virgem</p>
-            <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
+            <p className="text-[11px] text-gray-300 font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
               Aprove conteúdos para vê-los organizados por data e horário.
             </p>
           </div>
           <button onClick={() => setDashView('criar')}
-            className="gold-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
+            className="intel-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
             <Sparkles size={14} /> + Criar primeiro conteúdo
           </button>
         </div>
@@ -119,20 +121,20 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
         <div className="flex items-center justify-between sticky top-0 bg-[#0a0a0a]/80 backdrop-blur-md z-30 py-2">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
-              <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><ChevronLeft size={18} className="text-gray-600"/></button>
+              <button onClick={() => changeMonth(-1)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><ChevronLeft size={18} className="text-gray-400"/></button>
               <h3 className="text-2xl font-black uppercase italic tracking-tighter capitalize min-w-[140px] text-center">{monthName}</h3>
-              <button onClick={() => changeMonth(1)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><ChevronRight size={18} className="text-gray-600"/></button>
+              <button onClick={() => changeMonth(1)} className="p-2 hover:bg-white/5 rounded-full transition-colors"><ChevronRight size={18} className="text-gray-400"/></button>
             </div>
             
             {stats.total > 0 && (
               <div className="flex items-center gap-4 pl-6 border-l border-white/10">
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
-                   <strong className="text-[#c4973b]">{stats.total}</strong> APROVADOS
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-300">
+                   <strong className="text-accent">{stats.total}</strong> APROVADOS
                 </span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-300">
                    <strong className="text-green-500">{stats.published}</strong> PUBLICADOS
                 </span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-300">
                    <strong className="text-blue-400">{stats.scheduled}</strong> AGENDADOS
                 </span>
               </div>
@@ -152,25 +154,25 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                 onClick={() => d && dayContent && setSelectedDay(d)}
                 className={`aspect-square rounded-[24px] p-3 flex flex-col items-center justify-between transition-all relative overflow-hidden group border ${
                   d ? 'bg-white/3 border-white/5 cursor-pointer hover:border-white/10' : 'opacity-0 pointer-events-none'
-                } ${dayContent ? 'bg-white/5 border-white/10' : ''} ${isSelected ? 'border-[#c4973b]/60 bg-[#c4973b]/10' : ''}`}>
+                } ${dayContent ? 'bg-white/5 border-white/10' : ''} ${isSelected ? 'border-[#c4973b]/60 bg-accent/10' : ''}`}>
                 
-                {d && <span className={`text-xs font-black ${dayContent ? 'text-[#c4973b]' : 'text-gray-800'}`}>{d}</span>}
+                {d && <span className={`text-xs font-black ${dayContent ? 'text-accent' : 'text-gray-800'}`}>{d}</span>}
                 
                 <div className="flex flex-col gap-1 w-full mt-auto">
                   {dayContent?.slice(0, 3).map((c, idx) => (
                     <div key={idx} className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-white/5 border border-white/5">
-                      <div className="text-[#c4973b] opacity-60">{getTypeIcon(c?.type)}</div>
+                      <div className="text-accent opacity-60">{getTypeIcon(c?.type)}</div>
                       <div className="h-0.5 flex-1 bg-white/10 rounded-full overflow-hidden">
-                         <div className="h-full bg-[#c4973b] w-full" />
+                         <div className="h-full bg-accent w-full" />
                       </div>
                     </div>
                   ))}
                   {(dayContent?.length > 3) && (
-                    <p className="text-[7px] font-black text-gray-600 text-center">+{dayContent.length - 3} MAIS</p>
+                    <p className="text-[7px] font-black text-gray-400 text-center">+{dayContent.length - 3} MAIS</p>
                   )}
                 </div>
 
-                {isSelected && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-[#c4973b] shadow-[0_0_8px_#c4973b]" />}
+                {isSelected && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_#c4973b]" />}
               </div>
             );
           })}
@@ -185,7 +187,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
           >
             <div className="flex items-center justify-between">
               <h4 className="text-sm font-black uppercase italic tracking-tighter">Conteúdo do Dia {selectedDay}</h4>
-              <button onClick={() => setSelectedDay(null)} className="p-1 hover:bg-white/5 rounded-lg transition-colors text-gray-600"><X size={16}/></button>
+              <button onClick={() => setSelectedDay(null)} className="p-1 hover:bg-white/5 rounded-lg transition-colors text-gray-400"><X size={16}/></button>
             </div>
 
             <div className="space-y-6">
@@ -198,7 +200,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                             {brand?.logo ? <img src={brand.logo} className="w-full h-full object-contain" /> : <p className="font-black text-xs">{(brand?.businessName || 'P').substring(0,1)}</p>}
                          </div>
                          <h5 className="text-[10px] font-black uppercase text-white tracking-widest mb-1">{item?.topic || 'Untitled'}</h5>
-                         <p className="text-[7px] text-gray-500 font-bold uppercase tracking-[0.2em]">{item?.type || 'Post'}</p>
+                         <p className="text-[7px] text-gray-300 font-bold uppercase tracking-[0.2em]">{item?.type || 'Post'}</p>
                       </div>
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                          <button onClick={() => onOpenDetails?.(item)} className="px-4 py-2 rounded-full bg-white text-black text-[9px] font-black uppercase tracking-widest">Ver Completo</button>
@@ -210,13 +212,13 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
                          <span className={`px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest ${item?.status === 'Publicado' ? 'bg-green-500/10 text-green-500' : 'bg-blue-500/10 text-blue-400'}`}>
                             {item?.status === 'Publicado' ? 'Publicado' : 'Agendado'}
                          </span>
-                         <p className="text-[8px] font-bold text-gray-600 uppercase tracking-widest">{item?.approvedAt ? new Date(item.approvedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '--:--'}</p>
+                         <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">{item?.approvedAt ? new Date(item.approvedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '--:--'}</p>
                       </div>
                       <p className="text-xs font-black uppercase italic tracking-tighter text-white">{item?.topic || 'Untitled'}</p>
-                      <p className="text-[10px] text-gray-500 font-bold leading-relaxed line-clamp-3 italic">"{item?.caption || 'Sem legenda disponível...'}"</p>
+                      <p className="text-[10px] text-gray-300 font-bold leading-relaxed line-clamp-3 italic">"{item?.caption || 'Sem legenda disponível...'}"</p>
                       
                       <button onClick={() => onOpenDetails?.(item)}
-                        className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-[#c4973b]/40 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all">
+                        className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:border-[#c4973b]/40 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all">
                         Detalhes Completos <ExternalLink size={10}/>
                       </button>
                    </div>
@@ -246,28 +248,28 @@ const CREDIT_COSTS = {
 
 const PLAN_SPECS = {
   free: { 
-    name: 'Free', 
+    name: 'GRATUITO', 
     price: 0, 
     credits: 10, 
     isMonthly: false,
     features: ['1 Carrossel completo', 'Sherlock Básico']
   },
   basico: { 
-    name: 'Básico', 
+    name: 'BÁSICO', 
     price: 67, 
     credits: 80, 
     isMonthly: true,
     features: ['80 créditos/mês', 'Até 8 carrosséis/mês', 'Estratégia IA']
   },
   crescimento: { 
-    name: 'Crescimento', 
+    name: 'CRESCIMENTO', 
     price: 147, 
     credits: 240, 
     isMonthly: true,
     features: ['240 créditos/mês', 'Ideal para escala', 'Prioridade']
   },
   completo: { 
-    name: 'Completo', 
+    name: 'ESCALA', 
     price: 197, 
     credits: 400, 
     isMonthly: true,
@@ -440,7 +442,7 @@ function generateAITopics(brand) {
   return [
     `${h(0)} o que ninguém conta sobre ${product || 'esse mercado'}`,
     `Por que ${audience || 'seu público'} escolhe quem entende o problema deles`,
-    `Enquete: qual é o seu maior desafio hoje?`,
+    `Enquete: qual é seu maior desafio hoje?`,
     pain ? `${pain} — e como resolvemos isso` : `Bastidores: como funciona nosso processo`,
     `Resultados reais: veja o que já entregamos`,
     salesLink ? `Dê o primeiro passo: ${salesLink}` : `Fale com a gente agora`,
@@ -479,7 +481,7 @@ const ColorSwatch = ({ color, label, onChange }) => (
       </div>
     </div>
     <div className="text-center w-20">
-      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-0.5">{label}</p>
+      <p className="text-[10px] font-black uppercase tracking-widest text-gray-300 mb-0.5">{label}</p>
       <p className="text-[9px] font-mono text-gray-800 font-bold uppercase select-all truncate">{color}</p>
     </div>
   </div>
@@ -488,14 +490,14 @@ const ColorSwatch = ({ color, label, onChange }) => (
 
 const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onChange }) => (
   <div className="bg-white/5 border border-white/5 rounded-[24px] p-5 space-y-4">
-    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">{label}</p>
+    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">{label}</p>
     <div className="flex gap-3">
-      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-400">
-        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-400 mb-1">{leftLabel}</span>
+      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-300">
+        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-300 mb-1">{leftLabel}</span>
         {leftEx}
       </div>
-      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-400 text-right">
-        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-400 mb-1">{rightLabel}</span>
+      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-300 text-right">
+        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-300 mb-1">{rightLabel}</span>
         {rightEx}
       </div>
     </div>
@@ -505,7 +507,7 @@ const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onC
         className="w-full cursor-pointer" style={{ accentColor: '#c4973b' }} />
       <div className="flex justify-between mt-1">
         {[1,2,3,4,5].map(n => (
-          <div key={n} className={`w-1.5 h-1.5 rounded-full transition-all ${n <= value ? 'bg-[#c4973b]' : 'bg-white/10'}`} />
+          <div key={n} className={`w-1.5 h-1.5 rounded-full transition-all ${n <= value ? 'bg-accent' : 'bg-white/10'}`} />
         ))}
       </div>
     </div>
@@ -516,9 +518,9 @@ const KPICard = ({ icon, label, value, sub }) => (
   <div className="glass p-6 rounded-[28px] flex flex-col gap-3 border border-white/5 hover:border-white/10 transition-colors">
     <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">{icon}</div>
     <div>
-      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{label}</p>
+      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-300 mb-1">{label}</p>
       <h3 className="text-3xl font-black italic tracking-tighter">{value}</h3>
-      {sub && <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">{sub}</p>}
+      {sub && <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest mt-1">{sub}</p>}
     </div>
   </div>
 );
@@ -527,15 +529,15 @@ const KPICard = ({ icon, label, value, sub }) => (
 const ColorFullPicker = ({ label, color, desc, onChange }) => (
   <div className="flex items-center justify-between gap-4 p-3 lg:p-4 rounded-2xl bg-white/3 border border-white/5 hover:border-white/10 transition-all">
     <div className="flex-1 min-w-0">
-      <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#c4973b] mb-0.5 truncate">{label}</p>
-      <p className="text-[8px] lg:text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-tight line-clamp-1">{desc}</p>
+      <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-accent mb-0.5 truncate">{label}</p>
+      <p className="text-[8px] lg:text-[9px] font-bold text-gray-300 uppercase tracking-widest leading-tight line-clamp-1">{desc}</p>
     </div>
     <div className="flex items-center gap-2 lg:gap-4 bg-black/20 p-1.5 lg:p-2 rounded-xl border border-white/10 shrink-0">
       <input 
         type="text" 
         value={color} 
         onChange={e => onChange(e.target.value)}
-        className="w-16 lg:w-20 bg-transparent text-[9px] lg:text-[10px] font-mono font-black text-gray-400 uppercase outline-none focus:text-white transition-colors"
+        className="w-16 lg:w-20 bg-transparent text-[9px] lg:text-[10px] font-mono font-black text-gray-300 uppercase outline-none focus:text-white transition-colors"
         placeholder="#HEX"
       />
       <div className="relative w-8 h-8 lg:w-10 lg:h-10 rounded-lg overflow-hidden border-2 border-white/20 shrink-0">
@@ -597,7 +599,9 @@ export default function App() {
       credit_reset_date: null,
       suggestions: [],
       saved_suggestions: [],
-      image_bank: []
+      image_bank: [],
+      notifications: [],
+      hasRequestedPush: false
     };
     try { 
       const s = localStorage.getItem('sc_brand'); 
@@ -691,7 +695,7 @@ export default function App() {
   // const TOTAL_STEPS = 7; // Already defined globally
 
   return (
-    <div className="min-h-screen bg-[#060606] text-gray-100 overflow-hidden font-sans selection:bg-[#c4973b]/20">
+    <div className="min-h-screen bg-[#060606] text-gray-100 overflow-hidden font-sans selection:bg-accent/20">
 
       {/* ══ LANDING PAGE ══ */}
       {view === 'landing' && <LandingPage onGetStarted={() => setView('signup')} />}
@@ -711,20 +715,20 @@ export default function App() {
           
           <header className="px-8 py-6 flex items-center justify-between sticky top-0 bg-[#060606]/80 backdrop-blur-xl z-50">
             <div className="flex items-center gap-3">
-               <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center">
+               <div className="w-8 h-8 rounded-lg intel-gradient flex items-center justify-center">
                  <Zap size={16} className="text-black" />
                </div>
-               <span className="text-lg font-black uppercase italic tracking-tighter">Post<span className="text-[#c4973b]">DNA</span></span>
+               <span className="text-lg font-black uppercase italic tracking-tighter">Post<span className="text-accent">DNA</span></span>
             </div>
             
             {step > 0 && step < 7 && (
               <div className="flex items-center gap-8">
                 <div className="flex gap-1.5">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className={`h-1.5 rounded-full transition-all duration-700 ${i + 1 <= step ? 'w-10 bg-[#c4973b]' : 'w-4 bg-white/10'}`} />
+                    <div key={i} className={`h-1.5 rounded-full transition-all duration-700 ${i + 1 <= step ? 'w-10 bg-accent' : 'w-4 bg-white/10'}`} />
                   ))}
                 </div>
-                <div className="hidden sm:block text-[10px] font-black uppercase tracking-[0.2em] text-[#c4973b]">
+                <div className="hidden sm:block text-[10px] font-black uppercase tracking-[0.2em] text-accent">
                    PASSO {step} DE 6
                 </div>
               </div>
@@ -733,7 +737,7 @@ export default function App() {
             {step > 0 && step < 7 && (
               <button 
                 onClick={() => setStep(prev => prev - 1)}
-                className="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
+                className="text-xs font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors"
               >
                 ← Voltar
               </button>
@@ -750,7 +754,7 @@ export default function App() {
                    <motion.div 
                      animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
                      transition={{ repeat: Infinity, duration: 4 }}
-                     className="w-24 h-24 rounded-[32px] gold-gradient flex items-center justify-center mx-auto shadow-2xl shadow-[#c4973b]/20"
+                     className="w-24 h-24 rounded-[32px] intel-gradient flex items-center justify-center mx-auto shadow-2xl shadow-[#c4973b]/20"
                    >
                      <Zap size={48} className="text-black" />
                    </motion.div>
@@ -758,11 +762,11 @@ export default function App() {
                      <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.9] text-white">
                         Vamos configurar o DNA da sua marca.
                      </h2>
-                     <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
+                     <p className="text-gray-300 font-bold uppercase tracking-widest text-xs">
                         Leva menos de 5 minutos. Depois disso, todo conteúdo sai com a cara da sua marca automaticamente.
                      </p>
                    </div>
-                   <button onClick={() => setStep(1)} className="gold-gradient px-12 py-6 rounded-[28px] text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-105 transition-all">
+                   <button onClick={() => setStep(1)} className="intel-gradient px-12 py-6 rounded-[28px] text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-105 transition-all">
                       Começar →
                    </button>
                 </div>
@@ -772,7 +776,7 @@ export default function App() {
                 <div className="space-y-10">
                    <div className="space-y-2">
                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Bases do seu DNA.</h3>
-                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Utilizaremos o logo, site e instagram para uma análise tripla.</p>
+                      <p className="text-gray-300 font-bold uppercase tracking-widest text-[10px]">Utilizaremos o logo, site e instagram para uma análise tripla.</p>
                    </div>
                    
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -783,8 +787,8 @@ export default function App() {
                        <input id="logo-onboarding" type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
                        {isAnalyzing ? (
                           <div className="text-center space-y-4">
-                            <Loader2 size={32} className="animate-spin text-[#c4973b] mx-auto" />
-                            <p className="text-[10px] font-black uppercase tracking-widest text-[#c4973b] animate-pulse">{analysisStatus}</p>
+                            <Loader2 size={32} className="animate-spin text-accent mx-auto" />
+                            <p className="text-[10px] font-black uppercase tracking-widest text-accent animate-pulse">{analysisStatus}</p>
                           </div>
                        ) : brand.logo ? (
                          <div className="relative group">
@@ -795,17 +799,17 @@ export default function App() {
                          </div>
                        ) : (
                          <div className="flex flex-col items-center gap-4">
-                           <div className="w-16 h-16 rounded-2xl bg-white/5 text-gray-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#c4973b] group-hover:text-black transition-all">
+                           <div className="w-16 h-16 rounded-2xl bg-white/5 text-gray-300 flex items-center justify-center group-hover:scale-110 group-hover:bg-accent group-hover:text-black transition-all">
                              <ImageIcon size={32} />
                            </div>
-                           <p className="text-xs font-black uppercase tracking-widest text-gray-400">Suba seu Logo</p>
+                           <p className="text-xs font-black uppercase tracking-widest text-gray-300">Suba seu Logo</p>
                          </div>
                        )}
                      </div>
 
                      <div className="space-y-6">
                         <div className="space-y-2">
-                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Site Oficial</label>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">Site Oficial</label>
                            <input 
                               placeholder="www.seusite.com.br"
                               value={brand.website}
@@ -814,7 +818,7 @@ export default function App() {
                            />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Instagram (ex: @suamarca)</label>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">Instagram (ex: @suamarca)</label>
                            <input 
                               placeholder="@"
                               value={brand.igHandle}
@@ -837,11 +841,11 @@ export default function App() {
                             }
                          }}
                          disabled={isAnalyzing}
-                         className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl disabled:opacity-50"
+                         className="intel-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl disabled:opacity-50"
                       >
                         {isAnalyzing ? "Sherlock em ação..." : "Aprender meu DNA →"}
                       </button>
-                      <button onClick={() => setStep(2)} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Continuar sem logo</button>
+                      <button onClick={() => setStep(2)} className="text-[10px] font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors">Continuar sem logo</button>
                    </div>
                 </div>
               </StepWrapper>
@@ -851,7 +855,7 @@ export default function App() {
                 <h3 className="text-2xl lg:text-4xl font-black uppercase italic tracking-tighter text-white">
                   {brand.dnaDetected ? "DNA Visual Identificado" : "Cores do Seu DNA"}
                 </h3>
-                <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] lg:text-[10px]">
+                <p className="text-gray-300 font-bold uppercase tracking-widest text-[9px] lg:text-[10px]">
                   {brand.dnaDetected ? "Sherlock encontrou as cores abaixo. Estão corretas?" : "Defina as cores que serão aplicadas nos seus posts."}
                 </p>
               </div>
@@ -868,18 +872,18 @@ export default function App() {
                              setBrand({...brand, colors: nc});
                            }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
                         </div>
-                        <span className="text-[10px] font-mono text-[#c4973b] font-black">{c.toUpperCase()}</span>
+                        <span className="text-[10px] font-mono text-accent font-black">{c.toUpperCase()}</span>
                       </div>
                     ))}
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <button onClick={() => setStep(3)} className="flex-1 py-5 bg-[#c4973b] text-black font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#c4973b]/20">
+                    <button onClick={() => setStep(3)} className="flex-1 py-5 bg-accent text-black font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#c4973b]/20">
                        Tudo Certo, Confirmar Cores →
                     </button>
                     <button 
                       onClick={() => setBrand(prev => ({ ...prev, dnaDetected: false }))} 
-                      className="px-6 py-5 bg-white/5 border border-white/10 text-gray-400 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:text-white transition-all">
+                      className="px-6 py-5 bg-white/5 border border-white/10 text-gray-300 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:text-white transition-all">
                       Ajustar Manualmente
                     </button>
                   </div>
@@ -891,7 +895,7 @@ export default function App() {
                         <button 
                           key={tab}
                           onClick={() => setColorTab(tab)}
-                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-400 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-accent text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-300 hover:text-white'}`}
                         >
                           {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
                         </button>
@@ -905,7 +909,7 @@ export default function App() {
                              <button 
                                key={p.id}
                                onClick={() => setBrand(prev => ({ ...prev, colors: p.colors }))}
-                               className={`p-4 lg:p-5 rounded-[24px] lg:rounded-[28px] border-2 transition-all text-left flex flex-col justify-between ${brand.colors?.[0] === p.colors[0] ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/3 hover:border-white/10'}`}
+                               className={`p-4 lg:p-5 rounded-[24px] lg:rounded-[28px] border-2 transition-all text-left flex flex-col justify-between ${brand.colors?.[0] === p.colors[0] ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/3 hover:border-white/10'}`}
                              >
                                <div className="space-y-3">
                                  <div className="flex gap-1 h-2 lg:h-3">
@@ -914,9 +918,9 @@ export default function App() {
                                  <div className="flex justify-between items-end">
                                     <div className="min-w-0">
                                       <p className="text-[10px] lg:text-[11px] font-black uppercase text-white tracking-widest truncate">{p.name}</p>
-                                      <p className="text-[8px] lg:text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">{p.mood}</p>
+                                      <p className="text-[8px] lg:text-[9px] font-bold text-gray-300 uppercase tracking-tighter mt-0.5">{p.mood}</p>
                                     </div>
-                                    <div className={`w-2 h-2 rounded-full gold-gradient shadow-[0_0_10px_#c4973b] transition-opacity ${brand.colors?.[0] === p.colors[0] ? 'opacity-100' : 'opacity-0'}`} />
+                                    <div className={`w-2 h-2 rounded-full intel-gradient shadow-[0_0_10px_#c4973b] transition-opacity ${brand.colors?.[0] === p.colors[0] ? 'opacity-100' : 'opacity-0'}`} />
                                  </div>
                                </div>
                              </button>
@@ -946,7 +950,7 @@ export default function App() {
                      )}
                    </div>
 
-                  <button onClick={() => setStep(3)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-6 lg:mt-8">
+                  <button onClick={() => setStep(3)} className="intel-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-6 lg:mt-8">
                      Confirmar cores →
                   </button>
                 </div>
@@ -957,7 +961,7 @@ export default function App() {
                 <div className="space-y-10">
                    <div className="space-y-2">
                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Como é a sua tipografia?</h3>
-                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">As fontes ditam o tom da conversa com seus seguidores.</p>
+                      <p className="text-gray-300 font-bold uppercase tracking-widest text-[10px]">As fontes ditam o tom da conversa com seus seguidores.</p>
                    </div>
 
                    <div className="flex items-center gap-3 mb-8 bg-white/3 p-1 rounded-2xl border border-white/5">
@@ -965,7 +969,7 @@ export default function App() {
                         <button 
                           key={tab}
                           onClick={() => setFontTab(tab)}
-                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${fontTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-400 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${fontTab === tab ? 'bg-accent text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-300 hover:text-white'}`}
                         >
                           {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
                         </button>
@@ -979,7 +983,7 @@ export default function App() {
                           <button 
                             key={cat}
                             onClick={() => setFontCategory(cat)}
-                            className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all shrink-0 ${fontCategory === cat ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-gray-400'}`}
+                            className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all shrink-0 ${fontCategory === cat ? 'bg-white/10 text-white' : 'text-gray-300 hover:text-gray-300'}`}
                           >
                             {cat}
                           </button>
@@ -990,13 +994,13 @@ export default function App() {
                           <button 
                             key={f.id}
                             onClick={() => setBrand(prev => ({ ...prev, fontStyle: f.headline, bodyFont: f.body, headlineWeight: '900', bodyWeight: '400' }))}
-                            className={`p-4 lg:p-5 rounded-2xl lg:rounded-3xl border-2 transition-all text-left flex flex-col justify-between group transition-all ${brand.fontStyle === f.headline ? 'border-[#c4973b] bg-[#c4973b]/5 shadow-xl shadow-[#c4973b]/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10 hover:bg-white/[0.05]'}`}
+                            className={`p-4 lg:p-5 rounded-2xl lg:rounded-3xl border-2 transition-all text-left flex flex-col justify-between group transition-all ${brand.fontStyle === f.headline ? 'border-[#c4973b] bg-accent/5 shadow-xl shadow-[#c4973b]/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10 hover:bg-white/[0.05]'}`}
                           >
                              <div className="space-y-1">
                                <p className="text-lg lg:text-xl text-white font-black leading-tight" style={{ fontFamily: f.headline }}>{f.name}</p>
-                               <p className="text-[9px] lg:text-[10px] text-gray-400 font-medium" style={{ fontFamily: f.body }}>{f.sub}</p>
+                               <p className="text-[9px] lg:text-[10px] text-gray-300 font-medium" style={{ fontFamily: f.body }}>{f.sub}</p>
                              </div>
-                             <div className={`mt-4 w-5 h-5 rounded-full border border-white/10 flex items-center justify-center transition-all ${brand.fontStyle === f.headline ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'text-transparent'}`}>
+                             <div className={`mt-4 w-5 h-5 rounded-full border border-white/10 flex items-center justify-center transition-all ${brand.fontStyle === f.headline ? 'bg-accent border-[#c4973b] text-black' : 'text-transparent'}`}>
                                <Check size={10} />
                              </div>
                           </button>
@@ -1007,11 +1011,11 @@ export default function App() {
                     <div className="space-y-8 animate-fade-in pr-2 max-h-[450px] overflow-y-auto custom-scrollbar">
                        {/* TÍTULOS */}
                        <div className="space-y-4">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c4973b]">Configurações de Título</p>
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Configurações de Título</p>
                           <div className="space-y-3">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                               <div className="space-y-2">
-                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Fonte</label>
+                                 <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest ml-1">Fonte</label>
                                  <select 
                                    value={brand.fontStyle}
                                    onChange={e => setBrand({...brand, fontStyle: e.target.value})}
@@ -1021,7 +1025,7 @@ export default function App() {
                                  </select>
                               </div>
                               <div className="space-y-2">
-                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Peso (Bold/Regular)</label>
+                                 <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest ml-1">Peso (Bold/Regular)</label>
                                  <select 
                                    value={brand.headlineWeight || '900'}
                                    onChange={e => setBrand({...brand, headlineWeight: e.target.value})}
@@ -1045,11 +1049,11 @@ export default function App() {
 
                        {/* CORPO */}
                        <div className="space-y-4">
-                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c4973b]">Configurações de Corpo</p>
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Configurações de Corpo</p>
                           <div className="space-y-3">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                               <div className="space-y-2">
-                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Fonte</label>
+                                 <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest ml-1">Fonte</label>
                                  <select 
                                    value={brand.bodyFont}
                                    onChange={e => setBrand({...brand, bodyFont: e.target.value})}
@@ -1059,7 +1063,7 @@ export default function App() {
                                  </select>
                               </div>
                               <div className="space-y-2">
-                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Peso</label>
+                                 <label className="text-[9px] font-bold text-gray-300 uppercase tracking-widest ml-1">Peso</label>
                                  <select 
                                    value={brand.bodyWeight || '400'}
                                    onChange={e => setBrand({...brand, bodyWeight: e.target.value})}
@@ -1084,7 +1088,7 @@ export default function App() {
                   )}
 
 
-                   <button onClick={() => setStep(4)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-4">
+                   <button onClick={() => setStep(4)} className="intel-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-4">
                       Confirmar tipografia →
                    </button>
                 </div>
@@ -1094,7 +1098,7 @@ export default function App() {
                 <div className="space-y-10">
                    <div className="space-y-2 text-center md:text-left">
                       <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white">Qual estilo visual combina?</h3>
-                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">O estilo define o acabamento dos elementos e containers do post.</p>
+                      <p className="text-gray-300 font-bold uppercase tracking-widest text-[10px]">O estilo define o acabamento dos elementos e containers do post.</p>
                    </div>
 
                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1104,21 +1108,21 @@ export default function App() {
                            <button 
                               key={s.id}
                               onClick={() => setBrand(prev => ({ ...prev, visualStyle: s.id }))}
-                              className={`p-4 rounded-[24px] border-2 transition-all text-left flex flex-col justify-between aspect-square group ${brand.visualStyle === s.id ? 'border-[#c4973b] bg-[#c4973b]/5 shadow-lg shadow-[#c4973b]/10' : 'border-white/5 bg-white/5 hover:border-white/10 hover:bg-white/[0.07]'}`}
+                              className={`p-4 rounded-[24px] border-2 transition-all text-left flex flex-col justify-between aspect-square group ${brand.visualStyle === s.id ? 'border-[#c4973b] bg-accent/5 shadow-lg shadow-[#c4973b]/10' : 'border-white/5 bg-white/5 hover:border-white/10 hover:bg-white/[0.07]'}`}
                            >
-                              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${brand.visualStyle === s.id ? 'bg-[#c4973b] border-[#c4973b]/50 text-black' : 'bg-white/5 border-white/10 text-gray-400 group-hover:text-white'}`}>
+                              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${brand.visualStyle === s.id ? 'bg-accent border-[#c4973b]/50 text-black' : 'bg-white/5 border-white/10 text-gray-300 group-hover:text-white'}`}>
                                  <Icon size={18} />
                               </div>
                               <div>
                                  <p className="text-[10px] font-black text-white uppercase tracking-tighter leading-none">{s.name}</p>
-                                 <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1 leading-tight group-hover:text-gray-300">{s.desc}</p>
+                                 <p className="text-[8px] font-black text-gray-300 uppercase tracking-widest mt-1 leading-tight group-hover:text-gray-300">{s.desc}</p>
                               </div>
                            </button>
                          );
                       })}
                    </div>
 
-                   <button onClick={() => setStep(5)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl hover:scale-[1.02] transition-all">
+                   <button onClick={() => setStep(5)} className="intel-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl hover:scale-[1.02] transition-all">
                       Confirmar design estratégico →
                    </button>
                 </div>
@@ -1128,7 +1132,7 @@ export default function App() {
                  <div className="space-y-10">
                     <div className="space-y-2 text-center md:text-left">
                        <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white">Conte um pouco sobre o negócio.</h3>
-                       <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Precisamos desses dados para gerar o copy correto e converter mais.</p>
+                       <p className="text-gray-300 font-bold uppercase tracking-widest text-[10px]">Precisamos desses dados para gerar o copy correto e converter mais.</p>
                     </div>
 
                     <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar p-1">
@@ -1176,7 +1180,7 @@ export default function App() {
                        <div className="space-y-2">
                           <div className="flex justify-between items-end px-2">
                             <label className="text-[10px] font-black uppercase tracking-widest text-gray-300">Contexto Adicional (Oferta / Diferenciais)</label>
-                            <span className="text-[8px] font-black text-[#c4973b] uppercase tracking-widest">PostDNA adora detalhes</span>
+                            <span className="text-[8px] font-black text-accent uppercase tracking-widest">PostDNA adora detalhes</span>
                           </div>
                           <textarea 
                               placeholder="Explique detalhes que tornam seu produto único, promoções vigentes ou dores específicas que você resolve..."
@@ -1191,7 +1195,7 @@ export default function App() {
                     <button 
                       onClick={() => brand.product && brand.targetAudience && setStep(6)} 
                       disabled={!brand.product || !brand.targetAudience}
-                      className="gold-gradient w-full py-6 rounded-2xl text-black font-black uppercase tracking-widest text-sm shadow-xl disabled:opacity-40 transition-all font-bold hover:scale-[1.02]"
+                      className="intel-gradient w-full py-6 rounded-2xl text-black font-black uppercase tracking-widest text-sm shadow-xl disabled:opacity-40 transition-all font-bold hover:scale-[1.02]"
                     >
                        Continuar para Voz e Tom →
                     </button>
@@ -1209,7 +1213,7 @@ export default function App() {
                       {/* Cards de Tom de Voz - ALTO CONTRASTE */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
-                          { id: 'casual', label: 'Descontraído', sub: '"E aí, tudo bem?"', context: 'Ideal para creators, moda e público jovem.', bg: 'bg-[#c4973b]' },
+                          { id: 'casual', label: 'Descontraído', sub: '"E aí, tudo bem?"', context: 'Ideal para creators, moda e público jovem.', bg: 'bg-accent' },
                           { id: 'formal', label: 'Especialista', sub: '"Prezados clientes,"', context: 'Foco em autoridade, B2B e medicina.', bg: 'bg-white' }
                         ].map(tone => {
                           const isActive = brand.voice?.formality === (tone.id === 'casual' ? 1 : 5);
@@ -1221,7 +1225,7 @@ export default function App() {
                             >
                                <div>
                                   <p className="text-lg font-black uppercase italic tracking-tighter leading-none">{tone.label}</p>
-                                  <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isActive ? 'text-black/60' : 'text-gray-400'}`}>{tone.sub}</p>
+                                  <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isActive ? 'text-black/60' : 'text-gray-300'}`}>{tone.sub}</p>
                                </div>
                                <p className={`text-[9px] font-black uppercase tracking-widest leading-snug ${isActive ? 'text-black/40' : 'text-gray-300'}`}>{tone.context}</p>
                             </button>
@@ -1230,7 +1234,7 @@ export default function App() {
                       </div>
 
                       <div className="bg-white/3 border border-white/5 rounded-[32px] p-6 space-y-8">
-                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b] text-center">Ajustes de Personalidade</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent text-center">Ajustes de Personalidade</p>
                         <VoiceSlider 
                           label="Nível de Entusiasmo" 
                           leftLabel="Contido" rightLabel="Vibrante" 
@@ -1250,8 +1254,8 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div className="p-6 bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[28px] text-center">
-                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b] mb-4 italic">Sherlock interpretando sua voz:</p>
+                      <div className="p-6 bg-accent/10 border border-[#c4973b]/20 rounded-[28px] text-center">
+                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent mb-4 italic">Sherlock interpretando sua voz:</p>
                          <p className="text-sm font-black italic tracking-tighter text-white leading-relaxed">
                             {brand.voice?.formality < 3 
                               ? "E aí, pronto pra levar seu negócio pro próximo nível hoje? Fica ligado nessas dicas!" 
@@ -1260,7 +1264,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <button onClick={() => setStep(7)} className="gold-gradient w-full py-6 rounded-3xl text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-[1.02] transition-all">
+                    <button onClick={() => setStep(7)} className="intel-gradient w-full py-6 rounded-3xl text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-[1.02] transition-all">
                        Verificar DNA Identificado →
                     </button>
                  </div>
@@ -1286,7 +1290,7 @@ export default function App() {
                           <span className="text-[9px] font-black uppercase text-green-500 flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20">✅ Identidade Visual</span>
                           <span className="text-[9px] font-black uppercase text-green-500 flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20">✅ Tom de Voz</span>
                        </div>
-                       <button onClick={finishOnboarding} className="gold-gradient px-12 py-6 rounded-[28px] text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-105 transition-all">
+                       <button onClick={finishOnboarding} className="intel-gradient px-12 py-6 rounded-[28px] text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-105 transition-all">
                           Entrar no Dashboard →
                        </button>
                     </div>
@@ -1302,7 +1306,7 @@ export default function App() {
                  className="flex-1 w-full max-w-sm hidden lg:block"
                >
                  <div className="sticky top-32 space-y-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 text-center">Preview em tempo real</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-300 text-center">Preview em tempo real</p>
                     
                     <div 
                       className="aspect-square overflow-hidden shadow-2xl relative transition-all duration-700"
@@ -1320,7 +1324,7 @@ export default function App() {
                             className="absolute top-10 left-10 w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden transition-all duration-500"
                             style={brand.visualStyle === 'glass' ? { background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)'} : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
                           >
-                             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2" /> : <Zap size={24} className="text-[#c4973b]" />}
+                             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2" /> : <Zap size={24} className="text-accent" />}
                           </div>
 
                           <div 
@@ -1352,7 +1356,7 @@ export default function App() {
                     </div>
                     
                     <div className="p-4 bg-white/5 rounded-[24px] border border-white/5 text-center">
-                       <p className="text-[9px] font-black uppercase tracking-widest text-[#c4973b]">
+                       <p className="text-[9px] font-black uppercase tracking-widest text-accent">
                          DNA {brand.visualStyle} ATIVO
                        </p>
                     </div>
@@ -1360,7 +1364,7 @@ export default function App() {
                </motion.div>
              )}
 
-             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c4973b]/5 rounded-full blur-[140px] pointer-events-none" />
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[140px] pointer-events-none" />
           </main>
         </div>
       )}
@@ -1436,10 +1440,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   const [sherlockResults, setSherlockResults] = useState(null);
   const [topicHint, setTopicHint] = useState('');
   const [isSherlockCached, setIsSherlockCached] = useState(false);
+  const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
+  const [showPushBanner, setShowPushBanner] = useState(false);
   
   const [agenda, setAgenda]       = useState(JSON.parse(localStorage.getItem('postdna_agenda') || '[]'));
   const [approvedContent, setApprovedContent] = useState(JSON.parse(localStorage.getItem('postdna_approved') || '[]'));
   const [recentContent, setRecentContent] = useState(JSON.parse(localStorage.getItem('postdna_recent') || '[]'));
+  const [notifications, setNotifications] = useState(brand.notifications || []);
   
   const plan = brand.plan || 'free';
   const balance = brand.credit_balance || 0;
@@ -1457,6 +1464,135 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   const [pipelineStage, setPipelineStage] = useState(-1);   // -1 = idle
   const [generatingIdx, setGeneratingIdx] = useState(null);
   const [selectedItem, setSelectedItem]   = useState(null);
+  const [isCancellationFlowOpen, setIsCancellationFlowOpen] = useState(false);
+
+  // ── NOTIFICAÇÕES LOGIC ──────────────────────────────────────────────────
+
+  // ── NOTIFICAÇÕES LOGIC ──────────────────────────────────────────────────
+  
+  const addNotification = (type, title, body, action_url = null) => {
+    // Check toggle preference
+    const prefKey = type === 'content_ready' ? 'notify_ready' : type === 'credits_low' ? 'notify_credits' : 'notify_renewal';
+    if (brand[prefKey] === false) return;
+
+    const newNotif = {
+      id: Date.now(),
+      type,
+      title,
+      body,
+      read: false,
+      action_url,
+      created_at: new Date().toISOString()
+    };
+    
+    setNotifications(prev => {
+      const updated = [newNotif, ...prev].slice(0, 20);
+      setBrand(b => ({ ...b, notifications: updated }));
+      return updated;
+    });
+
+    // Browser Push
+    if (type === 'content_ready' && Notification.permission === 'granted') {
+      new Notification("PostDNA — Conteúdo pronto", { body });
+    }
+  };
+
+  const markNotificationAsRead = (id) => {
+    setNotifications(prev => {
+      const updated = prev.map(n => n.id === id ? { ...n, read: true } : n);
+      setBrand(b => ({ ...b, notifications: updated }));
+      return updated;
+    });
+  };
+
+  const markAllNotificationsAsRead = () => {
+    setNotifications(prev => {
+      const updated = prev.map(n => ({ ...n, read: true }));
+      setBrand(b => ({ ...b, notifications: updated }));
+      return updated;
+    });
+  };
+
+  // Check Credits for threshold notification
+  useEffect(() => {
+    const limit = PLAN_SPECS[plan]?.credits || 10;
+    const threshold = limit * 0.2;
+    if (totalCredits <= threshold && totalCredits > 0 && !brand.hasNotifiedCredits) {
+      addNotification(
+        'credits_low', 
+        'Seus créditos estão acabando', 
+        `Você tem ${totalCredits} créditos restantes este mês. Renova em ${resetDays} dias. Precisa de mais agora?`,
+        'configuracoes#plano'
+      );
+      setBrand(b => ({ ...b, hasNotifiedCredits: true }));
+    }
+  }, [totalCredits, plan]);
+
+  // Check Renewal reminder
+  useEffect(() => {
+    if (resetDays === 3 && !brand.hasNotifiedRenewal) {
+      addNotification(
+        'renewal_reminder',
+        'Seu plano renova em 3 dias',
+        `Em ${new Date().toLocaleDateString()}, seu plano ${PLAN_SPECS[plan]?.name} renova automaticamente Seus créditos também serão renovados.`,
+        'configuracoes#plano'
+      );
+      setBrand(b => ({ ...b, hasNotifiedRenewal: true }));
+    }
+  }, [resetDays]);
+
+  // Request Push Permission logically
+  useEffect(() => {
+    if (approvedContent.length > 0 && !brand.hasRequestedPush) {
+      setShowPushBanner(true);
+    }
+  }, [approvedContent, brand.hasRequestedPush]);
+
+  const requestPush = async () => {
+    const permission = await Notification.requestPermission();
+    setBrand(b => ({ ...b, hasRequestedPush: true }));
+    setShowPushBanner(false);
+  };
+
+  const handleCancelAccount = (data) => {
+    setBrand(p => ({
+      ...p,
+      cancellation_scheduled: true,
+      cancellation_date: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString(),
+      cancellation_reason: data.reason,
+      cancellation_reason_text: data.reasonText
+    }));
+  };
+
+  const handleDowngrade = (newPlan) => {
+    setBrand(p => ({
+      ...p,
+      plan: newPlan,
+      credit_limit: PLAN_SPECS[newPlan]?.credits || 10,
+      billing_history: [
+        { 
+          id: Date.now(), 
+          date: new Date().toLocaleDateString(), 
+          amount: `R$ ${PLAN_SPECS[newPlan]?.price}`, 
+          plan: PLAN_SPECS[newPlan]?.name, 
+          status: 'Pago',
+          type: 'Downgrade'
+        },
+        ...(p.billing_history || [])
+      ]
+    }));
+    setIsCancellationFlowOpen(false);
+    setDashView('configuracoes');
+  };
+
+  const handlePause = () => {
+    setBrand(p => ({
+      ...p,
+      paused_until: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString()
+    }));
+    setIsCancellationFlowOpen(false);
+    setDashView('configuracoes');
+  };
 
   const slots     = PLAN_SLOTS[plan] || PLAN_SLOTS.crescimento;
   const hasContent= agenda.length > 0;
@@ -1627,6 +1763,14 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
       setAgenda(newAgenda);
       localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
       
+      // Trigger Notification
+      addNotification(
+        'content_ready', 
+        'Seu conteúdo está pronto ✅', 
+        `${itemType} sobre '${topic}' está pronto para revisão.`,
+        '#'
+      );
+
       setBrand(prev => {
         let newBalance = prev.credit_balance || 0;
         let newExtra = prev.extra_credits || 0;
@@ -1776,16 +1920,16 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <aside 
           onMouseEnter={() => setIsSidebarHovered(true)}
           onMouseLeave={() => setIsSidebarHovered(false)}
-          className={`fixed lg:static inset-y-0 left-0 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          className={`fixed lg:static inset-y-0 left-0 glass border border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 my-2 ml-2 rounded-[40px] 
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-2'}
             ${isCollapsed ? 'lg:w-[100px] items-center lg:px-4' : 'lg:w-72'}
           `}
         >
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shrink-0"><Zap size={16} className="text-black"/></div>
+             <div className="w-8 h-8 rounded-lg intel-gradient flex items-center justify-center shrink-0"><Zap size={16} className="text-black"/></div>
              {!isCollapsed && (
-               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-sm font-black uppercase tracking-tighter italic whitespace-nowrap">Post<span className="text-[#c4973b]">DNA</span></motion.span>
+               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-sm font-black uppercase tracking-tighter italic whitespace-nowrap">Post<span className="text-accent">DNA</span></motion.span>
              )}
           </div>
           
@@ -1793,7 +1937,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {!isCollapsed && (
             <button 
                onClick={() => setIsSidebarPinned(!isSidebarPinned)}
-               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
+               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-accent border-[#c4973b] text-black' : 'bg-white/5 border-white/10 text-gray-300'}`}
             >
                <div className={`w-2 h-2 rounded-full ${isSidebarPinned ? 'bg-black' : 'bg-current'}`} />
             </button>
@@ -1808,7 +1952,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
               </div>
               <div className="min-w-0">
-                <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
+                <p className="text-[8px] font-black uppercase tracking-widest text-accent">Brand Kit</p>
                 <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
               </div>
             </div>
@@ -1822,54 +1966,80 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           </div>
         )}
   
-        <nav className="flex-1 flex flex-col gap-8 mt-6">
+        <nav className="flex-1 flex flex-col gap-6 mt-8">
           {NAV_ITEMS.map(section => (
             <div key={section.section}>
               {!isCollapsed && (
-                <p className="text-[10px] label-mono opacity-40 px-3 mb-4">{t(section.section)}</p>
+                <p className="text-[10px] label-mono text-accent/60 px-3 mb-3 font-black tracking-[0.2em]">{t(section.section)}</p>
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
                 {section.items.map(item => (
                   <button key={item.key}
                     onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
                     title={isCollapsed ? t(item.label) : ''}
-                    className={`group flex items-center gap-4 p-3 rounded-[18px] text-[13px] font-bold tracking-tight transition-all relative ${
+                    className={`group flex items-center gap-4 p-3 rounded-lg text-[12px] font-bold tracking-tight transition-all relative ${
                       dashView === item.key
-                        ? 'bg-white/10 text-gold shadow-2xl glass-panel border-l-4 border-gold'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                    } ${isCollapsed ? 'justify-center' : ''}`}>
-                    <span className={dashView === item.key ? 'text-gold gold-glow' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
-                    {!isCollapsed && <span className="whitespace-nowrap font-serif italic">{t(item.label)}</span>}
+                        ? 'bg-white/5 text-accent border-r-2 border-accent'
+                        : 'text-gray-300 hover:text-white hover:bg-white/[0.02]'
+                    } ${isCollapsed ? 'justify-center px-0' : ''}`}>
+                    <span className={dashView === item.key ? 'text-accent drop-shadow-[0_0_8px_rgba(0,191,198,0.4)]' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
+                    {!isCollapsed && <span className="whitespace-nowrap font-sora">{t(item.label)}</span>}
+                    
+                    {dashView === item.key && (
+                       <div className="absolute left-0 w-1 h-4 bg-accent rounded-full blur-[4px] opacity-50" />
+                    )}
                   </button>
                 ))}
               </div>
             </div>
           ))}
         </nav>
-  
-        {/* Plan & Credits badge */}
-        <div className={`bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[20px] relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
+
+        {/* Seletor de Idioma na Sidebar */}
+        {!isCollapsed && (
+          <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10 mb-2">
+            {[
+              { code: 'pt-BR', label: 'PT', flag: '🇧🇷' },
+              { code: 'es', label: 'ES', flag: '🇪🇸' }
+            ].map(lang => (
+              <button
+                key={lang.code}
+                onClick={() => {
+                  setBrand(p => ({ ...p, interfaceLanguage: lang.code }));
+                  i18n.changeLanguage(lang.code);
+                }}
+                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-[10px] font-black transition-all ${
+                  i18n.language === lang.code ? 'bg-accent text-black shadow-lg shadow-accent/20' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <span className="text-sm">{lang.flag}</span>
+                <span>{lang.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+          <div className={`intel-gradient border border-white/10 rounded-[20px] relative overflow-hidden group transition-all shadow-[0_0_20px_rgba(0,191,198,0.1)] ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
           {!isCollapsed ? (
             <>
-              <div className="absolute top-0 right-0 w-12 h-12 bg-[#c4973b]/10 rounded-full blur-xl group-hover:bg-[#c4973b]/20 transition-all"/>
+              <div className="absolute top-0 right-0 w-12 h-12 bg-accent/10 rounded-full blur-xl group-hover:bg-accent/20 transition-all"/>
               <div className="flex justify-between items-center relative z-10">
-                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
+                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-white">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
                  <span className="text-[10px] text-white font-black">{totalCredits} CR</span>
               </div>
               <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
                  <motion.div 
                    initial={{ width: 0 }}
                    animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }}
-                   className="h-full bg-[#c4973b]" />
+                   className="h-full bg-accent" />
               </div>
               <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-                 <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V7</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest text-[#0b0b0f]">Versão 28.03-V8</span>
               </div>
             </>
           ) : (
              <div className="flex flex-col items-center gap-1">
-                <span className="text-[8px] font-black text-[#c4973b]">{totalCredits}</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#c4973b] animate-pulse" />
+                <span className="text-[8px] font-black text-accent">{totalCredits}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
              </div>
           )}
         </div>
@@ -1897,14 +2067,14 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
             <motion.div initial={{y:24,opacity:0}} animate={{y:0,opacity:1}}
               className="glass border border-white/10 rounded-[40px] p-10 w-full max-w-md mx-4 space-y-6">
               <div className="text-center">
-                <div className="w-14 h-14 rounded-[20px] bg-[#c4973b]/10 border border-[#c4973b]/30 flex items-center justify-center mx-auto mb-4 text-2xl">⚡</div>
+                <div className="w-14 h-14 rounded-[20px] bg-accent/10 border border-[#c4973b]/30 flex items-center justify-center mx-auto mb-4 text-2xl">⚡</div>
                 <h3 className="text-xl font-black uppercase italic tracking-tighter">PostDNA Em Ação</h3>
                 
                 <div className="mt-2 space-y-1">
-                  <p className={`text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
+                  <p className={`text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
                     {pipelineSubtitle}
                   </p>
-                  <p className="text-[8px] text-[#c4973b] font-black uppercase tracking-[0.2em] opacity-80">
+                  <p className="text-[8px] text-accent font-black uppercase tracking-[0.2em] opacity-80">
                     {getEstimate()}
                   </p>
                 </div>
@@ -1914,12 +2084,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                   const done    = i < pipelineStage;
                   const current = i === pipelineStage;
                   return (
-                    <div key={i} className={`flex items-center gap-4 p-3 rounded-[16px] transition-all ${current ? 'bg-[#c4973b]/10 border border-[#c4973b]/20' : 'opacity-40'}`}>
+                    <div key={i} className={`flex items-center gap-4 p-3 rounded-[16px] transition-all ${current ? 'bg-accent/10 border border-[#c4973b]/20' : 'opacity-40'}`}>
                       <span className="text-lg shrink-0">
                         {done ? '✅' : current ? <span className="inline-block animate-pulse">⏳</span> : '◻️'}
                       </span>
                       <div>
-                        <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{stage.agent}</p>
+                        <p className="text-[8px] font-black uppercase tracking-[0.3em] text-accent">{stage.agent}</p>
                         <p className="text-xs font-bold text-gray-300">
                           {isSherlockCached && i === 0 ? "Mercado já investigado para este tema" : t(stage.label)}
                         </p>
@@ -1939,13 +2109,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 <motion.div 
                   animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
-                  className="w-20 h-20 rounded-[24px] bg-[#c4973b] flex items-center justify-center mx-auto shadow-2xl shadow-[#c4973b]/20"
+                  className="w-20 h-20 rounded-[24px] bg-accent flex items-center justify-center mx-auto shadow-2xl shadow-[#c4973b]/20"
                 >
                   <Zap size={40} className="text-black" />
                 </motion.div>
                 <div className="space-y-1">
                   <h2 className="text-2xl font-black uppercase italic tracking-tighter text-white">Seu conteúdo está pronto.</h2>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Preparando a visualização...</p>
+                  <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest">Preparando a visualização...</p>
                 </div>
              </div>
            </motion.div>
@@ -1986,46 +2156,58 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
 
   const Header = () => (
     <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
-      <div className="space-y-2">
-        <h1 className="text-4xl lg:text-5xl font-bold font-serif italic text-white leading-tight">
-          {t('dashboard.welcomeActive')} {firstName || 'Magician'}.
+      <div className="space-y-1">
+        <h1 className="text-3xl lg:text-4xl font-extrabold font-sora text-white leading-tight uppercase tracking-tighter">
+          {t('dashboard.welcomeActive')} <span className="text-accent">{firstName || 'System User'}</span>_
         </h1>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1">
-            <span className="w-2 h-2 rounded-full bg-green-500 gold-glow animate-pulse" />
-            <span className="text-[9px] label-mono opacity-70">Sistema Ativo</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="led-active animate-pulse shadow-[0_0_10px_#00BFC6]" />
+            <span className="text-[9px] label-mono opacity-70 italic font-black uppercase">DOCK DISPONÍVEL</span>
           </div>
-          <span className="text-white/10">|</span>
-          <span className="text-[9px] label-mono text-gold underline underline-offset-4">{PLAN_SPECS[plan]?.name} Plan</span>
+          <div className="w-1 h-1 rounded-full bg-white/10" />
+          <span className="text-[9px] label-mono text-accent/80 font-black">{PLAN_SPECS[plan]?.name} NODE</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 self-end md:self-center">
-        {/* Seletor de Idioma Rápido */}
-        <div className="flex bg-white/5 rounded-full p-1 border border-white/10 backdrop-blur-xl">
-          {['pt-BR', 'es'].map(lang => (
-            <button key={lang}
-              onClick={() => {
-                setBrand(p => ({ ...p, interfaceLanguage: lang }));
-                i18n.changeLanguage(lang);
-              }}
-              className={`px-4 py-1.5 rounded-full text-[10px] font-extrabold transition-all ${
-                i18n.language === lang ? 'bg-gold text-black shadow-lg shadow-gold/20' : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {lang === 'pt-BR' ? 'PT' : 'ES'}
-            </button>
-          ))}
+      <div className="flex items-center gap-4">
+        {/* Sino de Notificações */}
+        <div className="relative">
+          <button 
+            onClick={() => setIsNotificationPanelOpen(!isNotificationPanelOpen)}
+            className="w-10 h-10 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center transition-all hover:border-accent/50 text-gray-400 hover:text-white"
+          >
+            <Bell size={18} />
+            {notifications.filter(n => !n.read).length > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[8px] font-black text-white border-2 border-[#0b0b0f]">
+                {notifications.filter(n => !n.read).length}
+              </span>
+            )}
+          </button>
+          
+          <AnimatePresence>
+            {isNotificationPanelOpen && (
+              <NotificationPanel 
+                notifications={notifications} 
+                onClose={() => setIsNotificationPanelOpen(false)}
+                onRead={(id) => markNotificationAsRead(id)}
+                onReadAll={markAllNotificationsAsRead}
+              />
+            )}
+          </AnimatePresence>
         </div>
-        
+
         <div className="flex items-center gap-4 pl-4 border-l border-white/10">
           <div className="text-right hidden lg:block">
-            <div className="text-[11px] font-bold font-serif italic text-white opacity-80">{brand?.businessName || 'Magic Brand'}</div>
-            <div className="text-[9px] label-mono opacity-50">{totalCredits} CRÉDITOS</div>
+            <div className="text-[10px] font-black font-sora text-white opacity-40 uppercase tracking-widest">{brand?.businessName || 'DNA_RECORDS'}</div>
+            <div className="text-[9px] label-mono text-accent">{totalCredits} CR</div>
           </div>
-          <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center shadow-2xl transition-all hover:border-gold/50 cursor-pointer">
-            {brand.logo ? <img src={brand.logo} className="w-8 h-8 object-contain rounded" /> : <User size={22} className="text-gold" />}
-          </div>
+          <button 
+            onClick={() => setDashView('configuracoes')}
+            className="w-10 h-10 rounded-lg border border-white/5 bg-white/[0.02] flex items-center justify-center transition-all hover:border-accent/50 cursor-pointer overflow-hidden"
+          >
+            {brand.logo ? <img src={brand.logo} className="w-full h-full object-cover opacity-80" /> : <Shield size={18} className="text-accent" />}
+          </button>
         </div>
       </div>
     </header>
@@ -2058,10 +2240,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <section className="space-y-6">
           <div className="text-center md:text-left space-y-1">
             <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white">O que vamos criar hoje?</h2>
-            <p className="text-gray-400 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
+            <p className="text-gray-300 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {contentItems.map((item) => (
               <button
                 key={item.id}
@@ -2077,20 +2259,18 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                       handleCreateByType(item.id);
                    }
                 }}
-                className={`flex flex-col items-center justify-center p-8 glass-card rounded-[32px] aspect-square text-center relative overflow-hidden group ${item.highlight ? 'border-gold/30 gold-glow bg-gold/5' : ''}`}
+                className={`flex flex-col items-center justify-center p-6 glass-card rounded-xl aspect-square text-center relative overflow-hidden group border-white/5 bg-white/[0.01] hover:bg-accent/5 transition-all ${item.highlight ? 'border-accent/20' : ''}`}
               >
-                <div className={`mb-4 transition-all duration-500 group-hover:scale-110 ${item.highlight ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
-                  {React.cloneElement(item.icon, { size: 28, strokeWidth: 1.5 })}
+                <div className={`mb-3 transition-all duration-300 group-hover:scale-110 ${item.highlight ? 'text-accent' : 'text-gray-400 group-hover:text-accent'}`}>
+                   {React.cloneElement(item.icon, { size: 24, strokeWidth: item.highlight ? 2 : 1.5 })}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[11px] font-bold uppercase tracking-tight text-white leading-tight group-hover:text-gold transition-colors">{t(item.label)}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/70 leading-tight group-hover:text-white transition-colors font-sora">{t(item.label)}</p>
                   <p className="text-[8px] label-mono opacity-40">{item.cost} CR</p>
                 </div>
                 
                 {item.highlight && (
-                   <div className="absolute top-2 right-2 flex gap-1">
-                      <span className="w-1 h-1 rounded-full bg-gold animate-pulse" />
-                   </div>
+                   <div className="absolute top-0 right-0 w-8 h-8 bg-accent/10 blur-xl pointer-events-none" />
                 )}
               </button>
             ))}
@@ -2099,21 +2279,21 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
 
         {/* Bloco 3: Ideias Salvas */}
         {brand.saved_suggestions?.length > 0 && (
-          <section className="p-6 rounded-[32px] bg-gradient-to-r from-[#c4973b]/10 to-transparent border border-[#c4973b]/20 flex items-center justify-between group cursor-pointer hover:bg-[#c4973b]/20 transition-all" onClick={() => setDashView('ideias')}>
+          <section className="p-6 rounded-[32px] bg-gradient-to-r from-[#c4973b]/10 to-transparent border border-[#c4973b]/20 flex items-center justify-between group cursor-pointer hover:bg-accent/20 transition-all" onClick={() => setDashView('ideias')}>
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#c4973b]/20 text-[#c4973b] flex items-center justify-center animate-pulse">
+              <div className="w-12 h-12 rounded-2xl bg-accent/20 text-accent flex items-center justify-center animate-pulse">
                 <Sparkles size={24} />
               </div>
               <div>
                 <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
                   {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias do Sherlock aguardando →
                 </h4>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4973b]/60 mt-1">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-accent/60 mt-1">
                   Clique para ver e transformar em conteúdo consciente
                 </p>
               </div>
             </div>
-            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 group-hover:text-white transition-all">
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-300 group-hover:text-white transition-all">
               <ChevronRight size={20} />
             </div>
           </section>
@@ -2122,8 +2302,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         {/* Bloco 4: Criados recentemente */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
-            <History size={16} className="text-gray-400"/>
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Criados recentemente</h3>
+            <History size={16} className="text-gray-300"/>
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-300">Criados recentemente</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {recent.length > 0 ? recent.map((c, i) => (
@@ -2132,7 +2312,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 className="group p-5 rounded-[24px] glass border border-white/5 hover:border-white/10 transition-all cursor-pointer relative overflow-hidden"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-400">
+                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-300">
                     {c.type}
                   </span>
                   <span className={`text-[8px] font-black uppercase tracking-widest flex items-center gap-1 ${c.status === 'Aprovado' ? 'text-green-500' : 'text-orange-400'}`}>
@@ -2143,13 +2323,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                   {c.topic}
                 </h5>
                 <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                   <span className="text-[8px] font-bold text-gray-400 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
-                   <span className="text-[8px] font-black uppercase text-[#c4973b] group-hover:translate-x-1 transition-transform">Abrir →</span>
+                   <span className="text-[8px] font-bold text-gray-300 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
+                   <span className="text-[8px] font-black uppercase text-accent group-hover:translate-x-1 transition-transform">Abrir →</span>
                 </div>
               </div>
             )) : (
               <div className="col-span-full py-12 text-center glass border border-white/5 rounded-[32px]">
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Nenhum conteúdo gerado ainda.</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-300">Nenhum conteúdo gerado ainda.</p>
               </div>
             )}
           </div>
@@ -2168,30 +2348,30 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
       <motion.div initial={{scale:0.9,opacity:0}} animate={{scale:1,opacity:1}} className="relative w-full max-w-sm glass rounded-[32px] p-8 border border-white/10 shadow-2xl overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-[#c4973b]" />
+        <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
         <div className="flex flex-col items-center text-center space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-[#c4973b]/10 text-[#c4973b] flex items-center justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-accent/10 text-accent flex items-center justify-center">
             <Search size={32} />
           </div>
           <div className="space-y-2">
             <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">Sherlock vai investigar seu mercado</h3>
-            <p className="text-xs text-gray-400 font-bold leading-relaxed">
+            <p className="text-xs text-gray-300 font-bold leading-relaxed">
               Vou pesquisar tendências para <span className="text-white">{type}</span> no seu nicho e sugerir 3 temas com alto potencial agora.
             </p>
           </div>
           <div className="w-full p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
              <div className="flex flex-col items-start gap-1">
-                <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Custo da pesquisa</span>
-                <span className="text-sm font-black text-[#c4973b]">1 CRÉDITO</span>
+                <span className="text-[8px] font-black uppercase text-gray-300 tracking-widest">Custo da pesquisa</span>
+                <span className="text-sm font-black text-accent">1 CRÉDITO</span>
              </div>
              <div className="flex flex-col items-end gap-1">
-                <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Seu saldo</span>
+                <span className="text-[8px] font-black uppercase text-gray-300 tracking-widest">Seu saldo</span>
                 <span className="text-sm font-black text-white">{totalCredits} CR</span>
              </div>
           </div>
           <div className="grid grid-cols-2 gap-3 w-full">
-            <button onClick={onClose} className="py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors border border-white/5">Cancelar</button>
-            <button onClick={onConfirm} className="gold-gradient py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-black shadow-lg">Confirmar →</button>
+            <button onClick={onClose} className="py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors border border-white/5">Cancelar</button>
+            <button onClick={onConfirm} className="intel-gradient py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-black shadow-lg">Confirmar →</button>
           </div>
         </div>
       </motion.div>
@@ -2204,7 +2384,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
       <div className="relative w-full max-w-6xl max-h-[90vh] overflow-auto custom-scrollbar">
         <section className="space-y-10 p-8">
           <header className="text-center space-y-4">
-            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass border border-[#c4973b]/30 text-[#c4973b] animate-bounce">
+            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full glass border border-[#c4973b]/30 text-accent animate-bounce">
               <Search size={18} />
               <span className="text-xs font-black uppercase tracking-widest">Relatório Sherlock Pronto</span>
             </div>
@@ -2218,10 +2398,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               <motion.div 
                 key={i}
                 initial={{y:20,opacity:0}} animate={{y:0,opacity:1}} transition={{delay: i*0.1}}
-                className={`relative p-8 rounded-[40px] glass border transition-all flex flex-col justify-between group ${res.highlight ? 'border-[#c4973b]/40 ring-1 ring-[#c4973b]/20 shadow-2xl shadow-[#c4973b]/5' : 'border-white/5'}`}
+                className={`relative p-8 rounded-[40px] glass border transition-all flex flex-col justify-between group ${res.highlight ? 'border-accent/20 ring-1 ring-accent/20 shadow-2xl shadow-accent/5' : 'border-white/5'}`}
               >
                 {res.highlight && (
-                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-[#c4973b] text-black text-[9px] font-black uppercase tracking-widest shadow-lg">
+                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-accent text-black text-[9px] font-black uppercase tracking-widest shadow-lg">
                      ⭐ Maior Potencial
                    </div>
                 )}
@@ -2231,21 +2411,21 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                   
                   <div className="space-y-4">
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-[8px] font-black uppercase text-[#c4973b] tracking-widest">
+                      <div className="flex items-center gap-2 text-[8px] font-black uppercase text-accent tracking-widest">
                         <TrendingUp size={10} /> Por que agora?
                       </div>
-                      <p className="text-xs text-gray-400 font-bold leading-relaxed">{res.reasoning}</p>
+                      <p className="text-xs text-gray-300 font-bold leading-relaxed">{res.reasoning}</p>
                     </div>
 
                     <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-[8px] font-black uppercase text-gray-400 tracking-widest">
+                      <div className="flex items-center gap-2 text-[8px] font-black uppercase text-gray-300 tracking-widest">
                         <Target size={10} /> Seu Ângulo (DNA)
                       </div>
-                      <p className="text-xs text-gray-400 font-bold leading-relaxed">{res.brand_angle}</p>
+                      <p className="text-xs text-gray-300 font-bold leading-relaxed">{res.brand_angle}</p>
                     </div>
 
                     <div className="pt-4 flex items-center justify-between border-t border-white/5">
-                       <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Formato Sugerido</span>
+                       <span className="text-[8px] font-black uppercase text-gray-300 tracking-widest">Formato Sugerido</span>
                        <span className="text-[9px] font-black text-white uppercase bg-white/5 px-2 py-1 rounded-md">{res.suggested_format}</span>
                     </div>
                   </div>
@@ -2257,7 +2437,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                     setTopicHint(res.title);
                     setSherlockResults(null);
                   }}
-                  className="mt-8 w-full py-4 rounded-2xl gold-gradient text-black font-black uppercase tracking-widest text-[10px] show-xl hover:scale-105 active:scale-95 transition-all"
+                  className="mt-8 w-full py-4 rounded-2xl intel-gradient text-black font-black uppercase tracking-widest text-[10px] show-xl hover:scale-105 active:scale-95 transition-all"
                 >
                   Usar este tema →
                 </button>
@@ -2269,18 +2449,18 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
             <div className="flex gap-4">
               <button 
                 onClick={() => setSherlockResults(null)}
-                className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-all"
+                className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-gray-300 hover:text-white transition-all"
               >
                 Salvar todas para depois
               </button>
               <button 
                 onClick={() => startSherlockResearch(sherlockSearchType)}
-                className="px-8 py-4 rounded-2xl border border-[#c4973b]/20 bg-[#c4973b]/5 text-[#c4973b] hover:bg-[#c4973b]/10 text-[10px] font-black uppercase tracking-widest transition-all"
+                className="px-8 py-4 rounded-2xl border border-[#c4973b]/20 bg-accent/5 text-accent hover:bg-accent/10 text-[10px] font-black uppercase tracking-widest transition-all"
               >
                 Nova Sugestão (1 CR)
               </button>
             </div>
-            <button onClick={() => setSherlockResults(null)} className="text-[10px] font-black uppercase text-gray-400 hover:text-white tracking-[0.3em]">Fechar Relatório</button>
+            <button onClick={() => setSherlockResults(null)} className="text-[10px] font-black uppercase text-gray-300 hover:text-white tracking-[0.3em]">Fechar Relatório</button>
           </footer>
         </section>
       </div>
@@ -2288,9 +2468,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2">
+    <div className="flex h-screen bg-[#0b0b0f] text-white overflow-hidden font-inter selection:bg-accent selection:text-black gap-2">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden glass border-l border-white/5 my-2 mr-2 rounded-[40px] shadow-2xl">
+      <div className="flex-1 flex flex-col overflow-hidden glass border border-white/10 my-2 mx-2 rounded-[40px] shadow-2xl relative">
         <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
@@ -2303,43 +2483,95 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
             }}
             onClose={() => setSelectedItem(null)}
             readOnly={selectedItem?.status === 'Aprovado' || approvedContent?.some(c => c.topic === selectedItem?.topic)}
+            showPushBanner={showPushBanner}
+            onRequestPush={requestPush}
           />
         )}
       </AnimatePresence>
       <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full">
-        {/* Premium Banner */}
-        <div className="flex-shrink-0 px-10 pt-8">
-          <div className="glass-panel rounded-[32px] p-6 flex flex-col md:flex-row items-center justify-between group overflow-hidden relative">
+        {/* Intelligence Banner Wrapper */}
+        <div className="flex-shrink-0 px-6 lg:px-10 pt-10 pb-4">
+          <div className="glass-panel rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between group overflow-hidden relative border-accent/10">
             <div className="flex items-center gap-6 relative z-10">
-              <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center border border-white/10 shadow-xl shadow-gold/20 transition-transform group-hover:scale-105 duration-500">
-                <Zap size={24} className="text-black" fill="currentColor" />
+              <div className="w-16 h-16 rounded-xl intel-gradient flex items-center justify-center border border-white/5 shadow-2xl transition-transform group-hover:scale-105 duration-700">
+                <Cpu size={28} className="text-accent" />
               </div>
-              <div className="space-y-1">
-                <h4 className="text-2xl font-bold font-serif italic text-white flex items-center gap-3">
-                  {totalCredits} créditos ativos
-                  <span className="text-[10px] label-mono opacity-50 font-sans tracking-widest">— {resetDateStr}</span>
+              <div className="space-y-1.5">
+                <h4 className="text-2xl font-extrabold font-sora text-white flex items-center gap-3 leading-none uppercase tracking-tighter">
+                  {totalCredits} <span className="text-accent uppercase drop-shadow-[0_0_10px_rgba(0,191,198,0.3)]">Créditos Disponíveis</span>
+                  <span className="text-[8px] label-mono text-white/40 font-black tracking-[0.4em]">— RENOVAÇÃO EM {resetDays}D</span>
                 </h4>
-                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gold/60">SQUAD INTEL PREMIUM SYSTEM</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-accent">POSTDNA INTEL CORE v3.1</p>
               </div>
             </div>
             <button 
               onClick={() => setIsLimitModalOpen(true)}
-              className="premium-button relative z-10"
+              className="premium-button font-sora"
             >
-              UPGRADE INTEL →
+              UPGRADE DE PLANO →
             </button>
             
-            {/* Ambient light effects */}
-            <div className="absolute top-0 left-1/4 w-32 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-            <div className="absolute bottom-0 right-1/4 w-48 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent opacity-50" />
-            <div className="absolute -right-20 -top-20 w-64 h-64 bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
+            {/* Technical Lines Decoration */}
+            <div className="absolute top-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/10 to-transparent" />
+            <div className="absolute bottom-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-accent/5 to-transparent" />
+            <div className="absolute right-0 top-0 w-32 h-32 bg-accent/5 blur-[60px] pointer-events-none" />
           </div>
+
+          {brand.cancellation_scheduled && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+              className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-between group"
+            >
+               <div className="flex items-center gap-3">
+                  <AlertTriangle size={18} className="text-red-500" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-red-400 leading-tight">
+                    Seu plano está cancelado e encerra em {new Date(brand.cancellation_date).toLocaleDateString()}.
+                  </p>
+               </div>
+               <button 
+                 onClick={() => setBrand(p => ({ ...p, cancellation_scheduled: false }))}
+                 className="text-[9px] font-black uppercase tracking-widest text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition-all"
+               >
+                 Reativar Agora →
+               </button>
+            </motion.div>
+          )}
+
+          {brand.paused_until && (
+             <motion.div 
+              initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+              className="mt-6 p-4 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-between"
+            >
+               <div className="flex items-center gap-3">
+                  <Pause size={18} className="text-accent" />
+                  <p className="text-[10px] font-black uppercase tracking-widest text-accent leading-tight">
+                    PostDNA Pausado até {new Date(brand.paused_until).toLocaleDateString()}
+                  </p>
+               </div>
+               <button 
+                 onClick={() => setBrand(p => ({ ...p, paused_until: null }))}
+                 className="text-[9px] font-black uppercase tracking-widest text-black bg-accent px-4 py-2 rounded-lg hover:scale-105 transition-all"
+               >
+                 Reativar PostDNA →
+               </button>
+            </motion.div>
+          )}
         </div>
-        <Header/>
-        {dashView === 'home' && <HomeView />}
-        {dashView === 'inteligencia' && <IntelPage brand={brand} hasActivated={hasContent} primaryColor={primaryColor} onCreateFirst={(action) => { if(action === 'dna') setDashView('dna'); else { handleCreateFirst(action || null); setDashView('home'); } }} />}
-        {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
-        {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} approvedCount={approvedContent.length} />}
+          <div className="px-6 lg:px-10 pb-20">
+            <Header/>
+            {dashView === 'home' && <HomeView />}
+            {dashView === 'inteligencia' && <IntelPage brand={brand} hasActivated={hasContent} primaryColor={primaryColor} onCreateFirst={(action) => { if(action === 'dna') setDashView('dna'); else { handleCreateFirst(action || null); setDashView('home'); } }} />}
+            {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
+            {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} approvedCount={approvedContent.length} />}
+            {dashView === 'configuracoes' && (
+              <SettingsPage 
+                brand={brand} 
+                setBrand={setBrand} 
+                onUpgrade={() => setIsLimitModalOpen(true)} 
+                onCancelClick={() => setIsCancellationFlowOpen(true)}
+              />
+            )}
+          </div>
         {dashView === 'entrega' && (
           <DeliveryPage 
             item={selectedItem} 
@@ -2443,13 +2675,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               <div className="flex flex-col items-center space-y-6">
                 <div className="relative">
                   <div className="w-24 h-24 rounded-3xl border-2 border-[#c4973b]/20 animate-spin" />
-                  <div className="absolute inset-0 flex items-center justify-center text-[#c4973b]">
+                  <div className="absolute inset-0 flex items-center justify-center text-accent">
                      <Search size={32} className="animate-pulse" />
                   </div>
                 </div>
                 <div className="text-center space-y-2">
                    <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">Sherlock Investigando...</h3>
-                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b]">Analisando concorrência e tendências</p>
+                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent">Analisando concorrência e tendências</p>
                 </div>
               </div>
             </div>
@@ -2465,6 +2697,16 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 setBrand({...brand, plan: newPlan});
                 setIsLimitModalOpen(false);
               }}
+            />
+          )}
+
+          {isCancellationFlowOpen && (
+            <CancellationFlow 
+              brand={brand}
+              onClose={() => setIsCancellationFlowOpen(false)}
+              onConfirm={handleCancelAccount}
+              onDowngrade={handleDowngrade}
+              onPause={handlePause}
             />
           )}
         </AnimatePresence>

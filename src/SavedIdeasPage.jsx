@@ -55,7 +55,7 @@ const SavedIdeasPage = ({ brand, onSelectIdea, onDeleteIdea, onViewContent, onRe
         </div>
         <button 
           onClick={onRefreshSherlock}
-          className="gold-gradient px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
+          className="intel-gradient px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-black shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3"
         >
           Pedir sugestão ao Sherlock — 1 crédito <ArrowRight size={14} />
         </button>
@@ -66,10 +66,10 @@ const SavedIdeasPage = ({ brand, onSelectIdea, onDeleteIdea, onViewContent, onRe
   return (
     <div className="max-w-6xl mx-auto space-y-12 pb-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {/* INFO CARD */}
-      <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
-         <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">✨</div>
+      <div className="flex items-start gap-4 bg-accent/5 border border-accent/20 rounded-[28px] p-6 shadow-xl shadow-accent/5">
+         <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-xl shrink-0">✨</div>
          <div className="space-y-1">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que são as Ideias Salvas?</h4>
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que são as Ideias Salvas?</h4>
             <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
                Aqui ficam guardadas as <strong className="text-white">sugestões estratégicas</strong> do Sherlock que você ainda não transformou em conteúdo. 
                Você pode revisitar os temas em alta, escolher o momento certo para publicar e disparar a criação (Copy + Designer) com um clique.
@@ -82,7 +82,7 @@ const SavedIdeasPage = ({ brand, onSelectIdea, onDeleteIdea, onViewContent, onRe
         <div className="space-y-2">
           <h2 className="text-4xl font-black uppercase italic tracking-tighter text-white">Ideias Salvas</h2>
           <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-500">
-             <span className="text-[#c4973b]">{unusedIdeas.length} ideias aguardando</span>
+             <span className="text-accent">{unusedIdeas.length} ideias aguardando</span>
              <span className="opacity-20">|</span>
              <span>{usedIdeas.length} já utilizadas</span>
           </div>
@@ -95,12 +95,12 @@ const SavedIdeasPage = ({ brand, onSelectIdea, onDeleteIdea, onViewContent, onRe
               onClick={() => setFilter(t)}
               className={`px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
                 filter === t 
-                  ? 'bg-[#c4973b] text-black border-[#c4973b]' 
+                  ? 'bg-accent text-black border-accent' 
                   : 'bg-white/5 text-gray-500 border-white/5 hover:border-white/10'
               }`}
             >
               {t === 'Todas' ? 'Todas' : getDisplayType(t)} 
-              <span className={`ml-2 opacity-60 ${filter === t ? 'text-black' : 'text-[#c4973b]'}`}>
+              <span className={`ml-2 opacity-60 ${filter === t ? 'text-black' : 'text-accent'}`}>
                 ({getFilteredCount(t)})
               </span>
             </button>
@@ -193,13 +193,13 @@ const IdeaCard = ({ idea, onSelect, onDelete, used, onViewContent }) => {
     <motion.div 
       initial={{y:20,opacity:0}} animate={{y:0,opacity:1}}
       className={`relative p-6 rounded-[32px] glass border transition-all flex flex-col justify-between group h-full ${
-        used ? 'border-white/5 bg-white/[0.02]' : 'border-white/5 hover:border-[#c4973b]/30 bg-white/[0.04]'
+        used ? 'border-white/5 bg-white/[0.02]' : 'border-white/5 hover:border-accent/30 bg-white/[0.04]'
       }`}
     >
       <div className="space-y-4">
         {/* HEADER DO CARD */}
         <div className="flex items-start justify-between">
-          <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-1 rounded bg-white/5 ${used ? 'text-gray-600' : 'text-[#c4973b]'}`}>
+          <span className={`text-[7px] font-black uppercase tracking-widest px-2 py-1 rounded bg-white/5 ${used ? 'text-gray-600' : 'text-accent'}`}>
             {idea.suggested_format}
           </span>
           {used ? (
@@ -236,14 +236,14 @@ const IdeaCard = ({ idea, onSelect, onDelete, used, onViewContent }) => {
         {used ? (
           <button 
             onClick={onViewContent}
-            className="flex items-center gap-1.5 text-[8px] font-black uppercase text-[#c4973b] hover:underline"
+            className="flex items-center gap-1.5 text-[8px] font-black uppercase text-accent hover:underline"
           >
             Ver conteúdo <ExternalLink size={10} />
           </button>
         ) : (
           <button 
             onClick={onSelect}
-            className="px-4 py-2 rounded-xl gold-gradient text-black text-[9px] font-black uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+            className="px-4 py-2 rounded-xl intel-gradient text-black text-[9px] font-black uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
           >
             Criar <ArrowRight size={10} />
           </button>

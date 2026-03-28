@@ -63,7 +63,7 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
       {/* HEADER DINÂMICO */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-[#c4973b] mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-accent mb-2">
              Formato: {type}
           </div>
           <h2 className="text-4xl font-black uppercase italic tracking-tighter text-white">Sobre o que é esse {type.toLowerCase()}?</h2>
@@ -73,19 +73,19 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
         </div>
 
         <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-[#c4973b] to-orange-600 rounded-[32px] blur opacity-20 group-focus-within:opacity-40 transition duration-500" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-[#c4973b] to-cyan-600/40" />
           <textarea
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder={getPlaceholder()}
-            className="w-full h-40 bg-black/40 border border-white/10 rounded-[32px] p-8 text-xl font-bold text-white placeholder:text-gray-800 focus:outline-none focus:border-[#c4973b]/50 transition-all relative z-10 resize-none"
+            className="w-full h-40 bg-black/40 border border-white/10 rounded-[32px] p-8 text-xl font-bold text-white placeholder:text-gray-800 focus:outline-none focus:border-accent/50 transition-all relative z-10 resize-none"
           />
         </div>
 
         {/* HINT CONTEXTUAL */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex-1 px-4 py-2 rounded-xl bg-white/5 border border-white/5">
-             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b]">
+             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-accent">
                {type === 'STORY_SIMPLE' && "3 frames · rápido e direto · ideal para dicas e anúncios"}
                {type === 'STORY_CAROUSEL' && "8 frames · narrativa sequencial · ideal para tutoriais e bastidores"}
                {type === 'CARROSSEL' && "8 slides · educativo e profundo · ideal para autoridade"}
@@ -96,7 +96,7 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
           </div>
           <button 
             onClick={onRefreshSuggestions}
-            className="shrink-0 px-6 py-2.5 rounded-xl font-black uppercase tracking-widest text-[9px] bg-[#c4973b]/10 border border-[#c4973b]/20 text-[#c4973b] hover:bg-[#c4973b]/20 transition-all flex items-center gap-2 shadow-lg shadow-[#c4973b]/5"
+            className="shrink-0 px-6 py-2.5 rounded-xl font-black uppercase tracking-widest text-[9px] bg-accent/10 border border-accent/10 text-accent hover:bg-accent/20 transition-all flex items-center gap-2 shadow-lg shadow-cyan-900/20"
           >
             <Search size={14}/> Sherlock sugere — 1 crédito
           </button>
@@ -111,10 +111,10 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
                 <button 
                   key={i} 
                   onClick={() => setTopic(idea.title)}
-                  className="w-full text-left px-6 py-4 bg-white/5 border border-white/5 rounded-2xl text-xs font-bold text-gray-400 hover:text-white hover:border-[#c4973b]/30 hover:bg-[#c4973b]/5 transition-all group flex items-center justify-between"
+                  className="w-full text-left px-6 py-4 bg-white/5 border border-white/5 rounded-2xl text-xs font-bold text-gray-400 hover:text-white hover:border-[#c4973b]/30 hover:bg-accent/5 transition-all group flex items-center justify-between"
                 >
                   <span>{idea.title}</span>
-                  <ChevronRight size={14} className="text-gray-700 group-hover:text-[#c4973b] group-hover:translate-x-1 transition-all" />
+                  <ChevronRight size={14} className="text-gray-700 group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </button>
               ))}
             </div>
@@ -135,7 +135,7 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
               key={o.id}
               onClick={() => setObjective(objective === o.id ? null : o.id)}
               className={`p-4 rounded-2xl border transition-all flex flex-col items-center gap-1 ${
-                objective === o.id ? 'bg-[#c4973b] text-black border-[#c4973b] shadow-lg shadow-[#c4973b]/20' : 'bg-white/5 border-white/5 text-gray-500 hover:border-white/10'
+                objective === o.id ? 'bg-accent text-black border-[#c4973b] shadow-lg shadow-accent/20' : 'bg-white/5 border-white/5 text-gray-500 hover:border-white/10'
               }`}
             >
               <span className="text-[10px] font-black uppercase tracking-widest">{o.label}</span>
@@ -153,7 +153,7 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
           className={`w-full max-w-sm py-6 rounded-[32px] font-black uppercase tracking-[0.2em] text-sm transition-all flex flex-col items-center justify-center gap-1 shadow-2xl ${
             !topic ? 'bg-white/5 text-gray-700 cursor-not-allowed' :
             !canGenerate ? 'bg-red-500/10 text-red-500 border border-red-500/20' :
-            'gold-gradient text-black hover:scale-[1.02] active:scale-95 group'
+            'intel-gradient text-black hover:scale-[1.02] active:scale-95 group'
           }`}
         >
           <div className="flex items-center gap-3">
@@ -169,10 +169,10 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
 
         {!canGenerate && topic && (
           <div className="flex flex-col items-center gap-2">
-            <p className="text-[10px] font-black uppercase text-[#c4973b] tracking-widest">
+            <p className="text-[10px] font-black uppercase text-accent tracking-widest">
               Este {type} custa {getCost(type)} créditos. Você tem {totalCredits}.
             </p>
-            <button className="text-[8px] font-black uppercase tracking-[0.2em] text-white hover:text-[#c4973b] underline">Comprar créditos extras →</button>
+            <button className="text-[8px] font-black uppercase tracking-[0.2em] text-white hover:text-accent underline">Comprar créditos extras →</button>
           </div>
         )}
       </div>
