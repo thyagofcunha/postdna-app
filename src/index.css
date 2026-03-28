@@ -1,105 +1,111 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  --background: #0d0d0d;
+  --foreground: #f5f5f5;
+  --card: rgba(26, 26, 26, 0.4);
+  --card-foreground: #f5f5f5;
+  --popover: #1a1a1a;
+  --popover-foreground: #f5f5f5;
+  --primary: #c4973b;
+  --primary-foreground: #0d0d0d;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #f5f5f5;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+  --accent: #aa3bff;
+  --accent-foreground: #f5f5f5;
+  --destructive: #ef4444;
+  --destructive-foreground: #f5f5f5;
+  --border: rgba(255, 255, 255, 0.1);
   --bg-deep: #05070A;
-  --bg-navy: #1A2240;
-  --brand-gold: #C4973B;
+  --bg-navy: #0A0F1E;
+  --gold: #c4973b;
+  --gold-glow: rgba(196, 151, 59, 0.4);
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-accent: rgba(196, 151, 59, 0.15);
-  --text-primary: #FFFFFF;
-  --text-muted: #8892B0;
-  --radius-xl: 32px;
-  --radius-lg: 20px;
+  --input: #262626;
+  --ring: #c4973b;
+  --radius: 0.75rem;
 }
 
 body {
   margin: 0;
+  padding: 0;
   background-color: var(--bg-deep);
-  color: var(--text-primary);
+  color: #F0EAD6;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  background-image: 
-    radial-gradient(circle at 0% 0%, rgba(26, 34, 64, 0.4) 0%, transparent 40%),
-    radial-gradient(circle at 100% 100%, rgba(196, 151, 59, 0.05) 0%, transparent 40%);
-  min-height: 100vh;
 }
 
-/* TYPOGRAPHY */
-.font-serif { font-family: 'Playfair Display', serif; }
-
-h1, h2, h3, .heading-premium {
+h1, h2, h3, h4, .font-serif {
   font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  letter-spacing: -0.01em;
 }
 
 .label-mono {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
+  font-family: 'Inter', monospace;
   font-weight: 900;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--brand-gold);
+  font-size: 10px;
+  color: var(--gold);
 }
 
-/* PREMIUM GLASS COMPONENTS */
+/* Glassmorphism 2.0 */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .glass-card {
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-lg);
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(196, 151, 59, 0.4);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px -15px rgba(0,0,0,0.4);
+  border-color: rgba(196, 151, 59, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 20px rgba(196, 151, 59, 0.1);
 }
 
-.gold-glow {
-  filter: drop-shadow(0 0 10px rgba(196, 151, 59, 0.3));
+.gold-gradient {
+  background: linear-gradient(135deg, #e5c07b 0%, #c4973b 50%, #8b6b2a 100%);
 }
 
 .premium-button {
-  background: var(--brand-gold);
-  color: #000;
-  padding: 12px 28px;
-  border-radius: 99px;
+  background: var(--glass-bg);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Inter', sans-serif;
   font-weight: 900;
-  text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 0.2em;
-  border: none;
+  padding: 12px 24px;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .premium-button:hover {
-  transform: scale(1.05);
-  background: #E8C068;
-  box-shadow: 0 0 35px rgba(196, 151, 59, 0.4);
+  background: var(--gold);
+  color: black;
+  box-shadow: 0 0 25px var(--gold-glow);
+  transform: scale(1.02);
 }
 
-/* CUSTOMS */
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-.gold-gradient {
-  background: linear-gradient(90deg, #C4973B, #E8C068, #C4973B);
+.gold-glow {
+  box-shadow: 0 0 30px var(--gold-glow);
 }
 
-.text-gold { color: #C4973B; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }

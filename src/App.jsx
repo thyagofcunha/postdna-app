@@ -1768,7 +1768,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
             />
           )}
         </AnimatePresence>
@@ -1776,20 +1776,16 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <aside 
           onMouseEnter={() => setIsSidebarHovered(true)}
           onMouseLeave={() => setIsSidebarHovered(false)}
-          className={`fixed lg:static inset-y-0 left-0 bg-[#05070A] border-r border-white/5 p-6 flex flex-col gap-6 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
+          className={`fixed lg:static inset-y-0 left-0 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             ${isCollapsed ? 'lg:w-[100px] items-center lg:px-4' : 'lg:w-72'}
           `}
         >
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-2xl gold-gradient flex items-center justify-center shrink-0 shadow-lg shadow-[#c4973b]/20">
-               <Zap size={22} className="text-black"/>
-             </div>
+             <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shrink-0"><Zap size={16} className="text-black"/></div>
              {!isCollapsed && (
-               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-xl font-bold italic font-serif">
-                 Post<span className="text-gold">DNA</span>
-               </motion.span>
+               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-sm font-black uppercase tracking-tighter italic whitespace-nowrap">Post<span className="text-[#c4973b]">DNA</span></motion.span>
              )}
           </div>
           
@@ -1797,7 +1793,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {!isCollapsed && (
             <button 
                onClick={() => setIsSidebarPinned(!isSidebarPinned)}
-               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-gold border-gold text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
+               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
             >
                <div className={`w-2 h-2 rounded-full ${isSidebarPinned ? 'bg-black' : 'bg-current'}`} />
             </button>
@@ -1806,48 +1802,44 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   
         {/* Brand Kit mini */}
         {!isCollapsed ? (
-          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border border-white/10 rounded-[24px] p-4 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-[#1A2240] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-2xl">
-                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={16} className="text-gold"/>}
+          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border border-white/5 rounded-[18px] p-3 space-y-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
               </div>
               <div className="min-w-0">
-                <p className="label-mono mb-0.5">Brand Kit</p>
-                <p className="text-xs font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
+                <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
+                <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
               </div>
             </div>
-            <div className="flex gap-1 h-1.5 px-0.5">
-              {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 rounded-full shadow-sm" style={{backgroundColor:c}}/>)}
+            <div className="flex gap-1">
+              {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 h-2 rounded-full" style={{backgroundColor:c}}/>)}
             </div>
           </motion.div>
         ) : (
-          <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden transition-all hover:border-gold/30">
-             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2.5"/> : <Zap size={16} className="text-gold"/>}
+          <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={14} style={{color:primaryColor}}/>}
           </div>
         )}
   
-        <nav className="flex-1 flex flex-col gap-6 mt-4">
+        <nav className="flex-1 flex flex-col gap-8 mt-6">
           {NAV_ITEMS.map(section => (
             <div key={section.section}>
               {!isCollapsed && (
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-600 px-3 mb-3 whitespace-nowrap">{t(section.section)}</p>
+                <p className="text-[10px] label-mono opacity-40 px-3 mb-4">{t(section.section)}</p>
               )}
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {section.items.map(item => (
                   <button key={item.key}
                     onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
                     title={isCollapsed ? t(item.label) : ''}
-                    className={`group flex items-center gap-3.5 p-3 rounded-2xl text-[13px] font-bold tracking-tight transition-all relative ${
+                    className={`group flex items-center gap-4 p-3 rounded-[18px] text-[13px] font-bold tracking-tight transition-all relative ${
                       dashView === item.key
-                        ? 'bg-white/10 text-gold border-l-4 border-gold'
+                        ? 'bg-white/10 text-gold shadow-2xl glass-panel border-l-4 border-gold'
                         : 'text-gray-400 hover:text-white hover:bg-white/5'
                     } ${isCollapsed ? 'justify-center' : ''}`}>
                     <span className={dashView === item.key ? 'text-gold gold-glow' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
-                    {!isCollapsed && <span className="whitespace-nowrap font-serif">{t(item.label)}</span>}
-                    
-                    {isCollapsed && dashView === item.key && (
-                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-gold rounded-l-full shadow-[0_0_15px_rgba(196,151,59,0.5)]" />
-                    )}
+                    {!isCollapsed && <span className="whitespace-nowrap font-serif italic">{t(item.label)}</span>}
                   </button>
                 ))}
               </div>
@@ -1855,32 +1847,29 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           ))}
         </nav>
   
-        {/* Credits badge */}
-        <div className={`glass-card relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-5 space-y-4'}`}>
+        {/* Plan & Credits badge */}
+        <div className={`bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[20px] relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
           {!isCollapsed ? (
             <>
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gold/10 rounded-full blur-2xl group-hover:bg-gold/20 transition-all"/>
+              <div className="absolute top-0 right-0 w-12 h-12 bg-[#c4973b]/10 rounded-full blur-xl group-hover:bg-[#c4973b]/20 transition-all"/>
               <div className="flex justify-between items-center relative z-10">
-                 <p className="label-mono">Saldo Intel</p>
-                 <span className="text-sm text-white font-black">{totalCredits} CR</span>
+                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
+                 <span className="text-[10px] text-white font-black">{totalCredits} CR</span>
               </div>
-              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden relative z-10 border border-white/5">
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
                  <motion.div 
                    initial={{ width: 0 }}
                    animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }}
-                   className="h-full gold-gradient shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
+                   className="h-full bg-[#c4973b]" />
               </div>
-              <button 
-                onClick={()=>setIsLimitModalOpen(true)}
-                className="w-full py-2 bg-white/10 hover:bg-gold hover:text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all z-10 relative border border-white/5"
-              >
-                Upgrade Plan
-              </button>
+              <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
+                 <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V7</span>
+              </div>
             </>
           ) : (
-             <div className="flex flex-col items-center gap-1.5">
-                <span className="text-[10px] font-black text-gold underline underline-offset-4 decoration-2">{totalCredits}</span>
-                <Zap size={12} className="text-gold animate-pulse" />
+             <div className="flex flex-col items-center gap-1">
+                <span className="text-[8px] font-black text-[#c4973b]">{totalCredits}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#c4973b] animate-pulse" />
              </div>
           )}
         </div>
@@ -1996,18 +1985,18 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   const Header = () => (
-    <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6 px-10">
-      <div className="space-y-1">
+    <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6">
+      <div className="space-y-2">
         <h1 className="text-4xl lg:text-5xl font-bold font-serif italic text-white leading-tight">
           {t('dashboard.welcomeActive')} {firstName || 'Magician'}.
         </h1>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1">
             <span className="w-2 h-2 rounded-full bg-green-500 gold-glow animate-pulse" />
-            <span className="text-[10px] label-mono uppercase opacity-70">Sistema Ativo</span>
+            <span className="text-[9px] label-mono opacity-70">Sistema Ativo</span>
           </div>
           <span className="text-white/10">|</span>
-          <span className="text-[10px] label-mono text-gold uppercase underline underline-offset-4">{PLAN_SPECS[plan]?.name} Plan</span>
+          <span className="text-[9px] label-mono text-gold underline underline-offset-4">{PLAN_SPECS[plan]?.name} Plan</span>
         </div>
       </div>
 
@@ -2020,7 +2009,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 setBrand(p => ({ ...p, interfaceLanguage: lang }));
                 i18n.changeLanguage(lang);
               }}
-              className={`px-4 py-1.5 rounded-full text-[10px] font-black transition-all ${
+              className={`px-4 py-1.5 rounded-full text-[10px] font-extrabold transition-all ${
                 i18n.language === lang ? 'bg-gold text-black shadow-lg shadow-gold/20' : 'text-gray-400 hover:text-white'
               }`}
             >
@@ -2031,10 +2020,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         
         <div className="flex items-center gap-4 pl-4 border-l border-white/10">
           <div className="text-right hidden lg:block">
-            <div className="text-[11px] font-bold font-serif italic text-white">{brand?.businessName || 'Magic Brand'}</div>
+            <div className="text-[11px] font-bold font-serif italic text-white opacity-80">{brand?.businessName || 'Magic Brand'}</div>
             <div className="text-[9px] label-mono opacity-50">{totalCredits} CRÉDITOS</div>
           </div>
-          <div className="w-12 h-12 rounded-2xl border border-white/10 bg-[#1A2240] flex items-center justify-center shadow-2xl group cursor-pointer hover:border-gold/50 transition-all">
+          <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center shadow-2xl transition-all hover:border-gold/50 cursor-pointer">
             {brand.logo ? <img src={brand.logo} className="w-8 h-8 object-contain rounded" /> : <User size={22} className="text-gold" />}
           </div>
         </div>
@@ -2045,23 +2034,31 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   // ── HOME VIEW ──
   const HomeView = () => {
     const recent = agenda.slice(0, 3);
+    const savedIdeasCount = brand.suggestions?.length || 0;
+
     const contentItems = [
-      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={22}/>, cost: 1, highlight: true },
-      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={22}/>, cost: 10 },
-      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={22}/>, cost: 8 },
-      { id: 'POST', label: 'Post Estático', icon: <Camera size={22}/>, cost: 4 },
-      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={22}/>, cost: 3 },
-      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={22}/>, cost: 2 },
-    ];
+      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={16}/>, cost: 1, minPlan: 'free', highlight: true },
+      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={16}/>, cost: 10, minPlan: 'free' },
+      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={16}/>, cost: 8, minPlan: 'basico' },
+      { id: 'POST', label: 'Post Estático', icon: <Camera size={16}/>, cost: 4, minPlan: 'free' },
+      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={16}/>, cost: 3, minPlan: 'free' },
+      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={16}/>, cost: 2, minPlan: 'free' },
+      { id: 'BLOG', label: 'Blog', icon: <Globe size={16}/>, cost: 8, minPlan: 'completo' },
+    ].filter(item => item.id !== 'BLOG' || plan === 'completo');
+
+    const isLocked = (minPlan) => {
+      const hierarchy = ['free', 'basico', 'crescimento', 'completo'];
+      return hierarchy.indexOf(plan) < hierarchy.indexOf(minPlan);
+    };
 
     return (
-      <div className="flex-1 overflow-y-auto px-10 pb-12 pt-4 scrollbar-hide space-y-12">
+      <div className="space-y-12 pb-20">
         
-        {/* Seção 1: Grid de Criação */}
-        <section className="space-y-8">
-          <div className="space-y-2">
-            <h2 className="text-4xl font-bold font-serif italic text-white leading-none">O que vamos criar hoje?</h2>
-            <p className="text-[10px] label-mono opacity-60">Selecione o formato para a inteligência Magic Dani</p>
+        {/* Bloco 2: O que vamos criar hoje? */}
+        <section className="space-y-6">
+          <div className="text-center md:text-left space-y-1">
+            <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white">O que vamos criar hoje?</h2>
+            <p className="text-gray-400 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
@@ -2080,86 +2077,79 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                       handleCreateByType(item.id);
                    }
                 }}
-                className={`flex flex-col items-center justify-center p-8 glass-card aspect-square text-center relative overflow-hidden group ${item.highlight ? 'border-gold/30 gold-glow' : ''}`}
+                className={`flex flex-col items-center justify-center p-8 glass-card rounded-[32px] aspect-square text-center relative overflow-hidden group ${item.highlight ? 'border-gold/30 gold-glow bg-gold/5' : ''}`}
               >
-                <div className={`mb-4 transition-all duration-500 group-hover:scale-125 ${item.highlight ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
-                  {item.icon}
+                <div className={`mb-4 transition-all duration-500 group-hover:scale-110 ${item.highlight ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
+                  {React.cloneElement(item.icon, { size: 28, strokeWidth: 1.5 })}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[11px] font-black uppercase tracking-tighter leading-tight text-white group-hover:text-gold transition-colors">{t(item.label)}</p>
-                  <p className="text-[8px] font-bold uppercase tracking-widest text-gold opacity-60">{item.cost} CR</p>
+                  <p className="text-[11px] font-bold uppercase tracking-tight text-white leading-tight group-hover:text-gold transition-colors">{t(item.label)}</p>
+                  <p className="text-[8px] label-mono opacity-40">{item.cost} CR</p>
                 </div>
                 
-                {/* Micro-glow on hover */}
-                <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                {item.highlight && (
+                   <div className="absolute top-2 right-2 flex gap-1">
+                      <span className="w-1 h-1 rounded-full bg-gold animate-pulse" />
+                   </div>
+                )}
               </button>
             ))}
           </div>
         </section>
 
-        {/* Seção 2: Sherlock (The Premium Intervention) */}
-        <section 
-          className="p-1 w-full glass-panel overflow-hidden group cursor-pointer"
-          onClick={() => setDashView('ideias')}
-        >
-          <div className="p-10 rounded-[28px] bg-gradient-to-r from-[#1A2240] to-[#05070A] flex flex-col md:flex-row items-center justify-between relative">
-            <div className="flex items-center gap-8 relative z-10">
-              <div className="w-20 h-20 rounded-[24px] bg-gold text-black flex items-center justify-center shadow-2xl shadow-gold/30 group-hover:rotate-6 transition-all duration-500">
-                <Zap size={36} fill="currentColor" />
+        {/* Bloco 3: Ideias Salvas */}
+        {brand.saved_suggestions?.length > 0 && (
+          <section className="p-6 rounded-[32px] bg-gradient-to-r from-[#c4973b]/10 to-transparent border border-[#c4973b]/20 flex items-center justify-between group cursor-pointer hover:bg-[#c4973b]/20 transition-all" onClick={() => setDashView('ideias')}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#c4973b]/20 text-[#c4973b] flex items-center justify-center animate-pulse">
+                <Sparkles size={24} />
               </div>
-              <div className="space-y-1.5">
-                <h4 className="text-3xl font-bold font-serif italic text-white">
-                  Inteligência Sherlock aguardando →
+              <div>
+                <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
+                  {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias do Sherlock aguardando →
                 </h4>
-                <p className="label-mono flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold animate-ping" />
-                  {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} NOVAS IDEIAS ESTRATÉGICAS
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4973b]/60 mt-1">
+                  Clique para ver e transformar em conteúdo consciente
                 </p>
               </div>
             </div>
-            
-            <div className="mt-8 md:mt-0 px-8 py-3 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white group-hover:bg-gold group-hover:text-black transition-all">
-              Explorar Radar
+            <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 group-hover:text-white transition-all">
+              <ChevronRight size={20} />
             </div>
+          </section>
+        )}
 
-            {/* Background design */}
-            <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-64 h-64 bg-gold/5 rounded-full blur-[80px]" />
+        {/* Bloco 4: Criados recentemente */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3">
+            <History size={16} className="text-gray-400"/>
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Criados recentemente</h3>
           </div>
-        </section>
-
-        {/* Seção 3: Histórico Recente */}
-        <section className="space-y-6 pb-12">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-               <History size={16} className="text-gold" />
-               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500">Ativações Recentes</h3>
-            </div>
-            <button className="text-[10px] font-bold text-gray-500 hover:text-gold transition-colors">VER RELATÓRIO COMPLETO →</button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {recent.length > 0 ? recent.map((c, i) => (
               <div key={i} 
                 onClick={() => setSelectedItem(c)}
-                className="group p-7 glass-card hover:bg-white/5 transition-all cursor-pointer"
+                className="group p-5 rounded-[24px] glass border border-white/5 hover:border-white/10 transition-all cursor-pointer relative overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-5">
-                  <span className="label-mono opacity-50">{c.type}</span>
-                  <div className={`text-[10px] font-black uppercase tracking-widest ${c.status === 'Aprovado' ? 'text-green-500' : 'text-gold'}`}>
-                    {c.status}
-                  </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-400">
+                    {c.type}
+                  </span>
+                  <span className={`text-[8px] font-black uppercase tracking-widest flex items-center gap-1 ${c.status === 'Aprovado' ? 'text-green-500' : 'text-orange-400'}`}>
+                    {c.status === 'Aprovado' && <Check size={10}/>} {c.status}
+                  </span>
                 </div>
-                <h5 className="text-lg font-bold text-white/90 line-clamp-2 leading-relaxed font-serif group-hover:text-gold transition-colors">
+                <h5 className="text-xs font-bold text-gray-300 line-clamp-2 leading-snug group-hover:text-white transition-colors">
                   {c.topic}
                 </h5>
-                <div className="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
-                   <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{new Date(c.createdAt).toLocaleDateString()}</span>
-                   <span className="text-[10px] font-black uppercase text-gold opacity-0 group-hover:opacity-100 transition-opacity">Abrir →</span>
+                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+                   <span className="text-[8px] font-bold text-gray-400 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
+                   <span className="text-[8px] font-black uppercase text-[#c4973b] group-hover:translate-x-1 transition-transform">Abrir →</span>
                 </div>
               </div>
             )) : (
-              <div className="col-span-full py-20 text-center glass-card border-dashed">
-                <p className="label-mono opacity-40 italic">Aguardando seu primeiro briefing energético</p>
+              <div className="col-span-full py-12 text-center glass border border-white/5 rounded-[32px]">
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Nenhum conteúdo gerado ainda.</p>
               </div>
             )}
           </div>
@@ -2298,11 +2288,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex h-screen bg-[#05070A] text-[#F0EAD6] overflow-hidden font-inter selection:bg-gold selection:text-black gap-1 p-1">
+    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden bg-[#05070A] rounded-[40px] border border-white/5 shadow-2xl relative">
-        {/* Background glow global */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none" />
+      <div className="flex-1 flex flex-col overflow-hidden glass border-l border-white/5 my-2 mr-2 rounded-[40px] shadow-2xl">
         <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
@@ -2318,12 +2306,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           />
         )}
       </AnimatePresence>
-      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#05070A]">
+      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full">
         {/* Premium Banner */}
         <div className="flex-shrink-0 px-10 pt-8">
-          <div className="glass-panel p-6 flex flex-col md:flex-row items-center justify-between group overflow-hidden relative">
+          <div className="glass-panel rounded-[32px] p-6 flex flex-col md:flex-row items-center justify-between group overflow-hidden relative">
             <div className="flex items-center gap-6 relative z-10">
-              <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center border border-white/10 shadow-xl shadow-gold/20">
+              <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center border border-white/10 shadow-xl shadow-gold/20 transition-transform group-hover:scale-105 duration-500">
                 <Zap size={24} className="text-black" fill="currentColor" />
               </div>
               <div className="space-y-1">
@@ -2341,8 +2329,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               UPGRADE INTEL →
             </button>
             
-            {/* Ambient light */}
+            {/* Ambient light effects */}
             <div className="absolute top-0 left-1/4 w-32 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+            <div className="absolute bottom-0 right-1/4 w-48 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent opacity-50" />
+            <div className="absolute -right-20 -top-20 w-64 h-64 bg-gold/5 rounded-full blur-[100px] pointer-events-none" />
           </div>
         </div>
         <Header/>
