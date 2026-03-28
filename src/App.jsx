@@ -2033,7 +2033,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                    className="h-full bg-accent" />
               </div>
               <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-                 <span className="text-[7px] font-black uppercase tracking-widest text-[#0b0b0f]">Versão 28.03-V8</span>
+                 <span className="text-[7px] font-black uppercase tracking-widest text-[#0b0b0f]">Versão 28.03-V9</span>
               </div>
             </>
           ) : (
