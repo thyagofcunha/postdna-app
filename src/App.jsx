@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
   Check, Plus, Image as ImageIcon, Palette, Calendar, Zap,
-  ChevronRight, Globe, Type, LayoutDashboard, Loader2,
+  ChevronRight, ChevronLeft, Globe, Type, LayoutDashboard, Loader2,
   Star, TrendingUp, Clock, MoreVertical, Sparkles, Target,
   DollarSign, Users, Mic, MessageSquare, User, Fingerprint,
-  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft
+  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft, ExternalLink
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DNAPage from './DNAPage';
@@ -96,7 +96,7 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
         <div className="flex flex-col items-center justify-center py-10 text-center space-y-6 animate-in fade-in duration-700">
           <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center relative group">
              <div className="absolute inset-0 bg-[#c4973b]/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-             <CalendarIcon size={40} className="text-[#c4973b] relative z-10" />
+             <Calendar size={40} className="text-[#c4973b] relative z-10" />
           </div>
           <div className="space-y-2">
             <p className="text-sm font-black uppercase tracking-widest text-white">Seu calendário ainda está virgem</p>
@@ -1828,7 +1828,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {totalCredits} CRÉDITOS DISPONÍVEIS
         </p>
         <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V4</span>
+           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V5</span>
            <span className="text-[6px] font-bold uppercase tracking-widest">PostDNA Squad Control</span>
         </div>
       </div>
