@@ -12,15 +12,16 @@ import { TweetCard } from "@/components/ui/tweet-card"
 import { OrbitingCircles } from "@/components/ui/orbiting-circles"
 import { 
   Search, 
-  PenTool, 
-  Layout, 
+  Target,
+  Palette,
+  Type,
   TrendingUp, 
   Zap, 
-  ShieldCheck, 
+  Shield, 
   Users,
   MessageSquare,
-  Instagram,
-  BrainCircuit
+  Camera,
+  Cpu
 } from "lucide-react"
 
 // Mock Data for Social Proof
@@ -87,7 +88,7 @@ export default function LandingViewV8({ onGetStarted }) {
           </h1>
           
           <p className="text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-            Pare de "tentar" o Instagram. Deixe nossos agentes especialistas analisarem seus dados, criarem sua estratégia e entregarem posts que convertem seguidores em clientes.
+            Pare de "tentar" o Camera. Deixe nossos agentes especialistas analisarem seus dados, criarem sua estratégia e entregarem posts que convertem seguidores em clientes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -127,7 +128,7 @@ export default function LandingViewV8({ onGetStarted }) {
              </p>
              <div className="grid grid-cols-2 gap-4 pt-6">
                <div className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
-                 <ShieldCheck className="w-5 h-5 text-[#00BFC6] mb-2" />
+                 <Shield className="w-5 h-5 text-[#00BFC6] mb-2" />
                  <div className="text-sm font-bold">100% Autoral</div>
                  <div className="text-[10px] text-neutral-500">Sem conteúdo genérico de IA.</div>
                </div>
@@ -146,13 +147,13 @@ export default function LandingViewV8({ onGetStarted }) {
             </div>
             
             <OrbitingCircles radius={80} duration={30}>
-              <Instagram className="w-6 h-6 text-pink-500" />
+              <Camera className="w-6 h-6 text-pink-500" />
             </OrbitingCircles>
             <OrbitingCircles radius={140} duration={40} reverse>
               <Users className="w-6 h-6 text-blue-400" />
             </OrbitingCircles>
             <OrbitingCircles radius={190} duration={50}>
-              <BrainCircuit className="w-6 h-6 text-[#00BFC6]" />
+              <Cpu className="w-6 h-6 text-[#00BFC6]" />
             </OrbitingCircles>
           </div>
         </div>
@@ -179,7 +180,7 @@ export default function LandingViewV8({ onGetStarted }) {
             {/* ESTRATEGISTA */}
             <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.02] border border-white/5" ref={strategyRef}>
               <div className="w-12 h-12 rounded-full bg-[#123C4A] flex items-center justify-center">
-                <Layout className="w-6 h-6 text-[#00BFC6]" />
+                <Target className="w-6 h-6 text-[#00BFC6]" />
               </div>
               <span className="text-xs font-bold uppercase tracking-wider">Estrategista</span>
               <span className="text-[8px] text-neutral-500">Dani Almeida</span>
@@ -188,7 +189,7 @@ export default function LandingViewV8({ onGetStarted }) {
             {/* DESIGNER */}
             <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.02] border border-white/5" ref={designerRef}>
               <div className="w-12 h-12 rounded-full bg-[#123C4A] flex items-center justify-center">
-                <Layout className="w-6 h-6 text-[#00BFC6]" />
+                <Palette className="w-6 h-6 text-[#00BFC6]" />
               </div>
               <span className="text-xs font-bold uppercase tracking-wider">Designer</span>
               <span className="text-[8px] text-neutral-500">High-End Layouts</span>
@@ -197,7 +198,7 @@ export default function LandingViewV8({ onGetStarted }) {
             {/* REDATOR */}
             <div className="flex flex-col items-center gap-2 p-6 rounded-2xl bg-white/[0.02] border border-white/5" ref={redatorRef}>
               <div className="w-12 h-12 rounded-full bg-[#123C4A] flex items-center justify-center">
-                <PenTool className="w-6 h-6 text-[#00BFC6]" />
+                <Type className="w-6 h-6 text-[#00BFC6]" />
               </div>
               <span className="text-xs font-bold uppercase tracking-wider">Redator</span>
               <span className="text-[8px] text-neutral-500">Textos que Vendem</span>
