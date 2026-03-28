@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Globe, Instagram, Upload, ArrowRight, Loader2, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { Zap, Globe, AtSign, Upload, ArrowRight, Loader2, Sparkles, Image as ImageIcon } from 'lucide-react';
 import { analyzeWebsiteDNA } from './aiAnalyzer';
 import { extractDNA } from './dnaUtils';
 import DNAPage from './DNAPage';
@@ -177,7 +177,7 @@ export default function OnboardingWizard({ brand, setBrand, onComplete }) {
                 </div>
                 <div className="space-y-2">
                    <div className="flex gap-2 items-center text-pink-500 mb-1">
-                      <Instagram size={14} />
+                      <AtSign size={14} />
                       <label className="text-[10px] font-black uppercase tracking-widest">Instagram</label>
                    </div>
                    <input 
