@@ -1768,7 +1768,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSidebarOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] lg:hidden"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] lg:hidden"
             />
           )}
         </AnimatePresence>
@@ -1776,17 +1776,20 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <aside 
           onMouseEnter={() => setIsSidebarHovered(true)}
           onMouseLeave={() => setIsSidebarHovered(false)}
-          className={`fixed lg:static inset-y-0 left-0 bg-black text-white p-6 flex flex-col gap-6 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 border-2 border-black
+          className={`fixed lg:static inset-y-0 left-0 bg-[#05070A] border-r border-white/5 p-6 flex flex-col gap-6 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
             ${isCollapsed ? 'lg:w-[100px] items-center lg:px-4' : 'lg:w-72'}
-            rounded-[24px]
           `}
         >
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3">
-             <div className="w-9 h-9 rounded-xl bg-[#c4973b] flex items-center justify-center shrink-0 border-2 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"><Zap size={20} className="text-black"/></div>
+             <div className="w-10 h-10 rounded-2xl gold-gradient flex items-center justify-center shrink-0 shadow-lg shadow-[#c4973b]/20">
+               <Zap size={22} className="text-black"/>
+             </div>
              {!isCollapsed && (
-               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-lg font-black uppercase tracking-tighter italic font-fraunces">Post<span className="text-[#c4973b]">DNA</span></motion.span>
+               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-xl font-bold italic font-serif">
+                 Post<span className="text-gold">DNA</span>
+               </motion.span>
              )}
           </div>
           
@@ -1794,7 +1797,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           {!isCollapsed && (
             <button 
                onClick={() => setIsSidebarPinned(!isSidebarPinned)}
-               className={`hidden lg:flex w-6 h-6 rounded-full border-2 items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#FF5C00] border-black text-black' : 'bg-white/10 border-white/20 text-gray-500'}`}
+               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-gold border-gold text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
             >
                <div className={`w-2 h-2 rounded-full ${isSidebarPinned ? 'bg-black' : 'bg-current'}`} />
             </button>
@@ -1803,44 +1806,47 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   
         {/* Brand Kit mini */}
         {!isCollapsed ? (
-          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border-2 border-white/10 rounded-2xl p-4 space-y-3">
+          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border border-white/10 rounded-[24px] p-4 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center overflow-hidden shrink-0 border-2 border-black">
-                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-1"/> : <Zap size={16} className="text-black"/>}
+              <div className="w-11 h-11 rounded-xl bg-[#1A2240] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-2xl">
+                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={16} className="text-gold"/>}
               </div>
               <div className="min-w-0">
-                <p className="text-[9px] font-black uppercase tracking-widest text-[#FF5C00] font-mono">Brand Kit</p>
+                <p className="label-mono mb-0.5">Brand Kit</p>
                 <p className="text-xs font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
               </div>
             </div>
+            <div className="flex gap-1 h-1.5 px-0.5">
+              {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 rounded-full shadow-sm" style={{backgroundColor:c}}/>)}
+            </div>
           </motion.div>
         ) : (
-          <div className="w-11 h-11 rounded-xl bg-white border-2 border-black flex items-center justify-center overflow-hidden">
-             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={18} className="text-black"/>}
+          <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden transition-all hover:border-gold/30">
+             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2.5"/> : <Zap size={16} className="text-gold"/>}
           </div>
         )}
   
-        <nav className="flex-1 flex flex-col gap-8 mt-4">
+        <nav className="flex-1 flex flex-col gap-6 mt-4">
           {NAV_ITEMS.map(section => (
             <div key={section.section}>
               {!isCollapsed && (
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-500 px-3 mb-3 whitespace-nowrap font-mono">{t(section.section)}</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-600 px-3 mb-3 whitespace-nowrap">{t(section.section)}</p>
               )}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 {section.items.map(item => (
                   <button key={item.key}
                     onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
                     title={isCollapsed ? t(item.label) : ''}
-                    className={`group flex items-center gap-4 p-3 rounded-xl text-sm font-bold tracking-tight transition-all relative border-2 ${
+                    className={`group flex items-center gap-3.5 p-3 rounded-2xl text-[13px] font-bold tracking-tight transition-all relative ${
                       dashView === item.key
-                        ? 'bg-[#c4973b] text-black border-black shadow-[3px_3px_0px_white]'
-                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-transparent'
-                    } ${isCollapsed ? 'justify-center border-none' : ''}`}>
-                    <span className={dashView === item.key ? 'text-black' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
-                    {!isCollapsed && <span className="whitespace-nowrap font-fraunces italic">{t(item.label)}</span>}
+                        ? 'bg-white/10 text-gold border-l-4 border-gold'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    } ${isCollapsed ? 'justify-center' : ''}`}>
+                    <span className={dashView === item.key ? 'text-gold gold-glow' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
+                    {!isCollapsed && <span className="whitespace-nowrap font-serif">{t(item.label)}</span>}
                     
                     {isCollapsed && dashView === item.key && (
-                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-[#c4973b] rounded-l-full shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
+                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-6 bg-gold rounded-l-full shadow-[0_0_15px_rgba(196,151,59,0.5)]" />
                     )}
                   </button>
                 ))}
@@ -1849,20 +1855,32 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           ))}
         </nav>
   
-        {/* Credits */}
-        <div className={`border-2 border-black rounded-3xl relative overflow-hidden group transition-all ${isCollapsed ? 'p-2 bg-[#c4973b]' : 'p-5 bg-white text-black shadow-[4px_4px_0px_#FF5C00]'}`}>
+        {/* Credits badge */}
+        <div className={`glass-card relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-5 space-y-4'}`}>
           {!isCollapsed ? (
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                 <p className="text-[10px] font-black uppercase tracking-widest font-mono text-gray-500">Saldo Intel</p>
-                 <Zap size={14} className="text-[#FF5C00]" />
+            <>
+              <div className="absolute top-0 right-0 w-16 h-16 bg-gold/10 rounded-full blur-2xl group-hover:bg-gold/20 transition-all"/>
+              <div className="flex justify-between items-center relative z-10">
+                 <p className="label-mono">Saldo Intel</p>
+                 <span className="text-sm text-white font-black">{totalCredits} CR</span>
               </div>
-              <p className="text-2xl font-black font-fraunces italic">{totalCredits} CR</p>
-              <button onClick={()=>setIsLimitModalOpen(true)} className="w-full bg-black text-white py-2 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#FF5C00] transition-colors">Upgrade →</button>
-            </div>
+              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden relative z-10 border border-white/5">
+                 <motion.div 
+                   initial={{ width: 0 }}
+                   animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }}
+                   className="h-full gold-gradient shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
+              </div>
+              <button 
+                onClick={()=>setIsLimitModalOpen(true)}
+                className="w-full py-2 bg-white/10 hover:bg-gold hover:text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all z-10 relative border border-white/5"
+              >
+                Upgrade Plan
+              </button>
+            </>
           ) : (
-             <div className="flex flex-col items-center gap-1">
-                <span className="text-xs font-black text-black">{totalCredits}</span>
+             <div className="flex flex-col items-center gap-1.5">
+                <span className="text-[10px] font-black text-gold underline underline-offset-4 decoration-2">{totalCredits}</span>
+                <Zap size={12} className="text-gold animate-pulse" />
              </div>
           )}
         </div>
@@ -1978,43 +1996,32 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   const Header = () => (
-    <header className="flex items-center justify-between mb-8 lg:mb-10 shrink-0 gap-4">
-      <div className="flex items-center gap-4">
-        <button 
-          onClick={() => setIsSidebarOpen(true)}
-          className="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400"
-        >
-          <Menu size={20} />
-        </button>
-        <div className="lg:hidden">
-          <span className="text-sm font-black uppercase tracking-tighter italic">Post<span className="text-[#c4973b]">DNA</span></span>
-        </div>
-      </div>
-      <div>
-        <h1 className="text-xl lg:text-4xl font-black uppercase italic tracking-tighter leading-none mb-2 text-[#1A1A1A] font-fraunces">
-          {t('dashboard.welcomeActive')} {firstName || 'Chefe'}.
+    <header className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-6 px-10">
+      <div className="space-y-1">
+        <h1 className="text-4xl lg:text-5xl font-bold font-serif italic text-white leading-tight">
+          {t('dashboard.welcomeActive')} {firstName || 'Magician'}.
         </h1>
-        <div className="text-gray-500 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3 font-mono">
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500 border border-black animate-pulse" />
-            <span className="text-black">{t('dashboard.trained')}</span>
+            <span className="w-2 h-2 rounded-full bg-green-500 gold-glow animate-pulse" />
+            <span className="text-[10px] label-mono uppercase opacity-70">Sistema Ativo</span>
           </div>
-          <span className="text-white/20">|</span>
-          <span className="text-[#c4973b] font-black">{PLAN_SPECS[plan]?.name} · {totalCredits} CR</span>
+          <span className="text-white/10">|</span>
+          <span className="text-[10px] label-mono text-gold uppercase underline underline-offset-4">{PLAN_SPECS[plan]?.name} Plan</span>
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 self-end md:self-center">
         {/* Seletor de Idioma Rápido */}
-        <div className="flex bg-black rounded-full p-1 border-2 border-black">
+        <div className="flex bg-white/5 rounded-full p-1 border border-white/10 backdrop-blur-xl">
           {['pt-BR', 'es'].map(lang => (
             <button key={lang}
               onClick={() => {
                 setBrand(p => ({ ...p, interfaceLanguage: lang }));
                 i18n.changeLanguage(lang);
               }}
-              className={`px-3 py-1.5 rounded-full text-[10px] font-black transition-all ${
-                i18n.language === lang ? 'bg-[#c4973b] text-black border border-black shadow-[1px_1px_0px_white]' : 'text-gray-400 hover:text-white'
+              className={`px-4 py-1.5 rounded-full text-[10px] font-black transition-all ${
+                i18n.language === lang ? 'bg-gold text-black shadow-lg shadow-gold/20' : 'text-gray-400 hover:text-white'
               }`}
             >
               {lang === 'pt-BR' ? 'PT' : 'ES'}
@@ -2022,13 +2029,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           ))}
         </div>
         
-        <div className="flex items-center gap-3 pl-4 border-l-2 border-black">
-          <div className="text-right hidden sm:block">
-            <div className="text-[10px] font-black uppercase tracking-tighter leading-none font-fraunces">{brand?.businessName || t('common.brandKit')}</div>
-            <div className="text-[9px] text-[#FF5C00] font-black uppercase tracking-widest mt-1 font-mono">{totalCredits} CR</div>
+        <div className="flex items-center gap-4 pl-4 border-l border-white/10">
+          <div className="text-right hidden lg:block">
+            <div className="text-[11px] font-bold font-serif italic text-white">{brand?.businessName || 'Magic Brand'}</div>
+            <div className="text-[9px] label-mono opacity-50">{totalCredits} CRÉDITOS</div>
           </div>
-          <div className="w-10 h-10 rounded-xl border-2 border-black bg-white flex items-center justify-center shadow-[2px_2px_0px_black]">
-            {brand.logo ? <img src={brand.logo} className="w-7 h-7 object-contain rounded" /> : <User size={20} className="text-black" />}
+          <div className="w-12 h-12 rounded-2xl border border-white/10 bg-[#1A2240] flex items-center justify-center shadow-2xl group cursor-pointer hover:border-gold/50 transition-all">
+            {brand.logo ? <img src={brand.logo} className="w-8 h-8 object-contain rounded" /> : <User size={22} className="text-gold" />}
           </div>
         </div>
       </div>
@@ -2039,28 +2046,25 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   const HomeView = () => {
     const recent = agenda.slice(0, 3);
     const contentItems = [
-      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={24}/>, cost: 1, highlight: true },
-      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={24}/>, cost: 10 },
-      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={24}/>, cost: 8 },
-      { id: 'POST', label: 'Post Estático', icon: <Camera size={24}/>, cost: 4 },
-      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={24}/>, cost: 3 },
-      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={24}/>, cost: 2 },
+      { id: 'SUGGESTION', label: 'Sugestão de Tema', icon: <Search size={22}/>, cost: 1, highlight: true },
+      { id: 'CARROSSEL', label: 'Carrossel', icon: <Layers size={22}/>, cost: 10 },
+      { id: 'STORY_CAROUSEL', label: 'Stories Narrativo', icon: <Zap size={22}/>, cost: 8 },
+      { id: 'POST', label: 'Post Estático', icon: <Camera size={22}/>, cost: 4 },
+      { id: 'STORY_SIMPLE', label: 'Story Simples', icon: <Zap size={22}/>, cost: 3 },
+      { id: 'CAPTION', label: 'Legenda', icon: <MessageSquare size={22}/>, cost: 2 },
     ];
 
     return (
-      <div className="flex-1 overflow-y-auto px-10 pb-20 pt-8 space-y-16 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto px-10 pb-12 pt-4 scrollbar-hide space-y-12">
         
-        {/* Seção 1: O que vamos criar hoje? */}
+        {/* Seção 1: Grid de Criação */}
         <section className="space-y-8">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-3">
-               <div className="w-1.5 h-10 bg-[#FF5C00] border-2 border-black rounded-full" />
-               <h2 className="text-5xl font-black uppercase italic tracking-tighter font-fraunces">Criar agora</h2>
-            </div>
-            <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px] ml-5">ESCOLHA O FORMATO PARA O SEU CONTEÚDO CONSCIENTE</p>
+          <div className="space-y-2">
+            <h2 className="text-4xl font-bold font-serif italic text-white leading-none">O que vamos criar hoje?</h2>
+            <p className="text-[10px] label-mono opacity-60">Selecione o formato para a inteligência Magic Dani</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {contentItems.map((item) => (
               <button
                 key={item.id}
@@ -2076,88 +2080,86 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                       handleCreateByType(item.id);
                    }
                 }}
-                className={`flex flex-col items-center justify-between p-8 brute-card aspect-square text-center relative overflow-hidden group transition-all ${item.highlight ? 'bg-[#c4973b]' : 'bg-white hover:bg-[#FDFBF7]'}`}
+                className={`flex flex-col items-center justify-center p-8 glass-card aspect-square text-center relative overflow-hidden group ${item.highlight ? 'border-gold/30 gold-glow' : ''}`}
               >
-                <div className="text-black group-hover:scale-110 transition-transform duration-300">
+                <div className={`mb-4 transition-all duration-500 group-hover:scale-125 ${item.highlight ? 'text-gold' : 'text-gray-400 group-hover:text-gold'}`}>
                   {item.icon}
                 </div>
-                <div className="space-y-1 mt-4">
-                  <p className="text-[12px] font-black uppercase tracking-tighter leading-tight font-fraunces">
-                    {t(item.label)}
-                  </p>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-black/40 font-mono">
-                    {item.cost} CR
-                  </p>
+                <div className="space-y-1">
+                  <p className="text-[11px] font-black uppercase tracking-tighter leading-tight text-white group-hover:text-gold transition-colors">{t(item.label)}</p>
+                  <p className="text-[8px] font-bold uppercase tracking-widest text-gold opacity-60">{item.cost} CR</p>
                 </div>
-                {/* Visual Accent */}
-                <div className="absolute top-[-25px] right-[-25px] w-14 h-14 bg-black rotate-45 group-hover:bg-[#FF5C00] transition-colors" />
+                
+                {/* Micro-glow on hover */}
+                <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </button>
             ))}
           </div>
         </section>
 
-        {/* Seção 2: Sherlock (Destaque Bruto) */}
-        <section className="p-10 brute-card bg-black text-white flex flex-col md:flex-row items-center justify-between relative overflow-hidden group shadow-[10px_10px_0px_#c4973b] border-4 border-black">
-          <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
-            <div className="w-24 h-24 rounded-[32px] bg-[#c4973b] text-black border-4 border-white shadow-[6px_6px_0px_rgba(255,251,0,0.2)] flex items-center justify-center -rotate-3 group-hover:rotate-0 transition-transform duration-500">
-              <Zap size={48} fill="currentColor" />
+        {/* Seção 2: Sherlock (The Premium Intervention) */}
+        <section 
+          className="p-1 w-full glass-panel overflow-hidden group cursor-pointer"
+          onClick={() => setDashView('ideias')}
+        >
+          <div className="p-10 rounded-[28px] bg-gradient-to-r from-[#1A2240] to-[#05070A] flex flex-col md:flex-row items-center justify-between relative">
+            <div className="flex items-center gap-8 relative z-10">
+              <div className="w-20 h-20 rounded-[24px] bg-gold text-black flex items-center justify-center shadow-2xl shadow-gold/30 group-hover:rotate-6 transition-all duration-500">
+                <Zap size={36} fill="currentColor" />
+              </div>
+              <div className="space-y-1.5">
+                <h4 className="text-3xl font-bold font-serif italic text-white">
+                  Inteligência Sherlock aguardando →
+                </h4>
+                <p className="label-mono flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold animate-ping" />
+                  {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} NOVAS IDEIAS ESTRATÉGICAS
+                </p>
+              </div>
             </div>
-            <div className="space-y-3 text-center md:text-left">
-              <h4 className="text-4xl font-black uppercase italic tracking-tighter font-fraunces leading-none">
-                {brand.saved_suggestions?.filter(s => s.status !== 'used' && s.status !== 'discarded').length} ideias pendentes
-              </h4>
-              <p className="text-[11px] font-black uppercase tracking-[0.5em] text-[#c4973b] font-mono leading-none">
-                Estratégia Sherlock aguardando execução
-              </p>
+            
+            <div className="mt-8 md:mt-0 px-8 py-3 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-[0.3em] text-white group-hover:bg-gold group-hover:text-black transition-all">
+              Explorar Radar
             </div>
+
+            {/* Background design */}
+            <div className="absolute top-1/2 -right-20 -translate-y-1/2 w-64 h-64 bg-gold/5 rounded-full blur-[80px]" />
           </div>
-          <button 
-            onClick={() => setDashView('ideias')}
-            className="mt-8 md:mt-0 brute-button bg-[#FDFBF7] text-black border-4 border-black hover:scale-105 active:scale-95 transition-all text-xs tracking-widest px-10"
-          >
-            VER AGORA <ChevronRight size={20} className="ml-2" />
-          </button>
-          
-          {/* Subtle Brute Pattern */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         </section>
 
         {/* Seção 3: Histórico Recente */}
-        <section className="space-y-8">
+        <section className="space-y-6 pb-12">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-               <History size={20} className="text-black" />
-               <h3 className="text-lg font-black uppercase italic tracking-tighter font-fraunces">Últimas ativações</h3>
+            <div className="flex items-center gap-3">
+               <History size={16} className="text-gold" />
+               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500">Ativações Recentes</h3>
             </div>
-            <button className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-black font-mono transition-colors">Ver tudo →</button>
+            <button className="text-[10px] font-bold text-gray-500 hover:text-gold transition-colors">VER RELATÓRIO COMPLETO →</button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {recent.length > 0 ? recent.map((c, i) => (
               <div key={i} 
                 onClick={() => setSelectedItem(c)}
-                className="group p-8 brute-card bg-white hover:bg-[#FDFBF7] transition-all cursor-pointer relative"
+                className="group p-7 glass-card hover:bg-white/5 transition-all cursor-pointer"
               >
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-black text-white font-mono">
-                    {c.type}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${c.status === 'Aprovado' ? 'bg-green-500' : 'bg-[#FF5C00] animate-pulse'} border border-black`} />
-                    <span className="text-[9px] font-black uppercase tracking-widest">{c.status}</span>
+                <div className="flex items-center justify-between mb-5">
+                  <span className="label-mono opacity-50">{c.type}</span>
+                  <div className={`text-[10px] font-black uppercase tracking-widest ${c.status === 'Aprovado' ? 'text-green-500' : 'text-gold'}`}>
+                    {c.status}
                   </div>
                 </div>
-                <h5 className="text-xl font-black font-fraunces italic leading-tight group-hover:text-[#FF5C00] transition-colors line-clamp-2">
+                <h5 className="text-lg font-bold text-white/90 line-clamp-2 leading-relaxed font-serif group-hover:text-gold transition-colors">
                   {c.topic}
                 </h5>
-                <div className="mt-8 pt-6 border-t font-mono flex items-center justify-between opacity-40">
-                   <span className="text-[9px] font-bold uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
-                   <span className="text-[9px] font-black uppercase">Abrir</span>
+                <div className="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                   <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{new Date(c.createdAt).toLocaleDateString()}</span>
+                   <span className="text-[10px] font-black uppercase text-gold opacity-0 group-hover:opacity-100 transition-opacity">Abrir →</span>
                 </div>
               </div>
             )) : (
-              <div className="col-span-full py-16 text-center brute-card bg-white dashed border-dashed">
-                <p className="text-xs font-black uppercase tracking-widest text-gray-400 font-mono">O Squad ainda não gerou nada hoje.</p>
+              <div className="col-span-full py-20 text-center glass-card border-dashed">
+                <p className="label-mono opacity-40 italic">Aguardando seu primeiro briefing energético</p>
               </div>
             )}
           </div>
@@ -2296,9 +2298,11 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex h-screen bg-[#FDFBF7] text-[#1A1A1A] overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2 p-2">
+    <div className="flex h-screen bg-[#05070A] text-[#F0EAD6] overflow-hidden font-inter selection:bg-gold selection:text-black gap-1 p-1">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden brute-card bg-white rounded-[32px] overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden bg-[#05070A] rounded-[40px] border border-white/5 shadow-2xl relative">
+        {/* Background glow global */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[120px] -mr-64 -mt-64 pointer-events-none" />
         <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
@@ -2314,29 +2318,31 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           />
         )}
       </AnimatePresence>
-      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#FDFBF7]">
-        {/* Credit Banner Global - Estilo Bruto */}
-        <div className="flex-shrink-0 px-10 py-6">
-          <div className="brute-card bg-black text-white p-6 flex flex-col md:flex-row items-center justify-between group hover:shadow-[6px_6px_0px_#FF5C00] transition-all border-4 border-black">
-            <div className="flex items-center gap-5">
-              <div className="w-12 h-12 rounded-2xl bg-[#FF5C00] text-black flex items-center justify-center border-2 border-black shadow-[3px_3px_0px_white]">
-                <Zap size={22} fill="currentColor" />
+      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#05070A]">
+        {/* Premium Banner */}
+        <div className="flex-shrink-0 px-10 pt-8">
+          <div className="glass-panel p-6 flex flex-col md:flex-row items-center justify-between group overflow-hidden relative">
+            <div className="flex items-center gap-6 relative z-10">
+              <div className="w-14 h-14 rounded-2xl gold-gradient flex items-center justify-center border border-white/10 shadow-xl shadow-gold/20">
+                <Zap size={24} className="text-black" fill="currentColor" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-2xl font-black uppercase italic tracking-tighter font-fraunces text-white leading-none">
-                  {totalCredits} créditos disponíveis <span className="text-[#c4973b] ml-1">◆</span>
+                <h4 className="text-2xl font-bold font-serif italic text-white flex items-center gap-3">
+                  {totalCredits} créditos ativos
+                  <span className="text-[10px] label-mono opacity-50 font-sans tracking-widest">— {resetDateStr}</span>
                 </h4>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 font-mono">
-                  {resetDateStr} · RECUPERAÇÃO AUTOMÁTICA
-                </p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-gold/60">SQUAD INTEL PREMIUM SYSTEM</p>
               </div>
             </div>
             <button 
               onClick={() => setIsLimitModalOpen(true)}
-              className="mt-6 md:mt-0 brute-button bg-[#c4973b] text-black border-2 border-black hover:scale-105"
+              className="premium-button relative z-10"
             >
-              ADQUIRIR MAIS INTEL →
+              UPGRADE INTEL →
             </button>
+            
+            {/* Ambient light */}
+            <div className="absolute top-0 left-1/4 w-32 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
           </div>
         </div>
         <Header/>
