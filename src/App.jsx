@@ -1797,7 +1797,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
             <div className="flex flex-col gap-0.5">
               {section.items.map(item => (
                 <button key={item.key}
-                  onClick={() => setDashView(item.key)}
+                  onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold tracking-tight transition-all ${
                     dashView === item.key
                       ? 'bg-[#c4973b]/10 text-[#c4973b] border border-[#c4973b]/20'
@@ -1827,6 +1827,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest text-center mt-2">
           {totalCredits} CRÉDITOS DISPONÍVEIS
         </p>
+        <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
+           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V4</span>
+           <span className="text-[6px] font-bold uppercase tracking-widest">PostDNA Squad Control</span>
+        </div>
       </div>
     </aside>
     </>
