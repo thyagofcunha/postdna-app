@@ -1424,6 +1424,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   const { t, i18n } = useTranslation();
   const [dashView, setDashView]   = useState('home');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarPinned, setIsSidebarPinned] = useState(true);
+  const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const [isDNAIncomplete, setIsDNAIncomplete] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
   const [pipelineSubtitle, setPipelineSubtitle] = useState('');
@@ -1735,12 +1737,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
     const newItem = {
       id: Date.now(),
       topic: topicHint || topics[0],
-      type: type, // Uso do tipo selecionado
+      type: type, 
       status: 'Gerando...',
       createdAt: new Date().toISOString(),
     };
 
-    const newAgenda = [newItem, ...agenda]; // Add new item to the beginning of agenda
+    const newAgenda = [newItem, ...agenda];
     const newRecent = [{ ...newItem, createdAt: new Date().toISOString() }, ...recentContent].slice(0, 5);
     setRecentContent(newRecent);
     localStorage.setItem('postdna_recent', JSON.stringify(newRecent));
@@ -1748,93 +1750,137 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
     setDashView('home');
     setAgenda(newAgenda);
     localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
-    setGeneratingIdx(0); // Set generating index to the first item (the new one)
-    setSelectedItem(newItem); // Optionally select the new item for review later
+    setGeneratingIdx(0);
+    setSelectedItem(newItem);
     runPipeline(0, approvedContent.length === 0, topicHint);
   };
 
   // Sidebar
-  const Sidebar = () => (
-    <>
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
-          />
-        )}
-      </AnimatePresence>
-
-      <aside className={`fixed lg:static inset-y-0 left-0 w-64 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center"><Zap size={16} className="text-black"/></div>
-        <span className="text-sm font-black uppercase tracking-tighter italic">Post<span className="text-[#c4973b]">DNA</span></span>
-      </div>
-
-      {/* Brand Kit mini */}
-      <div className="bg-white/5 border border-white/5 rounded-[18px] p-3 space-y-2.5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
-            {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
+  const Sidebar = () => {
+    const isCollapsed = !isSidebarPinned && !isSidebarHovered;
+    
+    return (
+      <>
+        <AnimatePresence>
+          {isSidebarOpen && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSidebarOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+            />
+          )}
+        </AnimatePresence>
+  
+        <aside 
+          onMouseEnter={() => setIsSidebarHovered(true)}
+          onMouseLeave={() => setIsSidebarHovered(false)}
+          className={`fixed lg:static inset-y-0 left-0 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-all duration-500 ease-in-out lg:translate-x-0 
+            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+            ${isCollapsed ? 'lg:w-[100px] items-center lg:px-4' : 'lg:w-72'}
+          `}
+        >
+        <div className="flex items-center justify-between gap-3 w-full">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shrink-0"><Zap size={16} className="text-black"/></div>
+             {!isCollapsed && (
+               <motion.span initial={{opacity:0}} animate={{opacity:1}} className="text-sm font-black uppercase tracking-tighter italic whitespace-nowrap">Post<span className="text-[#c4973b]">DNA</span></motion.span>
+             )}
           </div>
-          <div className="min-w-0">
-            <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
-            <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
-          </div>
+          
+          {/* BOTÃO PIN */}
+          {!isCollapsed && (
+            <button 
+               onClick={() => setIsSidebarPinned(!isSidebarPinned)}
+               className={`hidden lg:flex w-6 h-6 rounded-full border items-center justify-center transition-all ${isSidebarPinned ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'bg-white/5 border-white/10 text-gray-500'}`}
+            >
+               <div className={`w-2 h-2 rounded-full ${isSidebarPinned ? 'bg-black' : 'bg-current'}`} />
+            </button>
+          )}
         </div>
-        <div className="flex gap-1">
-          {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 h-2 rounded-full" style={{backgroundColor:c}}/>)}
-        </div>
-      </div>
-
-      <nav className="flex-1 flex flex-col gap-5">
-        {NAV_ITEMS.map(section => (
-          <div key={section.section}>
-            <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-400 px-3 mb-2">{t(section.section)}</p>
-            <div className="flex flex-col gap-0.5">
-              {section.items.map(item => (
-                <button key={item.key}
-                  onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold tracking-tight transition-all ${
-                    dashView === item.key
-                      ? 'bg-[#c4973b]/10 text-[#c4973b] border border-[#c4973b]/20'
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
-                  }`}>
-                  <span className={dashView === item.key ? 'text-[#c4973b]' : 'text-gray-400'}>{item.icon}</span> {t(item.label)}
-                </button>
-              ))}
+  
+        {/* Brand Kit mini */}
+        {!isCollapsed ? (
+          <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} className="bg-white/5 border border-white/5 rounded-[18px] p-3 space-y-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
+              </div>
+              <div className="min-w-0">
+                <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
+                <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
+              </div>
             </div>
+            <div className="flex gap-1">
+              {brand.colors.slice(0,3).map((c,i)=><div key={i} className="flex-1 h-2 rounded-full" style={{backgroundColor:c}}/>)}
+            </div>
+          </motion.div>
+        ) : (
+          <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2"/> : <Zap size={14} style={{color:primaryColor}}/>}
           </div>
-        ))}
-      </nav>
-
-      {/* Plan & Credits badge */}
-      <div className="bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[20px] p-4 space-y-3 relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-12 h-12 bg-[#c4973b]/10 rounded-full blur-xl group-hover:bg-[#c4973b]/20 transition-all"/>
-        <div className="flex justify-between items-center relative z-10">
-           <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
-           <span className="text-[10px] text-white font-black">{totalCredits} CRÉDITOS</span>
+        )}
+  
+        <nav className="flex-1 flex flex-col gap-6 mt-4">
+          {NAV_ITEMS.map(section => (
+            <div key={section.section}>
+              {!isCollapsed && (
+                <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-600 px-3 mb-2 whitespace-nowrap">{t(section.section)}</p>
+              )}
+              <div className="flex flex-col gap-1">
+                {section.items.map(item => (
+                  <button key={item.key}
+                    onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
+                    title={isCollapsed ? t(item.label) : ''}
+                    className={`group flex items-center gap-3 p-3 lg:p-2.5 rounded-xl text-xs font-bold tracking-tight transition-all relative ${
+                      dashView === item.key
+                        ? 'bg-[#c4973b]/10 text-[#c4973b] border border-[#c4973b]/20'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    } ${isCollapsed ? 'justify-center' : ''}`}>
+                    <span className={dashView === item.key ? 'text-[#c4973b]' : 'text-gray-400 group-hover:text-white'}>{item.icon}</span> 
+                    {!isCollapsed && <span className="whitespace-nowrap">{t(item.label)}</span>}
+                    
+                    {isCollapsed && dashView === item.key && (
+                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-[#c4973b] rounded-l-full shadow-[0_0_10px_rgba(196,151,59,0.5)]" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+  
+        {/* Plan & Credits badge */}
+        <div className={`bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[20px] relative overflow-hidden group transition-all ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
+          {!isCollapsed ? (
+            <>
+              <div className="absolute top-0 right-0 w-12 h-12 bg-[#c4973b]/10 rounded-full blur-xl group-hover:bg-[#c4973b]/20 transition-all"/>
+              <div className="flex justify-between items-center relative z-10">
+                 <p className="text-[8px] font-black uppercase tracking-[0.3em] text-[#c4973b]">{plan === 'completo' ? 'ESCALA' : plan.toUpperCase()}</p>
+                 <span className="text-[10px] text-white font-black">{totalCredits} CR</span>
+              </div>
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
+                 <motion.div 
+                   initial={{ width: 0 }}
+                   animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }}
+                   className="h-full bg-[#c4973b]" />
+              </div>
+              <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
+                 <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V7</span>
+              </div>
+            </>
+          ) : (
+             <div className="flex flex-col items-center gap-1">
+                <span className="text-[8px] font-black text-[#c4973b]">{totalCredits}</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#c4973b] animate-pulse" />
+             </div>
+          )}
         </div>
-        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden relative z-10">
-           <motion.div 
-             initial={{ width: 0 }}
-             animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }} // Assuming totalCredits is current, and PLAN_SPECS[plan].credits is max
-             className="h-full bg-[#c4973b]" />
-        </div>
-        <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest text-center mt-2">
-          {totalCredits} CRÉDITOS DISPONÍVEIS
-        </p>
-        <div className="pt-4 mt-2 border-t border-white/5 flex flex-col items-center gap-1 opacity-20">
-           <span className="text-[7px] font-black uppercase tracking-widest">Build 28.03-V6</span>
-           <span className="text-[6px] font-bold uppercase tracking-widest">PostDNA Squad Control</span>
-        </div>
-      </div>
-    </aside>
-    </>
-  );
+      </aside>
+      </>
+    );
+  };
 
   // ── PIPELINE OVERLAY ──
   const PipelineOverlay = () => {
@@ -2270,9 +2316,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black">
+    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black gap-2">
       <Sidebar />
-      <PipelineOverlay />
+      <div className="flex-1 flex flex-col overflow-hidden glass border-l border-white/5 my-2 mr-2 rounded-[40px] shadow-2xl">
+        <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
           <ContentReviewModal 
@@ -2446,7 +2493,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               }}
             />
           )}
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
