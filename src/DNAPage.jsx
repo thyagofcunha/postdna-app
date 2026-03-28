@@ -69,7 +69,7 @@ const Toast = ({ message, visible }) => (
 );
 
 // ─── MAIN DNA PAGE ──────────────────────────────────────────────────────────────
-export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
+export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) {
   const { t, i18n } = useTranslation();
   const [local, setLocal]   = useState({ ...brand });
   const [toast, setToast]   = useState('');
@@ -103,8 +103,11 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
   };
 
   const save = () => {
-    setBrand(prev => ({ ...prev, ...local }));
+    setBrand(prev => ({ ...prev, ...local, onboardingComplete: true }));
     showMsg(t('common.saved'));
+    if (onDone) {
+      setTimeout(() => onDone(), 500);
+    }
   };
 
   const handleSiteAnalysis = async () => {

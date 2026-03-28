@@ -677,12 +677,36 @@ export default function App() {
     <Dashboard brand={brand} setBrand={setBrand} primaryColor={primaryColor} onEditBrandKit={() => navigate("/onboarding")} />
   );
 
+  const isLoggedIn = !!brand.userName;
+  const isSetup = !!brand.onboardingComplete;  
+
   return (
     <Routes>
-      <Route path="/" element={<LandingPage onGetStarted={() => navigate("/onboarding")} onLogin={() => navigate("/login")} />} />
-      <Route path="/login" element={<SignupView brand={brand} setBrand={setBrand} onComplete={() => navigate("/dashboard")} onBack={() => navigate("/")} />} />
-      <Route path="/onboarding" element={<SignupView brand={brand} setBrand={setBrand} onComplete={() => navigate("/dashboard")} onBack={() => navigate("/")} />} />
-      <Route path="/dashboard/*" element={<DashboardWrapper />} />
+      <Route path="/" element={
+        isLoggedIn ? (
+          isSetup ? <Navigate to="/dashboard" replace /> : <Navigate to="/onboarding" replace />
+        ) : (
+          <LandingPage onGetStarted={() => navigate("/login")} onLogin={() => navigate("/login")} />
+        )
+      } />
+      
+      <Route path="/login" element={
+        isLoggedIn ? <Navigate to={isSetup ? "/dashboard" : "/onboarding"} replace /> :
+        <SignupView brand={brand} setBrand={setBrand} onComplete={() => navigate("/onboarding")} onBack={() => navigate("/")} />
+      } />
+      
+      <Route path="/onboarding" element={
+        !isLoggedIn ? <Navigate to="/login" replace /> :
+        isSetup ? <Navigate to="/dashboard" replace /> :
+        <Dashboard initialView="dna" forceOnboarding={true} brand={brand} setBrand={setBrand} primaryColor={primaryColor} onEditBrandKit={() => navigate("/onboarding")} />
+      } />
+      
+      <Route path="/dashboard/*" element={
+        !isLoggedIn ? <Navigate to="/login" replace /> :
+        !isSetup ? <Navigate to="/onboarding" replace /> :
+        <Dashboard initialView="home" forceOnboarding={false} brand={brand} setBrand={setBrand} primaryColor={primaryColor} onEditBrandKit={() => navigate("/onboarding")} />
+      } />
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -735,9 +759,10 @@ const NAV_ITEMS = [
 ];
 
 // ─── DASHBOARD ───────────────────────────────────────────────────────────────
-function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
+function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView = 'home', forceOnboarding = false }) {
   const { t, i18n } = useTranslation();
-  const [dashView, setDashView]   = useState('home');
+  const navigate = useNavigate();
+  const [dashView, setDashView]   = useState(initialView);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarPinned, setIsSidebarPinned] = useState(true);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
@@ -1780,12 +1805,20 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#060608] font-sans selection:bg-accent/30">
-      <Sidebar />
+      {!forceOnboarding && <Sidebar />}
       
       <main className="flex-1 flex flex-col relative overflow-hidden">
+        {forceOnboarding && (
+          <div className="bg-accent/10 border-b border-accent/20 px-8 py-3 flex items-center justify-between text-accent z-20 relative">
+             <div className="flex items-center gap-3">
+                <Sparkles size={16} />
+                <span className="text-[10px] font-black uppercase tracking-widest">Bem-vindo ao PostDNA. Por favor, conclua o setup da sua marca para continuar.</span>
+             </div>
+          </div>
+        )}
         {/* Top Header */}
         <div className="p-8 lg:p-12 overflow-y-auto custom-scrollbar flex-1 relative z-10">
-          <Header />
+          {!forceOnboarding && <Header />}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -1800,7 +1833,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
               {dashView === 'calendario' && <CalendarView />}
               {dashView === 'vibe' && <IntelPage brand={brand} setBrand={setBrand} onRefreshSuggestions={refreshSuggestions} />}
               {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
-              {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} onDone={() => setDashView('home')} />}
+              {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} onDone={() => {
+                 setBrand(prev => ({ ...prev, onboardingComplete: true }));
+                 navigate("/dashboard");
+              }} />}
               {dashView === 'ideias' && <SavedIdeasPage brand={brand} setBrand={setBrand} onUseIdea={(idea) => { handleCreateByType(idea.suggested_format); setTopicHint(idea.title); }} />}
               {dashView === 'banco_imagens' && <ImageBankPage brand={brand} setBrand={setBrand} />}
               {dashView === 'entrega' && <DeliveryPage brand={brand} setBrand={setBrand} />}
