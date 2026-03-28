@@ -408,7 +408,65 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
             </div>
           </Section>
 
-          {/* 6. Idioma */}
+          {/* 6. Conexão Instagram */}
+          <Section title="Conexão Instagram" icon={<Globe size={16}/>}>
+             <div className="space-y-4">
+                <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                   Conecte sua conta profissional para que o Sherlock analise seus melhores posts e automatize o agendamento.
+                </p>
+                
+                {!brand.isInstagramConnected ? (
+                  <button 
+                    onClick={() => {
+                        // Mock connection for now
+                        setBrand(prev => ({ 
+                           ...prev, 
+                           isInstagramConnected: true,
+                           instagramInfo: {
+                              handle: brand.igHandle || '@seu.insta',
+                              followers: '1.2k',
+                              profilePic: null
+                           }
+                        }));
+                        showMsg("Instagram Conectado!");
+                    }}
+                    className="flex items-center gap-3 px-6 py-4 rounded-[20px] bg-[#c4973b]/10 border border-[#c4973b]/20 hover:bg-[#c4973b]/20 transition-all w-full md:w-auto"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-[#c4973b] flex items-center justify-center text-black">
+                       <Zap size={16} />
+                    </div>
+                    <div className="text-left">
+                       <p className="text-[10px] font-black uppercase tracking-widest text-white">Conectar Instagram Business</p>
+                       <p className="text-[9px] text-[#c4973b] font-bold uppercase tracking-widest">Ativar Sherlock Reports</p>
+                    </div>
+                  </button>
+                ) : (
+                  <div className="flex items-center justify-between p-5 rounded-[22px] bg-white/5 border border-[#c4973b]/30">
+                     <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-400 to-purple-600 p-0.5">
+                           <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                              <User size={20} className="text-gray-600" />
+                           </div>
+                        </div>
+                        <div>
+                           <p className="text-sm font-black uppercase italic tracking-tighter text-white">{brand.instagramInfo?.handle || '@connected'}</p>
+                           <p className="text-[9px] text-green-500 font-black uppercase tracking-widest flex items-center gap-1">
+                              <Check size={10} /> Conta Conectada
+                           </p>
+                        </div>
+                     </div>
+                     <button 
+                       onClick={() => setBrand(prev => ({ ...prev, isInstagramConnected: false }))}
+                       className="text-[9px] font-black text-gray-700 hover:text-red-500 uppercase tracking-widest p-2"
+                     >
+                        Desconectar
+                     </button>
+                  </div>
+                )}
+             </div>
+          </Section>
+
+          {/* 7. Idioma */}
           <Section title={t('dnaPage.sections.language')} icon={<Globe size={16}/>} onSave={save} saveLabel={t('common.save')}>
              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
