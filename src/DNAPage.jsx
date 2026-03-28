@@ -499,6 +499,28 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
              </div>
           </Section>
 
+          {/* 8. Reset de Dados (Pânico) */}
+          <Section title="Manutenção do Squad" icon={<RefreshCw size={16}/>}>
+             <div className="space-y-4">
+                <p className="text-[11px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed">
+                   Use estas opções apenas em caso de erros persistentes ou se desejar recomeçar sua estratégia do zero.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                   <button 
+                     onClick={() => {
+                        if(confirm("Isso apagará seu histórico de conteúdos e DNA local. Deseja continuar?")) {
+                           localStorage.clear();
+                           window.location.reload();
+                        }
+                     }}
+                     className="px-6 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-xl"
+                   >
+                      Resetar Todo o App
+                   </button>
+                </div>
+             </div>
+          </Section>
+
           {/* Global save */}
           <button onClick={save}
             className="w-full gold-gradient text-black py-4 rounded-[20px] font-black uppercase tracking-widest text-sm hover:scale-[1.01] transition-transform shadow-xl flex items-center justify-center gap-3">
