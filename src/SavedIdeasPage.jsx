@@ -65,6 +65,18 @@ const SavedIdeasPage = ({ brand, onSelectIdea, onDeleteIdea, onViewContent, onRe
 
   return (
     <div className="max-w-6xl mx-auto space-y-12 pb-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      {/* INFO CARD */}
+      <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
+         <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">✨</div>
+         <div className="space-y-1">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que são as Ideias Salvas?</h4>
+            <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+               Aqui ficam guardadas as <strong className="text-white">sugestões estratégicas</strong> do Sherlock que você ainda não transformou em conteúdo. 
+               Você pode revisitar os temas em alta, escolher o momento certo para publicar e disparar a criação (Copy + Designer) com um clique.
+            </p>
+         </div>
+      </div>
+
       {/* HEADER */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-2">

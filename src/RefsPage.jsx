@@ -103,6 +103,19 @@ export default function RefsPage({ brand, setBrand }) {
   return (
     <div className="space-y-8 pb-10 max-w-3xl">
 
+      {/* VITAL BANNER */}
+      <div className="bg-gradient-to-r from-red-500/10 via-[#c4973b]/10 to-transparent border-l-4 border-red-500 rounded-r-[24px] p-6 space-y-2">
+         <div className="flex items-center gap-3">
+            <Zap size={20} className="text-red-500 animate-pulse" />
+            <span className="text-xs font-black uppercase tracking-widest text-red-500">Passo mais importante da estratégia</span>
+         </div>
+         <p className="text-[11px] text-gray-400 font-bold leading-relaxed max-w-2xl">
+            Sem referências, o Sherlock e seus agentes de copy não sabem "quem eles são". 
+            Um perfil sem referências gera <strong className="text-white">conteúdo comum e robótico</strong>. 
+            Adicione pelo menos uma conta para dar vida ao seu conteúdo.
+         </p>
+      </div>
+
       {/* Header */}
       <div>
         <h2 className="text-4xl font-black uppercase italic tracking-tighter leading-none mb-1">

@@ -72,14 +72,14 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2">
             <h2 className="text-4xl font-black uppercase italic tracking-tighter text-white leading-tight">Banco de Imagens</h2>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500 italic">
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 italic">
               Seu repositório visual conectado ao designer de IA
             </p>
           </div>
           
           <div className="flex items-center gap-4">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={16} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
               <input 
                 type="text" 
                 placeholder="BUSCAR POR TAGS OU NOME..."
@@ -94,37 +94,50 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
             </label>
           </div>
         </div>
-
-        {/* DRAG AND DROP AREA */}
-        <div 
-          onDragEnter={handleDrag}
-          onDragOver={handleDrag}
-          onDragLeave={handleDrag}
-          onDrop={handleDrop}
-          className={`h-40 border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center transition-all ${
-            dragActive ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/[0.02]'
-          }`}
-        >
-          {isUploading ? (
-            <div className="flex flex-col items-center gap-4">
-               <div className="w-10 h-10 border-4 border-[#c4973b]/20 border-t-[#c4973b] rounded-full animate-spin" />
-               <span className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Subindo e catalogando com IA...</span>
-            </div>
-          ) : (
-            <>
-              <ImagePlus size={32} className="text-gray-700 mb-2" />
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Arraste suas fotos aqui (JPG, PNG ou WebP)</p>
-            </>
-          )}
-        </div>
       </header>
+
+      {/* INFO CARD */}
+      <div className="flex items-start gap-4 bg-white/5 border border-white/10 rounded-[28px] p-6">
+         <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl shrink-0">📸</div>
+         <div className="space-y-1">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é o Banco de Imagens?</h4>
+            <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+               O designer de IA do PostDNA usa estas imagens para criar seus posts. 
+               Suba fotos de <strong className="text-white">produto, marca e lifestyle</strong>. 
+               Nossa visão computacional irá catalogar as fotos automaticamente para usá-las nos slides corretos.
+            </p>
+         </div>
+      </div>
+
+      {/* DRAG AND DROP AREA */}
+      <div 
+        onDragEnter={handleDrag}
+        onDragOver={handleDrag}
+        onDragLeave={handleDrag}
+        onDrop={handleDrop}
+        className={`h-40 border-2 border-dashed rounded-[32px] flex flex-col items-center justify-center transition-all ${
+          dragActive ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/[0.02]'
+        }`}
+      >
+        {isUploading ? (
+          <div className="flex flex-col items-center gap-4">
+             <div className="w-10 h-10 border-4 border-[#c4973b]/20 border-t-[#c4973b] rounded-full animate-spin" />
+             <span className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Subindo e catalogando com IA...</span>
+          </div>
+        ) : (
+          <>
+            <ImagePlus size={32} className="text-gray-700 mb-2" />
+            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Arraste suas fotos aqui (JPG, PNG ou WebP)</p>
+          </>
+        )}
+      </div>
 
       {/* FILTER BAR */}
       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
         <button 
           onClick={() => setCategoryFilter('all')}
           className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${
-            categoryFilter === 'all' ? 'bg-white text-black border-white' : 'bg-white/5 text-gray-500 border-white/5 hover:border-white/10'
+            categoryFilter === 'all' ? 'bg-white text-black border-white' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/10'
           }`}
         >
           Tudo
@@ -134,7 +147,7 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
             key={cat.id}
             onClick={() => setCategoryFilter(cat.id)}
             className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border flex items-center gap-2 ${
-              categoryFilter === cat.id ? 'bg-[#c4973b] text-black border-[#c4973b]' : 'bg-white/5 text-gray-500 border-white/5 hover:border-white/10'
+              categoryFilter === cat.id ? 'bg-[#c4973b] text-black border-[#c4973b]' : 'bg-white/5 text-gray-400 border-white/5 hover:border-white/10'
             }`}
           >
             {cat.icon} {cat.label}
@@ -177,7 +190,7 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
                         </span>
                       ))}
                     </div>
-                    <p className="text-[7px] font-bold text-gray-500 uppercase tracking-tighter">
+                    <p className="text-[7px] font-bold text-gray-400 uppercase tracking-tighter">
                       {new Date(img.created_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -191,7 +204,7 @@ const ImageBankPage = ({ brand, onUpload, onDelete }) => {
           <div className="w-16 h-16 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-800">
             <ImageIcon size={32} />
           </div>
-          <p className="text-gray-600 text-[10px] font-black uppercase tracking-[0.3em] max-w-xs">
+          <p className="text-gray-400 text-[10px] font-black uppercase tracking-[0.3em] max-w-xs">
             Nenhuma imagem ainda. Suba fotos do seu produto, da sua marca ou de você.
           </p>
         </div>

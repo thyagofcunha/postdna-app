@@ -175,6 +175,19 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
   return (
     <div className="space-y-8 pb-10">
 
+      {/* INFO CARD */}
+      <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
+         <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">🔍</div>
+         <div className="space-y-1">
+            <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é a Inteligência de Mercado?</h4>
+            <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+               O Sherlock analisa as <strong className="text-white">tendências e padrões</strong> do seu nicho em tempo real. 
+               Identificamos quais temas estão com maior alcance acadêmico, quais formatos convertem mais e o melhor tom de voz para sua audiência. 
+               Use estes dados para validar suas ideias antes de criar.
+            </p>
+         </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>

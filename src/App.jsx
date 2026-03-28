@@ -131,20 +131,38 @@ const ONBOARDING_PALETTES = [
 ];
 
 const ONBOARDING_FONTS = [
-  { id: 'modern', name: 'Inter / Inter', headline: 'Inter', body: 'Inter', desc: 'Moderna e Direta' },
-  { id: 'impact', name: 'Montserrat / Montserrat', headline: 'Montserrat', body: 'Montserrat', desc: 'Forte e Impactante' },
-  { id: 'elegant', name: 'Playfair / Nunito', headline: 'Playfair Display', body: 'Nunito', desc: 'Clássica e Humana' },
-  { id: 'sophisticated', name: 'Cormorant / Inter', headline: 'Cormorant Garamond', body: 'Inter', desc: 'Elegante e Sofisticada' },
-  { id: 'bold', name: 'Oswald / Inter', headline: 'Oswald', body: 'Inter', desc: 'Arrojada e Condensada' },
+  { id: 'inter_inter', name: 'Inter', sub: 'Inter', headline: 'Inter', body: 'Inter', category: 'Sans' },
+  { id: 'montser_montser', name: 'Montserrat', sub: 'Montserrat', headline: 'Montserrat', body: 'Montserrat', category: 'Sans' },
+  { id: 'playfair_nunito', name: 'Playfair Display', sub: 'Nunito', headline: 'Playfair Display', body: 'Nunito', category: 'Serif' },
+  { id: 'cormorant_inter', name: 'Cormorant', sub: 'Inter', headline: 'Cormorant Garamond', body: 'Inter', category: 'Serif' },
+  { id: 'oswald_inter', name: 'Oswald', sub: 'Inter', headline: 'Oswald', body: 'Inter', category: 'Sans' },
+  { id: 'dm_sans_dm_sans', name: 'DM Sans', sub: 'DM Sans', headline: 'DM Sans', body: 'DM Sans', category: 'Sans' },
+  { id: 'overpass_overpass', name: 'Overpass', sub: 'Overpass', headline: 'Overpass', body: 'Overpass', category: 'Sans' },
+  { id: 'barlow_barlow', name: 'Barlow', sub: 'Barlow', headline: 'Barlow', body: 'Barlow', category: 'Sans' },
+  { id: 'nunito_pt_sans', name: 'Nunito', sub: 'PT Sans', headline: 'Nunito', body: 'PT Sans', category: 'Sans' },
+  { id: 'lora_source', name: 'Lora', sub: 'Source Sans 3', headline: 'Lora', body: 'Source Sans 3', category: 'Serif' },
+  { id: 'instrument_sans', name: 'Instrument Sans', sub: 'Instrument Sans', headline: 'Instrument Sans', body: 'Instrument Sans', category: 'Sans' },
+  { id: 'roboto_slab', name: 'Roboto Slab', sub: 'Roboto', headline: 'Roboto Slab', body: 'Roboto', category: 'Serif' },
+  { id: 'barlow_monts', name: 'Barlow', sub: 'Montserrat', headline: 'Barlow Condensed', body: 'Montserrat', category: 'Sans' },
+  { id: 'libre_dm', name: 'Libre Baskerville', sub: 'DM Sans', headline: 'Libre Baskerville', body: 'DM Sans', category: 'Serif' },
+  { id: 'monts_heebo', name: 'Montserrat', sub: 'Heebo', headline: 'Montserrat', body: 'Heebo', category: 'Sans' },
+  { id: 'prompt_mukta', name: 'Prompt', sub: 'Mukta', headline: 'Prompt', body: 'Mukta', category: 'Sans' },
+  { id: 'inconsolata', name: 'Inconsolata', sub: 'Inconsolata', headline: 'Inconsolata', body: 'Inconsolata', category: 'Mono' },
+  { id: 'fraunces', name: 'Fraunces', sub: 'Fraunces', headline: 'Fraunces', body: 'Fraunces', category: 'Serif' },
+  { id: 'gelasio', name: 'Gelasio', sub: 'Gelasio', headline: 'Gelasio', body: 'Gelasio', category: 'Serif' },
+  { id: 'kanit_kanit', name: 'Kanit', sub: 'Kanit', headline: 'Kanit', body: 'Kanit', category: 'Sans' },
+  { id: 'archivo', name: 'Archivo', sub: 'Archivo Narrow', headline: 'Archivo Black', body: 'Archivo Narrow', category: 'Sans' },
 ];
 
+const ONBOARDING_FONTS_CATEGORIES = ['Todos', 'Sans', 'Serif', 'Mono'];
+
 const DESIGN_STYLES = [
-  { id: 'standard', name: 'Padrão', desc: 'Espaçamento e Sombra', icon: 'Layers' },
-  { id: 'minimalist', name: 'Plano', desc: 'Direto e Sem Bordas', icon: 'Square' },
-  { id: 'border', name: 'Borda', desc: 'Com linhas e contorno', icon: 'Frame' },
-  { id: 'glass', name: 'Vidro', desc: 'Suave e Transparente', icon: 'Sparkles' },
-  { id: 'block', name: 'Bloco', desc: 'Efeito 3D e Cartões', icon: 'Box' },
-  { id: 'warm', name: 'Acolhedor', desc: 'Bordas arredondadas', icon: 'Heart' },
+  { id: 'standard', name: 'Standard', desc: 'Sombra leve e layouts limpos', icon: 'Layers' },
+  { id: 'minimalist', name: 'Minimalista', desc: 'Zero bordas, foco total no texto', icon: 'Square' },
+  { id: 'border', name: 'Borda', desc: 'Contornos nítidos e estrutura visível', icon: 'Frame' },
+  { id: 'glass', name: 'Vidro', desc: 'Desfoque de fundo e transparência criativa', icon: 'Sparkles' },
+  { id: 'block', name: 'Bloco', desc: 'Cards destacados e profundidade 3D', icon: 'Box' },
+  { id: 'warm', name: 'Acolhedor', desc: 'Cantos arredondados e tons orgânicos', icon: 'Heart' },
 ];
 
 // ─── AI TOPIC GENERATOR ─────────────────────────────────────────────────────
@@ -252,7 +270,7 @@ const ColorSwatch = ({ color, label, onChange }) => (
       </div>
     </div>
     <div className="text-center w-20">
-      <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-0.5">{label}</p>
+      <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-0.5">{label}</p>
       <p className="text-[9px] font-mono text-gray-800 font-bold uppercase select-all truncate">{color}</p>
     </div>
   </div>
@@ -261,14 +279,14 @@ const ColorSwatch = ({ color, label, onChange }) => (
 
 const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onChange }) => (
   <div className="bg-white/5 border border-white/5 rounded-[24px] p-5 space-y-4">
-    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">{label}</p>
+    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">{label}</p>
     <div className="flex gap-3">
-      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-500">
-        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-700 mb-1">{leftLabel}</span>
+      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-400">
+        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-400 mb-1">{leftLabel}</span>
         {leftEx}
       </div>
-      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-500 text-right">
-        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-700 mb-1">{rightLabel}</span>
+      <div className="flex-1 bg-white/3 border border-white/5 rounded-xl p-3 text-[10px] italic text-gray-400 text-right">
+        <span className="block text-[8px] font-black uppercase tracking-widest text-gray-400 mb-1">{rightLabel}</span>
         {rightEx}
       </div>
     </div>
@@ -289,9 +307,9 @@ const KPICard = ({ icon, label, value, sub }) => (
   <div className="glass p-6 rounded-[28px] flex flex-col gap-3 border border-white/5 hover:border-white/10 transition-colors">
     <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">{icon}</div>
     <div>
-      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-600 mb-1">{label}</p>
+      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 mb-1">{label}</p>
       <h3 className="text-3xl font-black italic tracking-tighter">{value}</h3>
-      {sub && <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest mt-1">{sub}</p>}
+      {sub && <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">{sub}</p>}
     </div>
   </div>
 );
@@ -301,7 +319,7 @@ const ColorFullPicker = ({ label, color, desc, onChange }) => (
   <div className="flex items-center justify-between gap-4 p-3 lg:p-4 rounded-2xl bg-white/3 border border-white/5 hover:border-white/10 transition-all">
     <div className="flex-1 min-w-0">
       <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#c4973b] mb-0.5 truncate">{label}</p>
-      <p className="text-[8px] lg:text-[9px] font-bold text-gray-600 uppercase tracking-widest leading-tight line-clamp-1">{desc}</p>
+      <p className="text-[8px] lg:text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-tight line-clamp-1">{desc}</p>
     </div>
     <div className="flex items-center gap-2 lg:gap-4 bg-black/20 p-1.5 lg:p-2 rounded-xl border border-white/10 shrink-0">
       <input 
@@ -352,10 +370,12 @@ export default function App() {
   const [brand, setBrand] = useState(() => {
     const defaultBrand = {
       logo: null, colors:['#c4973b','#000000','#ffffff'],
-      fontStyle:'bold', visualStyle:'vibrant',
+      fontStyle:'Inter', bodyFont:'Inter',
+      headlineWeight: '900', bodyWeight: '400',
+      visualStyle:'standard',
       website:'', igHandle:'', suggestedStyle:null,
       userName:'', objective:'vender',
-      businessName:'', product:'', targetAudience:'', price:'', salesLink:'',
+      businessName:'', product:'', targetAudience:'', price:'', extraContext: '', salesLink:'',
       voice:{ formality:3, depth:3, energy:3, forbiddenWords:'' },
       persona:{ description:'', mainPain:'', previousAttempts:'' },
       inspirations:[], competitors:[],
@@ -384,6 +404,7 @@ export default function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [colorTab, setColorTab] = useState('curadoria'); 
   const [fontTab, setFontTab] = useState('curadoria');
+  const [fontCategory, setFontCategory] = useState('Todos');
 
   const { t, i18n } = useTranslation();
   const hasDNA = !!(brand.logo || brand.website || brand.igHandle) && brand.colors?.length > 0;
@@ -499,7 +520,7 @@ export default function App() {
             {step > 0 && step < 7 && (
               <button 
                 onClick={() => setStep(prev => prev - 1)}
-                className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
+                className="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors"
               >
                 ← Voltar
               </button>
@@ -524,7 +545,7 @@ export default function App() {
                      <h2 className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.9] text-white">
                         Vamos configurar o DNA da sua marca.
                      </h2>
-                     <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">
+                     <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">
                         Leva menos de 5 minutos. Depois disso, todo conteúdo sai com a cara da sua marca automaticamente.
                      </p>
                    </div>
@@ -538,7 +559,7 @@ export default function App() {
                 <div className="space-y-10">
                    <div className="space-y-2">
                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Bases do seu DNA.</h3>
-                      <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">Utilizaremos o logo, site e instagram para uma análise tripla.</p>
+                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Utilizaremos o logo, site e instagram para uma análise tripla.</p>
                    </div>
                    
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -564,14 +585,14 @@ export default function App() {
                            <div className="w-16 h-16 rounded-2xl bg-white/5 text-gray-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#c4973b] group-hover:text-black transition-all">
                              <ImageIcon size={32} />
                            </div>
-                           <p className="text-xs font-black uppercase tracking-widest text-gray-600">Suba seu Logo</p>
+                           <p className="text-xs font-black uppercase tracking-widest text-gray-400">Suba seu Logo</p>
                          </div>
                        )}
                      </div>
 
                      <div className="space-y-6">
                         <div className="space-y-2">
-                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 pl-2">Site Oficial</label>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Site Oficial</label>
                            <input 
                               placeholder="www.seusite.com.br"
                               value={brand.website}
@@ -580,7 +601,7 @@ export default function App() {
                            />
                         </div>
                         <div className="space-y-2">
-                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 pl-2">Instagram (ex: @suamarca)</label>
+                           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-2">Instagram (ex: @suamarca)</label>
                            <input 
                               placeholder="@"
                               value={brand.igHandle}
@@ -607,7 +628,7 @@ export default function App() {
                       >
                         {isAnalyzing ? "Sherlock em ação..." : "Aprender meu DNA →"}
                       </button>
-                      <button onClick={() => setStep(2)} className="text-[10px] font-black uppercase tracking-widest text-gray-700 hover:text-white transition-colors">Continuar sem logo</button>
+                      <button onClick={() => setStep(2)} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors">Continuar sem logo</button>
                    </div>
                 </div>
               </StepWrapper>
@@ -617,7 +638,7 @@ export default function App() {
                 <h3 className="text-2xl lg:text-4xl font-black uppercase italic tracking-tighter text-white">
                   {brand.dnaDetected ? "DNA Visual Identificado" : "Cores do Seu DNA"}
                 </h3>
-                <p className="text-gray-600 font-bold uppercase tracking-widest text-[9px] lg:text-[10px]">
+                <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] lg:text-[10px]">
                   {brand.dnaDetected ? "Sherlock encontrou as cores abaixo. Estão corretas?" : "Defina as cores que serão aplicadas nos seus posts."}
                 </p>
               </div>
@@ -645,7 +666,7 @@ export default function App() {
                     </button>
                     <button 
                       onClick={() => setBrand(prev => ({ ...prev, dnaDetected: false }))} 
-                      className="px-6 py-5 bg-white/5 border border-white/10 text-gray-500 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:text-white transition-all">
+                      className="px-6 py-5 bg-white/5 border border-white/10 text-gray-400 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:text-white transition-all">
                       Ajustar Manualmente
                     </button>
                   </div>
@@ -657,7 +678,7 @@ export default function App() {
                         <button 
                           key={tab}
                           onClick={() => setColorTab(tab)}
-                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-600 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-400 hover:text-white'}`}
                         >
                           {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
                         </button>
@@ -680,7 +701,7 @@ export default function App() {
                                  <div className="flex justify-between items-end">
                                     <div className="min-w-0">
                                       <p className="text-[10px] lg:text-[11px] font-black uppercase text-white tracking-widest truncate">{p.name}</p>
-                                      <p className="text-[8px] lg:text-[9px] font-bold text-gray-600 uppercase tracking-tighter mt-0.5">{p.mood}</p>
+                                      <p className="text-[8px] lg:text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">{p.mood}</p>
                                     </div>
                                     <div className={`w-2 h-2 rounded-full gold-gradient shadow-[0_0_10px_#c4973b] transition-opacity ${brand.colors?.[0] === p.colors[0] ? 'opacity-100' : 'opacity-0'}`} />
                                  </div>
@@ -723,7 +744,7 @@ export default function App() {
                 <div className="space-y-10">
                    <div className="space-y-2">
                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Como é a sua tipografia?</h3>
-                      <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">As fontes ditam o tom da conversa com seus seguidores.</p>
+                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">As fontes ditam o tom da conversa com seus seguidores.</p>
                    </div>
 
                    <div className="flex items-center gap-3 mb-8 bg-white/3 p-1 rounded-2xl border border-white/5">
@@ -731,50 +752,124 @@ export default function App() {
                         <button 
                           key={tab}
                           onClick={() => setFontTab(tab)}
-                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${fontTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-600 hover:text-white'}`}
+                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${fontTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-400 hover:text-white'}`}
                         >
                           {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
                         </button>
                       ))}
                    </div>
 
-                   {fontTab === 'curadoria' ? (
-                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                        {ONBOARDING_FONTS.map(f => (
+                  {fontTab === 'curadoria' ? (
+                    <div className="space-y-6">
+                      <div className="flex gap-2 bg-white/5 p-1 rounded-xl overflow-x-auto custom-scrollbar">
+                        {ONBOARDING_FONTS_CATEGORIES.map(cat => (
                           <button 
-                             key={f.id}
-                             onClick={() => setBrand(prev => ({ ...prev, fontStyle: f.headline, bodyFont: f.body }))}
-                             className={`p-6 rounded-[32px] border-2 transition-all text-left flex flex-col justify-between aspect-video ${brand.fontStyle === f.headline ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/5 hover:border-white/10'}`}
+                            key={cat}
+                            onClick={() => setFontCategory(cat)}
+                            className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all shrink-0 ${fontCategory === cat ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-gray-400'}`}
                           >
-                             <p className="text-2xl text-white font-black" style={{ fontFamily: f.headline }}>Sua marca.<br/><span style={{ fontFamily: f.body }} className="text-gray-400 font-normal">Seu conteúdo.</span></p>
-                             <p className="text-[9px] font-black uppercase tracking-widest text-gray-500 mt-4">{f.name}</p>
+                            {cat}
                           </button>
                         ))}
-                     </div>
-                   ) : (
-                      <div className="space-y-8 bg-white/3 p-8 rounded-[32px] border border-white/5">
-                         <div className="space-y-4">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Fontes de Títulos</label>
-                            <select 
-                               value={brand.fontStyle}
-                               onChange={e => setBrand({...brand, fontStyle: e.target.value})}
-                               className="w-full bg-black/40 border border-white/10 rounded-2xl p-4 text-white text-sm font-bold outline-none"
-                            >
-                               {['Inter', 'Montserrat', 'Playfair Display', 'Oswald', 'Cormorant Garamond'].map(f => <option key={f} value={f}>{f}</option>)}
-                            </select>
-                         </div>
-                         <div className="space-y-4">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Fontes de Corpo</label>
-                            <select 
-                               value={brand.bodyFont || 'Inter'}
-                               onChange={e => setBrand({...brand, bodyFont: e.target.value})}
-                               className="w-full bg-black/40 border border-white/10 rounded-2xl p-4 text-white text-sm font-bold outline-none"
-                            >
-                               {['Inter', 'Nunito', 'Montserrat', 'Source Sans Pro'].map(f => <option key={f} value={f}>{f}</option>)}
-                            </select>
-                         </div>
                       </div>
-                   )}
+                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 max-h-[450px] overflow-y-auto pr-2 custom-scrollbar">
+                        {ONBOARDING_FONTS.filter(f => fontCategory === 'Todos' || f.category === fontCategory).map(f => (
+                          <button 
+                            key={f.id}
+                            onClick={() => setBrand(prev => ({ ...prev, fontStyle: f.headline, bodyFont: f.body, headlineWeight: '900', bodyWeight: '400' }))}
+                            className={`p-4 lg:p-5 rounded-2xl lg:rounded-3xl border-2 transition-all text-left flex flex-col justify-between group transition-all ${brand.fontStyle === f.headline ? 'border-[#c4973b] bg-[#c4973b]/5 shadow-xl shadow-[#c4973b]/5' : 'border-white/5 bg-white/[0.03] hover:border-white/10 hover:bg-white/[0.05]'}`}
+                          >
+                             <div className="space-y-1">
+                               <p className="text-lg lg:text-xl text-white font-black leading-tight" style={{ fontFamily: f.headline }}>{f.name}</p>
+                               <p className="text-[9px] lg:text-[10px] text-gray-400 font-medium" style={{ fontFamily: f.body }}>{f.sub}</p>
+                             </div>
+                             <div className={`mt-4 w-5 h-5 rounded-full border border-white/10 flex items-center justify-center transition-all ${brand.fontStyle === f.headline ? 'bg-[#c4973b] border-[#c4973b] text-black' : 'text-transparent'}`}>
+                               <Check size={10} />
+                             </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-8 animate-fade-in pr-2 max-h-[450px] overflow-y-auto custom-scrollbar">
+                       {/* TÍTULOS */}
+                       <div className="space-y-4">
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c4973b]">Configurações de Título</p>
+                          <div className="space-y-3">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                              <div className="space-y-2">
+                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Fonte</label>
+                                 <select 
+                                   value={brand.fontStyle}
+                                   onChange={e => setBrand({...brand, fontStyle: e.target.value})}
+                                   className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white text-[12px] font-bold outline-none"
+                                 >
+                                   {ONBOARDING_FONTS.map(f => <option key={f.id} value={f.headline}>{f.headline}</option>)}
+                                 </select>
+                              </div>
+                              <div className="space-y-2">
+                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Peso (Bold/Regular)</label>
+                                 <select 
+                                   value={brand.headlineWeight || '900'}
+                                   onChange={e => setBrand({...brand, headlineWeight: e.target.value})}
+                                   className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white text-[12px] font-bold outline-none"
+                                 >
+                                   <option value="400">Normal</option>
+                                   <option value="600">Semi Bold</option>
+                                   <option value="700">Bold</option>
+                                   <option value="900">Black</option>
+                                 </select>
+                              </div>
+                            </div>
+                            <ColorFullPicker 
+                              label="Cor do Título" 
+                              color={brand.colors[1]} 
+                              desc="Cor primária para manchetes"
+                              onChange={(c) => { const nc = [...brand.colors]; nc[1] = c; setBrand({...brand, colors: nc}); }} 
+                            />
+                          </div>
+                       </div>
+
+                       {/* CORPO */}
+                       <div className="space-y-4">
+                          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#c4973b]">Configurações de Corpo</p>
+                          <div className="space-y-3">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                              <div className="space-y-2">
+                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Fonte</label>
+                                 <select 
+                                   value={brand.bodyFont}
+                                   onChange={e => setBrand({...brand, bodyFont: e.target.value})}
+                                   className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white text-[12px] font-bold outline-none"
+                                 >
+                                   {ONBOARDING_FONTS.map(f => <option key={f.id} value={f.headline}>{f.headline}</option>)}
+                                 </select>
+                              </div>
+                              <div className="space-y-2">
+                                 <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest ml-1">Peso</label>
+                                 <select 
+                                   value={brand.bodyWeight || '400'}
+                                   onChange={e => setBrand({...brand, bodyWeight: e.target.value})}
+                                   className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white text-[12px] font-bold outline-none"
+                                 >
+                                   <option value="300">Light</option>
+                                   <option value="400">Normal</option>
+                                   <option value="600">Medium</option>
+                                   <option value="700">Bold</option>
+                                 </select>
+                              </div>
+                            </div>
+                            <ColorFullPicker 
+                              label="Cor do Texto" 
+                              color={brand.colors[2]} 
+                              desc="Cor de leitura principal"
+                              onChange={(c) => { const nc = [...brand.colors]; nc[2] = c; setBrand({...brand, colors: nc}); }} 
+                            />
+                          </div>
+                       </div>
+                    </div>
+                  )}
+
 
                    <button onClick={() => setStep(4)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-4">
                       Confirmar tipografia →
@@ -784,62 +879,98 @@ export default function App() {
 
               <StepWrapper active={step === 4}>
                 <div className="space-y-10">
-                   <div className="space-y-2">
-                      <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Qual estilo visual combina?</h3>
-                      <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">O estilo define o acabamento dos elementos e containers do post.</p>
+                   <div className="space-y-2 text-center md:text-left">
+                      <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white">Qual estilo visual combina?</h3>
+                      <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">O estilo define o acabamento dos elementos e containers do post.</p>
                    </div>
 
-                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                       {DESIGN_STYLES.map(s => {
                          const Icon = s.id === 'standard' ? Layers : s.id === 'minimalist' ? Square : s.id === 'border' ? Frame : s.id === 'glass' ? Sparkles : s.id === 'block' ? Box : Heart;
                          return (
                            <button 
                               key={s.id}
                               onClick={() => setBrand(prev => ({ ...prev, visualStyle: s.id }))}
-                              className={`p-6 rounded-[32px] border-2 transition-all text-left flex flex-col justify-between aspect-square group ${brand.visualStyle === s.id ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/5 hover:border-white/10'}`}
+                              className={`p-4 rounded-[24px] border-2 transition-all text-left flex flex-col justify-between aspect-square group ${brand.visualStyle === s.id ? 'border-[#c4973b] bg-[#c4973b]/5 shadow-lg shadow-[#c4973b]/10' : 'border-white/5 bg-white/5 hover:border-white/10 hover:bg-white/[0.07]'}`}
                            >
-                              <div className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${brand.visualStyle === s.id ? 'bg-[#c4973b] border-[#c4973b]/50 text-black' : 'bg-white/5 border-white/10 text-gray-400 group-hover:text-white'}`}>
-                                 <Icon size={20} />
+                              <div className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all ${brand.visualStyle === s.id ? 'bg-[#c4973b] border-[#c4973b]/50 text-black' : 'bg-white/5 border-white/10 text-gray-400 group-hover:text-white'}`}>
+                                 <Icon size={18} />
                               </div>
                               <div>
                                  <p className="text-[10px] font-black text-white uppercase tracking-tighter leading-none">{s.name}</p>
-                                 <p className="text-[8px] font-black text-gray-600 uppercase tracking-widest mt-1 leading-tight">{s.desc}</p>
+                                 <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-1 leading-tight group-hover:text-gray-300">{s.desc}</p>
                               </div>
                            </button>
                          );
                       })}
                    </div>
 
-                   <button onClick={() => setStep(5)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl">
-                      Confirmar design →
+                   <button onClick={() => setStep(5)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl hover:scale-[1.02] transition-all">
+                      Confirmar design estratégico →
                    </button>
                 </div>
               </StepWrapper>
 
               <StepWrapper active={step === 5}>
                  <div className="space-y-10">
-                    <div className="space-y-2">
-                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Conte um pouco sobre o negócio.</h3>
-                       <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">Precisamos desses dados para gerar o copy correto.</p>
+                    <div className="space-y-2 text-center md:text-left">
+                       <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white">Conte um pouco sobre o negócio.</h3>
+                       <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Precisamos desses dados para gerar o copy correto e converter mais.</p>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar p-1">
                        <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 pl-2">O que você vende ou oferece?</label>
+                          <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">O que você vende ou oferece?</label>
                           <input 
-                            placeholder="Ex: Consultoria de Vendas, Roupas, Nutrição..."
-                            value={brand.product}
-                            onChange={(e) => setBrand({ ...brand, product: e.target.value })}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all"
+                              placeholder="Futebol amador, Estética, Sob medida..."
+                              value={brand.product}
+                              onChange={e => setBrand({...brand, product: e.target.value})}
+                              className="w-full bg-white/3 border border-white/5 rounded-2xl p-4 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all shadow-inner"
                           />
                        </div>
+                       
+                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                         <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">Preço ou Condição Especial (Opcional)</label>
+                            <input 
+                                placeholder="A partir de R$ 97 / Frete Grátis..."
+                                value={brand.price}
+                                onChange={e => setBrand({...brand, price: e.target.value})}
+                                className="w-full bg-white/3 border border-white/10 rounded-2xl p-4 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all"
+                            />
+                         </div>
+                         <div className="space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">Link Para Venda (Bio/WhatsApp)</label>
+                            <input 
+                                placeholder="Link da Bio, WhatsApp, Site..."
+                                value={brand.salesLink || ''}
+                                onChange={e => setBrand({...brand, salesLink: e.target.value})}
+                                className="w-full bg-white/3 border border-white/10 rounded-2xl p-4 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all"
+                            />
+                         </div>
+                       </div>
+
                        <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 pl-2">Para quem é esse serviço/produto?</label>
+                          <label className="text-[10px] font-black uppercase tracking-widest text-gray-300 pl-2">Para quem é este conteúdo? (Público)</label>
                           <input 
-                            placeholder="Ex: Empreendedores Iniciantes, Mulheres 20-35 anos..."
-                            value={brand.targetAudience}
-                            onChange={(e) => setBrand({ ...brand, targetAudience: e.target.value })}
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all"
+                              placeholder="Ex: Homens 25-40 anos, Donas de casa, Empresários..."
+                              value={brand.targetAudience}
+                              onChange={e => setBrand({...brand, targetAudience: e.target.value})}
+                              className="w-full bg-white/3 border border-white/10 rounded-2xl p-4 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all shadow-inner"
+                          />
+                       </div>
+
+                       <div className="space-y-2">
+                          <div className="flex justify-between items-end px-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-gray-300">Contexto Adicional (Oferta / Diferenciais)</label>
+                            <span className="text-[8px] font-black text-[#c4973b] uppercase tracking-widest">PostDNA adora detalhes</span>
+                          </div>
+                          <textarea 
+                              placeholder="Explique detalhes que tornam seu produto único, promoções vigentes ou dores específicas que você resolve..."
+                              value={brand.extraContext || ''}
+                              onChange={e => setBrand({...brand, extraContext: e.target.value})}
+                              rows={4}
+                              className="w-full bg-white/3 border border-white/10 rounded-[24px] p-5 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all resize-none shadow-inner"
                           />
                        </div>
                     </div>
@@ -847,37 +978,77 @@ export default function App() {
                     <button 
                       onClick={() => brand.product && brand.targetAudience && setStep(6)} 
                       disabled={!brand.product || !brand.targetAudience}
-                      className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl disabled:opacity-40 transition-all font-bold"
+                      className="gold-gradient w-full py-6 rounded-2xl text-black font-black uppercase tracking-widest text-sm shadow-xl disabled:opacity-40 transition-all font-bold hover:scale-[1.02]"
                     >
-                       Continuar →
+                       Continuar para Voz e Tom →
                     </button>
                  </div>
               </StepWrapper>
 
               <StepWrapper active={step === 6}>
-                 <div className="space-y-10">
-                    <div className="space-y-2">
-                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">Como sua marca se comunica?</h3>
-                       <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">Ajuste a personalidade da IA para combinar com sua voz real.</p>
+                 <div className="space-y-10 animate-fade-in">
+                    <div className="text-center space-y-2">
+                       <h3 className="text-3xl md:text-4xl font-black uppercase italic tracking-tighter text-white">Voz & Tom de DNA</h3>
+                       <p className="text-gray-300 font-bold uppercase tracking-widest text-[10px]">Como sua marca vai falar com o seu público?</p>
                     </div>
 
-                    <div className="space-y-8">
-                      <VoiceSlider label="Voz Principal" leftLabel="Formal" rightLabel="Informal" leftEx="Prezados," rightEx="E aí," value={brand.voice?.formality} onChange={(v) => setBrand({ ...brand, voice: { ...brand.voice, formality: v } })} />
-                      <VoiceSlider label="Conhecimento" leftLabel="Técnico" rightLabel="Popular" leftEx="O gradiente..." rightEx="É tipo assim..." value={brand.voice?.depth} onChange={(v) => setBrand({ ...brand, voice: { ...brand.voice, depth: v } })} />
-                      <VoiceSlider label="Energia" leftLabel="Sério" rightLabel="Divertido" leftEx="Informamos que..." rightEx="Bora galera! 🚀" value={brand.voice?.energy} onChange={(v) => setBrand({ ...brand, voice: { ...brand.voice, energy: v } })} />
+                    <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar p-1">
+                      {/* Cards de Tom de Voz - ALTO CONTRASTE */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {[
+                          { id: 'casual', label: 'Descontraído', sub: '"E aí, tudo bem?"', context: 'Ideal para creators, moda e público jovem.', bg: 'bg-[#c4973b]' },
+                          { id: 'formal', label: 'Especialista', sub: '"Prezados clientes,"', context: 'Foco em autoridade, B2B e medicina.', bg: 'bg-white' }
+                        ].map(tone => {
+                          const isActive = brand.voice?.formality === (tone.id === 'casual' ? 1 : 5);
+                          return (
+                            <button 
+                              key={tone.id}
+                              onClick={() => setBrand(prev => ({ ...prev, voice: { ...prev.voice, formality: tone.id === 'casual' ? 1 : 5 } }))}
+                              className={`p-6 rounded-[32px] text-left transition-all border-2 flex flex-col justify-between h-40 ${isActive ? `border-[${tone.id === 'casual' ? '#c4973b' : '#fff'}] ${tone.bg} text-black` : 'bg-white/5 border-white/10 text-white hover:border-white/20'}`}
+                            >
+                               <div>
+                                  <p className="text-lg font-black uppercase italic tracking-tighter leading-none">{tone.label}</p>
+                                  <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${isActive ? 'text-black/60' : 'text-gray-400'}`}>{tone.sub}</p>
+                               </div>
+                               <p className={`text-[9px] font-black uppercase tracking-widest leading-snug ${isActive ? 'text-black/40' : 'text-gray-300'}`}>{tone.context}</p>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="bg-white/3 border border-white/5 rounded-[32px] p-6 space-y-8">
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b] text-center">Ajustes de Personalidade</p>
+                        <VoiceSlider 
+                          label="Nível de Entusiasmo" 
+                          leftLabel="Contido" rightLabel="Vibrante" 
+                          leftEx="Racional e Sóbrio" rightEx="Alegre e Energético"
+                          value={brand.voice?.energy || 3} 
+                          onChange={(v) => setBrand(p => ({ ...p, voice: { ...p.voice, energy: v } })) } 
+                        />
+                        
+                        <div className="space-y-2">
+                           <label className="text-[9px] font-black uppercase tracking-widest text-gray-300 pl-2">Palavras Proibidas (Sherlock deve evitar)</label>
+                           <input 
+                               placeholder="Ex: Grátis, Infalível, Melhores do mundo..."
+                               value={brand.voice?.forbiddenWords || ''}
+                               onChange={e => setBrand({...brand, voice: { ...brand.voice, forbiddenWords: e.target.value }})}
+                               className="w-full bg-black/40 border border-white/10 rounded-2xl p-4 text-sm font-bold text-white outline-none focus:border-[#c4973b]/50 transition-all font-mono"
+                           />
+                        </div>
+                      </div>
+
+                      <div className="p-6 bg-[#c4973b]/10 border border-[#c4973b]/20 rounded-[28px] text-center">
+                         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b] mb-4 italic">Sherlock interpretando sua voz:</p>
+                         <p className="text-sm font-black italic tracking-tighter text-white leading-relaxed">
+                            {brand.voice?.formality < 3 
+                              ? "E aí, pronto pra levar seu negócio pro próximo nível hoje? Fica ligado nessas dicas!" 
+                              : "Apresentamos as diretrizes fundamentais para o desempenho comercial do seu negócio."}
+                         </p>
+                      </div>
                     </div>
 
-                    <div className="p-6 bg-[#c4973b]/5 border border-[#c4973b]/10 rounded-[28px] text-center">
-                       <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c4973b] mb-4 italic">Exemplo da sua Voz:</p>
-                       <p className="text-sm font-black italic tracking-tighter text-white leading-relaxed">
-                          {brand.voice?.formality > 3 
-                            ? "E aí, pronto pra levar seu negócio pro próximo nível hoje? Fica ligado nessas dicas!" 
-                            : "Apresentamos as diretrizes fundamentais para o aumento da performance comercial do seu negócio."}
-                       </p>
-                    </div>
-
-                    <button onClick={() => setStep(7)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl">
-                       Finalizar configuração →
+                    <button onClick={() => setStep(7)} className="gold-gradient w-full py-6 rounded-3xl text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-[1.02] transition-all">
+                       Verificar DNA Identificado →
                     </button>
                  </div>
               </StepWrapper>
@@ -892,7 +1063,7 @@ export default function App() {
                          <Check size={48} strokeWidth={4} />
                        </motion.div>
                        <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter leading-none text-white">DNA IDENTIFICADO.</h2>
-                       <p className="text-gray-500 font-bold uppercase tracking-widest text-xs max-w-md mx-auto leading-relaxed">
+                       <p className="text-gray-300 font-bold uppercase tracking-widest text-xs max-w-md mx-auto leading-relaxed">
                           Todo conteúdo que você criar vai sair assim — com a identidade da sua marca, automaticamente.
                        </p>
                     </div>
@@ -903,62 +1074,80 @@ export default function App() {
                           <span className="text-[9px] font-black uppercase text-green-500 flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full border border-green-500/20">✅ Tom de Voz</span>
                        </div>
                        <button onClick={finishOnboarding} className="gold-gradient px-12 py-6 rounded-[28px] text-black font-black uppercase tracking-widest text-sm shadow-2xl shadow-[#c4973b]/20 hover:scale-105 transition-all">
-                          Entrar no PostDNA →
+                          Entrar no Dashboard →
                        </button>
                     </div>
                  </div>
               </StepWrapper>
 
-            </div>
+             </div>
 
-            {step > 0 && step < 8 && (
+             {/* ── PREVIEW LATERAL (DINÂMICO) ─────────────────────────────────── */}
+             {step > 0 && step < 7 && (
                <motion.div 
                  initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
                  className="flex-1 w-full max-w-sm hidden lg:block"
                >
                  <div className="sticky top-32 space-y-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-600 text-center">Preview em tempo real</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 text-center">Preview em tempo real</p>
+                    
                     <div 
-                      className="aspect-square rounded-[48px] overflow-hidden shadow-2xl relative border-8 border-white/5 transition-all duration-700"
-                      style={{ backgroundColor: brand.colors?.[1] || '#000000' }}
+                      className="aspect-square overflow-hidden shadow-2xl relative transition-all duration-700"
+                      style={{
+                        backgroundColor: brand.colors?.[1] || '#000000',
+                        borderRadius: brand.visualStyle === 'minimalist' ? '0px' : brand.visualStyle === 'warm' ? '80px' : '48px',
+                        border: brand.visualStyle === 'border' ? `4px solid ${brand.colors?.[0]}44` : '8px solid rgba(255,255,255,0.05)',
+                        boxShadow: brand.visualStyle === 'block' ? `20px 20px 0px ${brand.colors?.[0]}22` : '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                      }}
                     >
                        <div className="absolute inset-0 opacity-40 mix-blend-overlay" style={{ background: `linear-gradient(135deg, ${brand.colors?.[0] || '#c4973b'}33, transparent)` }} />
                        
                        <div className="p-10 h-full flex flex-col justify-end relative z-10">
-                          <div className="absolute top-10 left-10 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md overflow-hidden">
+                          <div 
+                            className="absolute top-10 left-10 w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden transition-all duration-500"
+                            style={brand.visualStyle === 'glass' ? { background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)'} : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                          >
                              {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-2" /> : <Zap size={24} className="text-[#c4973b]" />}
                           </div>
 
-                          <div className="space-y-4">
+                          <div 
+                            className={`space-y-4 p-6 rounded-3xl transition-all duration-500 ${brand.visualStyle === 'block' ? 'bg-white/5 border border-white/10 shadow-xl' : ''}`} 
+                            style={brand.visualStyle === 'glass' ? { backdropFilter: 'blur(10px)', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)' } : {}}
+                          >
                             <h4 
                                className="text-4xl font-black uppercase italic tracking-tighter leading-none"
-                               style={{ color: brand.colors?.[0] || '#c4973b', fontFamily: brand.fontStyle || 'Inter' }}
+                               style={{ 
+                                 color: brand.colors?.[0] || '#c4973b', 
+                                 fontFamily: brand.fontStyle || 'Inter',
+                                 fontWeight: brand.headlineWeight || '900'
+                               }}
                             >
                                SEU DNA<br/>VISUAL AQUI.
                             </h4>
                             <p 
                                className="text-[12px] font-bold leading-relaxed max-w-[85%]"
-                               style={{ color: brand.colors?.[2] || '#ffffff', fontFamily: brand.fontStyle || 'Inter' }}
+                               style={{ 
+                                 color: brand.colors?.[2] || '#ffffff', 
+                                 fontFamily: brand.bodyFont || 'Inter',
+                                 fontWeight: brand.bodyWeight || '400'
+                               }}
                             >
                                Assim é como o PostDNA irá renderizar cada carrossel e story da sua marca.
                             </p>
                           </div>
                        </div>
                     </div>
+                    
                     <div className="p-4 bg-white/5 rounded-[24px] border border-white/5 text-center">
-                       <p className="text-[9px] font-black uppercase tracking-widest text-gray-500">
-                         {step === 1 && "Suba o logo para começar"}
-                         {step === 2 && "Cores exclusivas detectadas"}
-                         {step === 3 && `Tipografia ${brand.fontStyle} ativa`}
-                         {step === 4 && "Moodboard estratégico aplicado"}
-                         {step > 4 && "Inteligência de mercado integrada"}
+                       <p className="text-[9px] font-black uppercase tracking-widest text-[#c4973b]">
+                         DNA {brand.visualStyle} ATIVO
                        </p>
                     </div>
                  </div>
                </motion.div>
-            )}
+             )}
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c4973b]/5 rounded-full blur-[140px] pointer-events-none" />
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#c4973b]/5 rounded-full blur-[140px] pointer-events-none" />
           </main>
         </div>
       )}
@@ -1134,6 +1323,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
       setIsLimitModalOpen(true);
       return;
     }
+
+    // NOVO: Check de Referências
+    if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
+      alert("Para um conteúdo de alta conversão, o Sherlock precisa de pelo menos uma referência (Inspiração ou Concorrente) no menu 'Referências'.");
+      setDashView('referencias');
+      return;
+    }
     
     setGeneratingIdx(idx);
     setAgenda(p => p.map((it, i) => i === idx ? { ...it, status: 'Gerando...' } : it));
@@ -1307,8 +1503,18 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   };
 
   const handleCreateFirst = (topicHint) => {
-    if (totalCredits < CREDIT_COSTS.CARROSSEL) {
+    const type = brand.selectedType || 'CARROSSEL';
+    const cost = CREDIT_COSTS[type] || 10;
+
+    if (totalCredits < cost) {
       setIsLimitModalOpen(true);
+      return;
+    }
+
+    // Check de Referências
+    if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
+      alert("O Sherlock precisa de referências para começar a investigar. Adicione pelo menos uma conta em 'Referências'.");
+      setDashView('referencias');
       return;
     }
 
@@ -1316,7 +1522,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
     const newItem = {
       id: Date.now(),
       topic: topicHint || topics[0],
-      type: 'CARROSSEL', // Default type for new content
+      type: type, // Uso do tipo selecionado
       status: 'Gerando...',
       createdAt: new Date().toISOString(),
     };
@@ -1362,7 +1568,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
             {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain"/> : <Zap size={14} style={{color:primaryColor}}/>}
           </div>
           <div className="min-w-0">
-            <p className="text-[8px] font-black uppercase tracking-widest text-gray-600">Brand Kit</p>
+            <p className="text-[8px] font-black uppercase tracking-widest text-[#c4973b]">Brand Kit</p>
             <p className="text-[10px] font-bold text-white truncate">{brand.businessName || brand.website || 'Minha marca'}</p>
           </div>
         </div>
@@ -1374,7 +1580,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
       <nav className="flex-1 flex flex-col gap-5">
         {NAV_ITEMS.map(section => (
           <div key={section.section}>
-            <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-700 px-3 mb-2">{t(section.section)}</p>
+            <p className="text-[8px] font-black uppercase tracking-[0.3em] text-gray-400 px-3 mb-2">{t(section.section)}</p>
             <div className="flex flex-col gap-0.5">
               {section.items.map(item => (
                 <button key={item.key}
@@ -1382,9 +1588,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold tracking-tight transition-all ${
                     dashView === item.key
                       ? 'bg-[#c4973b]/10 text-[#c4973b] border border-[#c4973b]/20'
-                      : 'text-gray-500 hover:text-white hover:bg-white/5'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}>
-                  {item.icon} {t(item.label)}
+                  <span className={dashView === item.key ? 'text-[#c4973b]' : 'text-gray-400'}>{item.icon}</span> {t(item.label)}
                 </button>
               ))}
             </div>
@@ -1405,7 +1611,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
              animate={{ width: `${(totalCredits / (PLAN_SPECS[plan]?.credits || 1)) * 100}%` }} // Assuming totalCredits is current, and PLAN_SPECS[plan].credits is max
              className="h-full bg-[#c4973b]" />
         </div>
-        <p className="text-[8px] text-gray-500 font-bold uppercase tracking-widest text-center mt-2">
+        <p className="text-[8px] text-gray-400 font-bold uppercase tracking-widest text-center mt-2">
           {totalCredits} CRÉDITOS DISPONÍVEIS
         </p>
       </div>
@@ -1436,7 +1642,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 <h3 className="text-xl font-black uppercase italic tracking-tighter">PostDNA Em Ação</h3>
                 
                 <div className="mt-2 space-y-1">
-                  <p className={`text-[10px] text-gray-500 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
+                  <p className={`text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
                     {pipelineSubtitle}
                   </p>
                   <p className="text-[8px] text-[#c4973b] font-black uppercase tracking-[0.2em] opacity-80">
@@ -1480,7 +1686,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 </motion.div>
                 <div className="space-y-1">
                   <h2 className="text-2xl font-black uppercase italic tracking-tighter text-white">Seu conteúdo está pronto.</h2>
-                  <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Preparando a visualização...</p>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Preparando a visualização...</p>
                 </div>
              </div>
            </motion.div>
@@ -1505,7 +1711,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
       recentContent={recentContent}
       onOpenItem={(item) => setSelectedItem(item)}
       onRunPipeline={(data) => {
-        if (totalCredits < CREDIT_COSTS.CARROSSEL) { // Using CARROSSEL as a generic cost for new content
+        const type = brand.selectedType || 'CARROSSEL';
+        const cost = CREDIT_COSTS[type] || 10;
+
+        if (totalCredits < cost) {
           setIsLimitModalOpen(true);
         } else {
           // Iniciar fluxo Sherlock
@@ -1529,16 +1738,16 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         </div>
       </div>
       <div>
-        <h1 className="text-xl lg:text-3xl font-black uppercase italic tracking-tighter leading-none mb-2">
+        <h1 className="text-xl lg:text-3xl font-black uppercase italic tracking-tighter leading-none mb-2 text-white">
           {t('dashboard.welcomeActive')} {firstName || 'Chefe'}.
         </h1>
-        <div className="text-gray-500 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3">
+        <div className="text-gray-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            {t('dashboard.trained')}
+            <span className="text-gray-300">{t('dashboard.trained')}</span>
           </div>
-          <span className="text-white/10">|</span>
-          <span className="text-[#c4973b]">{PLAN_SPECS[plan]?.name} · {totalCredits} CR</span>
+          <span className="text-white/20">|</span>
+          <span className="text-[#c4973b] font-black">{PLAN_SPECS[plan]?.name} · {totalCredits} CR</span>
         </div>
       </div>
 
@@ -1552,7 +1761,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 i18n.changeLanguage(lang);
               }}
               className={`px-3 py-1.5 rounded-full text-[10px] font-black transition-all ${
-                i18n.language === lang ? 'bg-[#c4973b] text-black' : 'text-gray-500 hover:text-white'
+                i18n.language === lang ? 'bg-[#c4973b] text-black' : 'text-gray-400 hover:text-white'
               }`}
             >
               {lang === 'pt-BR' ? 'PT' : 'ES'}
@@ -1563,10 +1772,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <div className="flex items-center gap-3 pl-4 border-l border-white/10">
           <div className="text-right hidden sm:block">
             <div className="text-[10px] font-black uppercase tracking-tighter leading-none">{brand?.businessName || t('common.brandKit')}</div>
-            <div className="text-[9px] text-gray-600 font-bold uppercase tracking-widest mt-1">{(t('dashboard.agenda.subtitle', { plan, count: slots?.length || 0 }) || "").split('·')[0]}</div>
+            <div className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1">{(t('dashboard.agenda.subtitle', { plan, count: slots?.length || 0 }) || "").split('·')[0]}</div>
           </div>
           <div className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center">
-            {brand.logo ? <img src={brand.logo} className="w-7 h-7 object-contain rounded" /> : <User size={20} className="text-gray-600" />}
+            {brand.logo ? <img src={brand.logo} className="w-7 h-7 object-contain rounded" /> : <User size={20} className="text-gray-400" />}
           </div>
         </div>
       </div>
@@ -1600,7 +1809,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         <section className="space-y-6">
           <div className="text-center md:text-left space-y-1">
             <h2 className="text-3xl font-black uppercase italic tracking-tighter text-white">O que vamos criar hoje?</h2>
-            <p className="text-gray-500 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
+            <p className="text-gray-400 text-sm font-bold uppercase tracking-widest leading-relaxed">Selecione o formato para iniciar sua estratégia consciente.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
@@ -1632,12 +1841,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                     'border-white/5 bg-white/[0.03] hover:border-white/10 hover:bg-white/[0.05]'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${locked ? 'border-white/5 text-gray-700' : 'border-white/10 text-gray-400 group-hover:text-white transition-colors'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${locked ? 'border-white/5 text-gray-400' : 'border-white/10 text-gray-400 group-hover:text-white transition-colors'}`}>
                     {locked ? <Lock size={16}/> : item.icon}
                   </div>
                   <div className="space-y-1">
                     <span className="block font-black uppercase tracking-tighter text-[10px] text-gray-400 group-hover:text-white transition-colors leading-none">{item.label}</span>
-                    <span className="block text-[8px] font-black uppercase text-gray-600">{item.cost} créditos</span>
+                    <span className="block text-[8px] font-black uppercase text-gray-400">{item.cost} créditos</span>
                   </div>
                   {locked && (
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1677,8 +1886,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         {/* Bloco 4: Criados recentemente */}
         <section className="space-y-6">
           <div className="flex items-center gap-3">
-            <History size={16} className="text-gray-700"/>
-            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-600">Criados recentemente</h3>
+            <History size={16} className="text-gray-400"/>
+            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Criados recentemente</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {recent.length > 0 ? recent.map((c, i) => (
@@ -1687,7 +1896,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 className="group p-5 rounded-[24px] glass border border-white/5 hover:border-white/10 transition-all cursor-pointer relative overflow-hidden"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-500">
+                  <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-gray-400">
                     {c.type}
                   </span>
                   <span className={`text-[8px] font-black uppercase tracking-widest flex items-center gap-1 ${c.status === 'Aprovado' ? 'text-green-500' : 'text-orange-400'}`}>
@@ -1698,13 +1907,13 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                   {c.topic}
                 </h5>
                 <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                   <span className="text-[8px] font-bold text-gray-600 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
+                   <span className="text-[8px] font-bold text-gray-400 uppercase">{new Date(c.createdAt).toLocaleDateString()}</span>
                    <span className="text-[8px] font-black uppercase text-[#c4973b] group-hover:translate-x-1 transition-transform">Abrir →</span>
                 </div>
               </div>
             )) : (
               <div className="col-span-full py-12 text-center glass border border-white/5 rounded-[32px]">
-                <p className="text-[10px] font-black uppercase tracking-widest text-gray-600">Nenhum conteúdo gerado ainda.</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Nenhum conteúdo gerado ainda.</p>
               </div>
             )}
           </div>
@@ -1730,22 +1939,22 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           </div>
           <div className="space-y-2">
             <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">Sherlock vai investigar seu mercado</h3>
-            <p className="text-xs text-gray-500 font-bold leading-relaxed">
+            <p className="text-xs text-gray-400 font-bold leading-relaxed">
               Vou pesquisar tendências para <span className="text-white">{type}</span> no seu nicho e sugerir 3 temas com alto potencial agora.
             </p>
           </div>
           <div className="w-full p-4 bg-white/5 rounded-2xl border border-white/5 flex items-center justify-between">
              <div className="flex flex-col items-start gap-1">
-                <span className="text-[8px] font-black uppercase text-gray-600 tracking-widest">Custo da pesquisa</span>
+                <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Custo da pesquisa</span>
                 <span className="text-sm font-black text-[#c4973b]">1 CRÉDITO</span>
              </div>
              <div className="flex flex-col items-end gap-1">
-                <span className="text-[8px] font-black uppercase text-gray-600 tracking-widest">Seu saldo</span>
+                <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Seu saldo</span>
                 <span className="text-sm font-black text-white">{totalCredits} CR</span>
              </div>
           </div>
           <div className="grid grid-cols-2 gap-3 w-full">
-            <button onClick={onClose} className="py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors border border-white/5">Cancelar</button>
+            <button onClick={onClose} className="py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors border border-white/5">Cancelar</button>
             <button onClick={onConfirm} className="gold-gradient py-4 rounded-xl text-[10px] font-black uppercase tracking-widest text-black shadow-lg">Confirmar →</button>
           </div>
         </div>
@@ -1789,18 +1998,18 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                       <div className="flex items-center gap-2 text-[8px] font-black uppercase text-[#c4973b] tracking-widest">
                         <TrendingUp size={10} /> Por que agora?
                       </div>
-                      <p className="text-xs text-gray-500 font-bold leading-relaxed">{res.reasoning}</p>
+                      <p className="text-xs text-gray-400 font-bold leading-relaxed">{res.reasoning}</p>
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 text-[8px] font-black uppercase text-gray-400 tracking-widest">
                         <Target size={10} /> Seu Ângulo (DNA)
                       </div>
-                      <p className="text-xs text-gray-500 font-bold leading-relaxed">{res.brand_angle}</p>
+                      <p className="text-xs text-gray-400 font-bold leading-relaxed">{res.brand_angle}</p>
                     </div>
 
                     <div className="pt-4 flex items-center justify-between border-t border-white/5">
-                       <span className="text-[8px] font-black uppercase text-gray-600 tracking-widest">Formato Sugerido</span>
+                       <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest">Formato Sugerido</span>
                        <span className="text-[9px] font-black text-white uppercase bg-white/5 px-2 py-1 rounded-md">{res.suggested_format}</span>
                     </div>
                   </div>
@@ -1835,7 +2044,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 Nova Sugestão (1 CR)
               </button>
             </div>
-            <button onClick={() => setSherlockResults(null)} className="text-[10px] font-black uppercase text-gray-700 hover:text-white tracking-[0.3em]">Fechar Relatório</button>
+            <button onClick={() => setSherlockResults(null)} className="text-[10px] font-black uppercase text-gray-400 hover:text-white tracking-[0.3em]">Fechar Relatório</button>
           </footer>
         </section>
       </div>
@@ -1871,9 +2080,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
                 </div>
                 <div>
                   <h4 className="text-xl font-black uppercase italic tracking-tighter text-white leading-none">
-                    {totalCredits} créditos disponíveis <span className="text-gray-600 ml-2">—</span> <span className="text-[10px] text-[#c4973b] tracking-widest ml-2">{resetDateStr}</span>
+                    {totalCredits} créditos disponíveis <span className="text-gray-400 ml-2">—</span> <span className="text-[10px] text-[#c4973b] tracking-widest ml-2">{resetDateStr}</span>
                   </h4>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mt-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-1">
                     ≈ {estCarousels} carrosséis · ou {estPosts} posts estáticos · ou como preferir
                   </p>
                 </div>
