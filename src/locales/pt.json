@@ -1,0 +1,316 @@
+{
+  "common": {
+    "productName": "PostDNA",
+    "continue": "Continuar",
+    "save": "Salvar",
+    "saved": "Alterações salvas!",
+    "confirm": "Confirmar em meu DNA",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "loading": "Carregando...",
+    "generating": "Gerando seu DNA...",
+    "generate": "Gerar Conteúdo",
+    "brandKit": "Meu Negócio",
+    "audience": "Público",
+    "niche": "Meu Nicho",
+    "reach": "alcance",
+    "days": {
+      "monday": "Segunda",
+      "tuesday": "Terça",
+      "wednesday": "Quarta",
+      "thursday": "Quinta",
+      "friday": "Sexta",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    }
+  },
+  "onboarding": {
+    "step0": {
+      "title": "VAMOS COMEÇAR.",
+      "subtitle": "Escolha o idioma da sua interface",
+      "pt": "Português",
+      "es": "Español"
+    },
+    "step1": {
+      "title": "SUA MARCA.",
+      "subtitle": "Suba seu logo ou digite seu site para o PostDNA extrair sua identidade visual automaticamente.",
+      "uploadLogo": "Subir Logotipo",
+      "logoDnaIdentified": "DNA IDENTIFICADO.",
+      "chooseColors": "Você pode ajustar as cores se quiser",
+      "primary": "Primária",
+      "base": "Base",
+      "text": "Texto",
+      "styleDetected": "ESTILO DETECTADO",
+      "buildingFromScratch": "VAMOS CRIAR DO ZERO.",
+      "choosePalette": "Escolha uma paleta que combine com seu negócio",
+      "fontPreview": "Design & Tecnologia"
+    },
+    "step2": {
+      "title": "ONDE TE ENCONTRAMOS?",
+      "subtitle": "Isso ajuda o Sherlock a entender seu posicionamento atual.",
+      "namePh": "Seu nome ou da marca",
+      "sitePh": "seu-site.com.br",
+      "igPh": "seu_instagram",
+      "next": "Analisar meu Perfil",
+      "siteLabel": "Link de Venda",
+      "sitePh2": "hotmart.com/produto..."
+    },
+    "step3": {
+      "title": "SEU NEGÓCIO.",
+      "subtitle": "O que você vende e qual seu objetivo principal no momento?",
+      "objectiveLabel": "Qual seu objetivo principal?",
+      "objVender": "Vender Produto",
+      "objVenderDesc": "Foco em conversão e oferta",
+      "objCrescer": "Crescer Perfil",
+      "objCrescerDesc": "Foco em alcance e autoridade",
+      "objEducar": "Educar Público",
+      "objEducarDesc": "Foco em retenção e valor",
+      "objLancamento": "Lançamento",
+      "objLancamentoDesc": "Foco em antecipação",
+      "businessLabel": "Nome do Negócio",
+      "businessPh": "Ex: Academia do Futebol",
+      "productLabel": "O que você vende?",
+      "productPh": "Ex: Treinamento online para jogadores",
+      "priceLabel": "Preço médio",
+      "pricePh": "Ficará guardado no DNA"
+    },
+    "step5": {
+      "title": "SEU TOM DE VOZ.",
+      "subtitle": "Como você quer que o PostDNA fale com sua audiência?",
+      "formality": "Formalidade",
+      "formalityLow": "Informal",
+      "formalityLowEx": "E aí pessoal! Tudo certo?",
+      "formalityHigh": "Formal",
+      "formalityHighEx": "Prezados, hoje discutiremos...",
+      "depth": "Profundidade",
+      "depthLow": "Popular",
+      "depthLowEx": "Dica rápida para hoje!",
+      "depthHigh": "Técnico",
+      "depthHighEx": "Análise sistêmica de dados...",
+      "energy": "Energia",
+      "energyLow": "Calmo",
+      "energyLowEx": "Pense nisso com calma.",
+      "energyHigh": "Entusiasmado",
+      "energyHighEx": "VAMOS PRA CIMA! HOJE O DIA É NOSSO!",
+      "forbiddenWords": "Palavras Proibidas (ex: 'top', 'topzera', 'clique no link')"
+    },
+    "step6": {
+      "title": "SEU PÚBLICO.",
+      "subtitle": "Quanto melhor você descrever, mais preciso será o Sherlock.",
+      "audienceLabel": "Quem é seu público?",
+      "audiencePh": "Jogadores amadores entre 20 e 35 anos...",
+      "painLabel": "Qual a maior dor desse cliente?",
+      "painPh": "Treina sem método e não evolui...",
+      "attemptsLabel": "O que ele já tentou antes?",
+      "attemptsPh": "YouTube gratuito, personal trainer caro...",
+      "next": "Gerar meu DNA →"
+    },
+    "footer": {
+      "welcome": "Bem-vindo ao PostDNA.",
+      "finish": "FINALIZAR DNA →",
+      "next": "Próximo Passo"
+    }
+  },
+  "dashboard": {
+    "welcome": "Olá,",
+    "welcomeActive": "Bem-vindo,",
+    "trained": "Seu PostDNA está pronto.",
+    "createContent": "Criar Conteúdo",
+    "stats": {
+      "generated": "Conteúdos Gerados",
+      "reach": "Alcance Estimado",
+      "engagement": "Engajamento",
+      "pending": "Pendentes",
+      "thisWeek": "esta semana",
+      "month": "este mês",
+      "firstContent": "Crie seu primeiro conteúdo",
+      "connectIg": "Conecte seu Instagram",
+      "upcoming": "Próximas atualizações",
+      "awaitingReview": "Aguardando sua revisão",
+      "noneAwaiting": "Nenhum pendente agora"
+    },
+    "create": {
+      "title": "VAMOS CRIAR ALGO NOVO?",
+      "suggestion": "Sugestão de tema do Sherlock",
+      "new": "Criar novo conteúdo",
+      "first": "Ativar meu PostDNA"
+    },
+    "agenda": {
+      "title": "AGENDA DE CONTEÚDO",
+      "subtitle": "Plano {{plan}} · {{count}}x por semana",
+      "review": "Revisar",
+      "approved": "Aprovado",
+      "lastApproved": "ÚLTIMOS APROVADOS",
+      "empty": "Clique para criar o conteúdo deste dia"
+    },
+    "calendar": {
+      "approvedCount": "{{count}} conteúdo aprovado",
+      "approvedCount_plural": "{{count}} conteúdos aprovados",
+      "emptyTitle": "Nenhum conteúdo aprovado ainda",
+      "emptySub": "Conteúdos aprovados aparecem aqui automaticamente"
+    },
+    "suggestions": {
+      "title": "O que vamos criar hoje?",
+      "label": "SUGESTÃO",
+      "createBtn": "CRIAR NOVO CONTEÚDO"
+    },
+    "sidebar": {
+      "principal": "PRINCIPAL",
+      "marca": "MARCA",
+      "home": "Dashboard",
+      "create": "+ Criar Conteúdo",
+      "calendar": "Calendário",
+      "dna": "DNA da Marca",
+      "intel": "Inteligência de Mercado",
+      "refs": "Referências"
+    }
+  },
+  "dnaPage": {
+    "title": "DNA da Marca.",
+    "subtitle": "Edite qualquer seção. Novos conteúdos usarão as novas configurações.",
+    "approvedWarning": "Você tem {{count}} conteúdo(s) aprovado(s) com as configurações anteriores.",
+    "sections": {
+      "visual": "Identidade Visual",
+      "visualSub": "Logo, Cores e Fontes",
+      "style": "Estilo de Conteúdo",
+      "styleSub": "Vibração Visual",
+      "voice": "Tom de Voz",
+      "voiceSub": "Como nós falamos",
+      "business": "Informações do Negócio",
+      "businessSub": "O que você vende",
+      "public": "Seu Público",
+      "publicSub": "Quem compra de você",
+      "language": "Configurações de Idioma",
+      "languageSub": "Interface e Geração"
+    },
+    "fields": {
+      "logo": "Logo",
+      "colors": "Paleta de cores",
+      "typography": "Tipografia",
+      "vibe": "Estilo atual",
+      "forbiddenWords": "Palavras proibidas",
+      "interfaceLang": "Idioma da interface",
+      "contentLang": "Idioma do conteúdo gerado",
+      "contentLangHelp": "Em qual idioma você quer que seu conteúdo seja criado?"
+    },
+    "actions": {
+      "uploadLogo": "Trocar logo",
+      "addLogo": "Adicionar logo",
+      "removeLogo": "Remover logo",
+      "reExtract": "Reler cores do site",
+      "chooseFont": "Trocar fonte",
+      "chooseStyle": "Trocar estilo",
+      "saveAll": "Salvar Todo o DNA"
+    },
+    "vibes": {
+       "minimalist": "Minimalista",
+       "vibrant": "Vibrante",
+       "corporate": "Corporativo",
+       "warm": "Lifestyle",
+       "minimalistDesc": "Espaço limpo, texto no centro",
+       "vibrantDesc": "Energia, cores, movimento",
+       "corporateDesc": "Sério, direto, profissional",
+       "warmDesc": "Fotos, texturas, conexão"
+    },
+    "fonts": {
+       "bold": "Impact",
+       "elegant": "Serif",
+       "modern": "Modern",
+       "rounded": "Rounded",
+       "mono": "Tech",
+       "thin": "Light",
+       "sample": "Elegância. Presença."
+    }
+  },
+  "intelPage": {
+    "title": "Inteligência de Mercado.",
+    "subtitle": "O Sherlock está monitorando {{niche}}",
+    "lastUpdate": "Última análise",
+    "updating": "Atualizando...",
+    "refresh": "Atualizar",
+    "sherlockWorking": "Sherlock em campo",
+    "sherlockAnalyzing": "Analisando tendências em {{niche}}... isso leva alguns segundos.",
+    "emptyState": {
+      "title": "Sherlock ainda não investigou seu mercado.",
+      "subtitle": "A cada conteúdo gerado, o Sherlock pesquisa tendências. Crie seu primeiro conteúdo para ativar."
+    },
+    "trending": {
+      "title": "Temas em alta no seu nicho",
+      "subtitle": "identificados pelo Sherlock nas últimas 48h",
+      "createBtn": "Criar conteúdo sobre isso"
+    },
+    "stats": {
+      "title": "O que está funcionando no mercado",
+      "subtitle": "padrões identificados nos conteúdos de maior engajamento",
+      "format": "Formato campeão",
+      "hook": "Hook mais eficaz",
+      "tone": "Tom predominante",
+      "time": "Melhor horário"
+    },
+    "ig": {
+      "title": "Performance dos seus conteúdos",
+      "subtitle": "baseado na sua conta do Instagram",
+      "accountLabel": "Seus melhores conteúdos na conta @{{handle}}",
+      "ctaTitle": "Conecte o Instagram",
+      "ctaSub": "Veja métricas reais e aprenda com o que já funcionou para você.",
+      "ctaBtn": "Conectar {{handle}}",
+      "simulatedInfo": "* Dados simulados até que a integração com Instagram API seja ativada"
+    },
+    "sherlock": {
+      "title": "Sherlock — Investigador de Mercado",
+      "desc": "Atualiza automaticamente a cada conteúdo gerado. Os dados acima refletem a última análise de seu nicho com base em padrões públicos de engajamento."
+    },
+    "niches": {
+       "sports": "Esportes & Treinamento",
+       "beauty": "Beleza & Estética",
+       "health": "Saúde & Bem-estar",
+       "business": "Negócios & Empreendedorismo",
+       "wood": "Marcenaria & Construção",
+       "fallback": "Seu Nicho"
+    }
+  },
+  "refsPage": {
+    "title": "Referências da Marca.",
+    "subtitle": "Contas que moldam o estilo do seu conteúdo gerado.",
+    "howItWorks": "Como isso afeta o seu conteúdo",
+    "howItWorksSub": "O Sherlock e o Copywriter usam essas contas como contexto direto no prompt.",
+    "inspirationsTitle": "Contas que me inspiram",
+    "inspirationsSub": "até 5 perfis · modelam o tom e o estilo",
+    "competitorsTitle": "Meus concorrentes",
+    "competitorsSub": "até 3 perfis · o Sherlock garante diferenciação",
+    "promptInfo": "Contexto injetado nos agentes",
+    "promptSub": "o que Sherlock e Copywriter recebem nas próximas gerações",
+    "noRefs": "Nenhuma referência adicionada ainda",
+    "whyMatters": "Por que isso importa:",
+    "confirmBtn": "Confirmar referências",
+    "savedBtn": "Referências salvas"
+  },
+  "pipeline": {
+    "title": "PostDNA em ação",
+    "firstInfo": "Na primeira geração, o Sherlock analisa seu mercado a fundo. Leva alguns minutos — mas torna tudo futuro muito mais preciso.",
+    "stages": {
+      "sherlock": "Investigando tendências do seu mercado...",
+      "estrategista": "Definindo a estrutura e estratégia do conteúdo...",
+      "copywriter": "Escrevendo os textos dos slides...",
+      "designer": "Montando as peças com a identidade da sua marca...",
+      "revisor": "Revisão final antes de liberar para você..."
+    }
+  },
+  "review": {
+    "title": "Revisão de Conteúdo",
+    "tabs": {
+      "preview": "Design Preview",
+      "copy": "Legenda & Texto",
+      "strategy": "Estratégia Sherlock"
+    },
+    "igCaption": "Legenda do Instagram",
+    "copyBtn": "Copiar",
+    "slideText": "Texto dos Slides",
+    "sherlockReport": "Relatório do Sherlock",
+    "designerTip": "Dica do Designer",
+    "squadTip": "Dica do Squad",
+    "approveBtn": "APROVAR E AGENDAR",
+    "reGenerate": "Regerar com IA"
+  }
+}
