@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, Mail, Lock, User, ChevronRight, Loader2 } from 'lucide-react';
 import { BorderBeam } from './components/ui/border-beam';
 
-const SignupView = ({ onSignup }) => {
+const SignupView = ({ brand, setBrand, onComplete, onBack }) => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
@@ -11,8 +11,20 @@ const SignupView = ({ onSignup }) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.password) return;
     setLoading(true);
+    
+    // Simulate API call and save to DNA
     setTimeout(() => {
-      onSignup(formData);
+      const updatedBrand = { 
+        ...brand, 
+        userName: formData.name, 
+        userEmail: formData.email,
+        plan: 'free',
+        onboardingComplete: false // Force onboarding for new signups
+      };
+      setBrand(updatedBrand);
+      localStorage.setItem('sc_brand', JSON.stringify(updatedBrand));
+      setLoading(false);
+      onComplete();
     }, 1500);
   };
 

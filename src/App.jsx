@@ -260,21 +260,21 @@ const PLAN_SPECS = {
     price: 67, 
     credits: 80, 
     isMonthly: true,
-    features: ['80 créditos/mês', 'Até 8 carrosséis/mês', 'Estratégia IA']
+    features: ['80 créditos/mês', 'Carrossel, Posts & Stories', 'Estratégia IA']
   },
   crescimento: { 
     name: 'CRESCIMENTO', 
     price: 147, 
     credits: 240, 
     isMonthly: true,
-    features: ['240 créditos/mês', 'Ideal para escala', 'Prioridade']
+    features: ['240 créditos/mês', 'Carrossel, Post Estático, Stories, Story Carrossel', 'Análise de Nicho']
   },
   completo: { 
-    name: 'ESCALA', 
+    name: 'COMPLETO', 
     price: 197, 
     credits: 400, 
     isMonthly: true,
-    features: ['400 créditos/mês', 'Acesso a BLOG', 'Suporte VIP']
+    features: ['400 créditos/mês', 'Todos os tipos de conteúdo', 'Blog incluso (8 créditos/artigo)']
   }
 };
 
@@ -1778,4 +1778,95 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
     </div>
   );
 
+  return (
+    <div className="flex h-screen overflow-hidden bg-[#060608] font-sans selection:bg-accent/30">
+      <Sidebar />
+      
+      <main className="flex-1 flex flex-col relative overflow-hidden">
+        {/* Top Header */}
+        <div className="p-8 lg:p-12 overflow-y-auto custom-scrollbar flex-1 relative z-10">
+          <Header />
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={dashView}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {dashView === 'home' && <HomeView />}
+              {dashView === 'criar' && <CreateView />}
+              {dashView === 'calendario' && <CalendarView />}
+              {dashView === 'vibe' && <IntelPage brand={brand} setBrand={setBrand} onRefreshSuggestions={refreshSuggestions} />}
+              {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
+              {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} onDone={() => setDashView('home')} />}
+              {dashView === 'ideias' && <SavedIdeasPage brand={brand} setBrand={setBrand} onUseIdea={(idea) => { handleCreateByType(idea.suggested_format); setTopicHint(idea.title); }} />}
+              {dashView === 'banco_imagens' && <ImageBankPage brand={brand} setBrand={setBrand} />}
+              {dashView === 'entrega' && <DeliveryPage brand={brand} setBrand={setBrand} />}
+              {dashView === 'configuracoes' && <SettingsPage brand={brand} setBrand={setBrand} onCancelAccount={() => setIsCancellationFlowOpen(true)} />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </main>
+
+      <PipelineOverlay />
+      
+      {isSherlockConfirmOpen && (
+        <SherlockConfirmationModal 
+          type={sherlockSearchType} 
+          onClose={() => setIsSherlockConfirmOpen(false)} 
+          onConfirm={() => startSherlockResearch(sherlockSearchType)} 
+        />
+      )}
+      
+      {sherlockResults && <SherlockResultsView />}
+      
+      {selectedItem && (
+        <ContentReviewModal 
+          item={selectedItem} 
+          brand={brand}
+          onClose={() => setSelectedItem(null)} 
+          onApprove={() => {
+            const idx = agenda.findIndex(a => a.id === selectedItem.id);
+            if (idx !== -1) handleApprove(idx);
+            setSelectedItem(null);
+          }}
+        />
+      )}
+
+      {isLimitModalOpen && (
+        <LimitModal 
+          brand={brand} 
+          isOpen={isLimitModalOpen} 
+          onClose={() => setIsLimitModalOpen(false)} 
+          onUpgrade={() => { setIsLimitModalOpen(false); setDashView('configuracoes'); }}
+        />
+      )}
+
+      {isCancellationFlowOpen && (
+        <CancellationFlow 
+           isOpen={isCancellationFlowOpen} 
+           onClose={() => setIsCancellationFlowOpen(false)}
+           onConfirm={handleCancelAccount}
+           onDowngrade={handleDowngrade}
+           onPause={handlePause}
+           brand={brand}
+        />
+      )}
+      
+      {isDNAIncomplete && (
+         <div className="fixed bottom-8 right-8 z-[100] animate-in slide-in-from-right duration-500">
+            <div className="glass border border-accent/20 p-6 rounded-[32px] shadow-2xl space-y-4 max-w-sm">
+               <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent"><Fingerprint size={20}/></div>
+                  <h4 className="text-sm font-black uppercase italic tracking-tighter text-white">DNA Incompleto</h4>
+               </div>
+               <p className="text-[10px] text-gray-400 font-bold leading-relaxed uppercase tracking-widest">Seu Sherlock precisa de mais dados para ser preciso. Complete seu Brand Kit.</p>
+               <button onClick={() => { setIsDNAIncomplete(false); setDashView('dna'); }} className="w-full py-3 bg-accent text-black font-black uppercase tracking-widest text-[9px] rounded-xl hover:scale-105 transition-all">Completar Agora</button>
+            </div>
+         </div>
+      )}
+    </div>
+  );
 }

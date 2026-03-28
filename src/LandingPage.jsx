@@ -24,7 +24,10 @@ import {
   Cpu,
   BarChart3,
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  Calendar,
+  Fingerprint,
+  X
 } from "lucide-react"
 
 // Testimonial Card Simplified
@@ -97,26 +100,16 @@ export default function LandingPage({ onGetStarted, onLogin }) {
 
   return (
     <div className="min-h-screen bg-[#060608] text-white selection:bg-[#00BFC6]/30 font-sans">
-      {/* --- NAVBAR --- */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6">
-         <div className="max-w-7xl mx-auto flex items-center justify-between glass border border-white/5 px-8 py-4 rounded-[28px] backdrop-blur-3xl">
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 font-sans">
+         <div className="max-w-7xl mx-auto flex items-center justify-between glass border border-white/5 px-8 py-5 rounded-[32px] backdrop-blur-3xl shadow-2xl">
             <div className="flex items-center gap-3">
-               <div className="w-8 h-8 rounded-lg bg-[#00BFC6] flex items-center justify-center p-1.5 shadow-[0_0_20px_rgba(0,191,198,0.3)]">
+               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00E5EE] to-[#00BFC6] flex items-center justify-center p-2 shadow-[0_0_30px_rgba(0,191,198,0.3)]">
                   <img src="/assets/postdna-icon.svg" className="w-full" alt="PostDNA Logo" />
                </div>
-               <span className="font-extrabold tracking-tighter text-lg uppercase italic">PostDNA</span>
+               <span className="font-extrabold tracking-tighter text-xl uppercase italic text-white">PostDNA</span>
             </div>
             
-            <div className="hidden md:flex items-center gap-10">
-               <a href="#features" className="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-white transition-colors">Squad</a>
-               <a href="#demo" className="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-white transition-colors">Tecnologia</a>
-               <a href="#testimonials" className="text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-white transition-colors">Prova Social</a>
-            </div>
-
-            <div className="flex items-center gap-4">
-               <button onClick={onLogin} className="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white px-4 py-2 hover:bg-white/5 rounded-xl transition-all">Login</button>
-               <button onClick={onGetStarted} className="px-6 py-3 bg-[#00BFC6] text-black font-black rounded-xl text-[10px] uppercase tracking-widest hover:scale-105 transition-transform">Get Started</button>
-            </div>
+            <button onClick={onLogin} className="px-8 py-3 bg-[#00BFC6] text-black font-black rounded-2xl text-[11px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(0,191,198,0.2)]">ENTRAR</button>
          </div>
       </nav>
 
@@ -142,9 +135,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           <div className="flex flex-col items-center gap-6">
             <button 
               onClick={onGetStarted}
-              className="px-16 py-8 bg-[#00BFC6] text-black font-black rounded-2xl hover:scale-105 transition-all shadow-[0_0_60px_rgba(0,191,198,0.4)] text-xl uppercase tracking-widest group relative overflow-hidden"
+              className="px-16 py-8 bg-[#00BFC6] text-black font-black rounded-3xl text-xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_0_60px_rgba(0,191,198,0.4)] relative group overflow-hidden"
             >
-              <span className="relative z-10">Criar meu primeiro post grátis →</span>
+              <span className="relative z-10">ENTRAR AGORA →</span>
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </button>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500">
@@ -210,67 +203,84 @@ export default function LandingPage({ onGetStarted, onLogin }) {
         </div>
       </section>
 
-      {/* --- AGENT HUB SECTION (CENTRO + AGENTES) --- */}
+      {/* --- AGENT HUB SECTION (SQUAD EM SEQUÊNCIA) --- */}
       <section className="py-40 px-4 relative overflow-hidden bg-[#08080A]">
+        {/* Decorative background grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
         <div className="text-center mb-24 space-y-4 relative z-10">
-          <div className="text-[#00BFC6] font-black tracking-[0.3em] uppercase text-xs">A Tecnologia por trás do DNA</div>
+          <div className="text-[#00BFC6] font-black tracking-[0.3em] uppercase text-xs">Inteligência em Sequência</div>
           <h2 className="text-4xl md:text-6xl font-black tracking-tight italic uppercase italic">O Squad trabalhando por você</h2>
-          <p className="text-neutral-500 max-w-2xl mx-auto font-medium">Um fluxo integrado de agentes especialistas que garantem que seu conteúdo nunca seja genérico.</p>
+          <p className="text-neutral-500 max-w-2xl mx-auto font-medium leading-relaxed">Cada agente tem uma função vital na construção do seu DNA Digital. Um processo linear de perfeição.</p>
         </div>
 
         <div
-          className="relative flex h-[600px] w-full items-center justify-center overflow-hidden p-10 max-w-6xl mx-auto bg-black/40 rounded-[60px] border border-white/5"
+          className="relative flex h-[700px] w-full items-center justify-center overflow-hidden p-10 max-w-6xl mx-auto"
           ref={containerRef}
         >
-          <div className="flex size-full max-h-[400px] max-w-lg flex-col items-stretch justify-between gap-10">
+          <div className="flex size-full max-h-[500px] max-w-2xl flex-col items-stretch justify-between gap-10">
+            {/* Top Row: Sherlock & Designer */}
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 01</div>
                 <Circle ref={div1Ref}>
                   <Search className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">1. Sherlock</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Sherlock</span>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 05</div>
                 <Circle ref={div5Ref}>
                   <Palette className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">5. Designer</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Designer</span>
               </div>
             </div>
+
+            {/* Middle Row: Analista & PostDNA & Copywriter */}
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 02</div>
                 <Circle ref={div2Ref}>
                   <BarChart3 className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">2. Analista</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Analista</span>
               </div>
               
-              <Circle ref={div4Ref} className="size-28 md:size-32 bg-gradient-to-br from-[#00E5EE] to-[#00BFC6] p-0.5 border-none shadow-[0_0_80px_rgba(0,191,198,0.4)]">
-                <div className="w-full h-full bg-[#060608] rounded-2xl flex items-center justify-center relative overflow-hidden">
-                  <img src="/assets/postdna-icon.svg" className="w-14 md:w-16 relative z-10" alt="PostDNA" />
-                  <div className="absolute inset-0 bg-[#00BFC6]/5 animate-pulse" />
-                </div>
-              </Circle>
+              <div className="flex flex-col items-center gap-4">
+                <Circle ref={div4Ref} className="size-32 md:size-40 bg-gradient-to-br from-[#00E5EE] to-[#00BFC6] p-0.5 border-none shadow-[0_0_100px_rgba(0,191,198,0.4)] animate-pulse">
+                  <div className="w-full h-full bg-[#060608] rounded-full flex items-center justify-center relative overflow-hidden">
+                    <img src="/assets/postdna-icon.svg" className="w-16 md:w-20 relative z-10" alt="PostDNA" />
+                    <div className="absolute inset-0 bg-[#00BFC6]/5" />
+                  </div>
+                </Circle>
+                <span className="text-[11px] font-black uppercase text-[#00BFC6] tracking-[0.4em] italic">PostDNA Core</span>
+              </div>
 
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 04</div>
                 <Circle ref={div6Ref}>
                   <Type className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">4. Copywriter</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Copywriter</span>
               </div>
             </div>
+
+            {/* Bottom Row: Estrategista & Revisor */}
             <div className="flex flex-row items-center justify-between">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 03</div>
                 <Circle ref={div3Ref}>
                   <Target className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">3. Estrategista</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Estrategista</span>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-3 group">
+                <div className="absolute -top-6 text-[10px] font-black text-[#00BFC6]/40 uppercase tracking-widest group-hover:text-[#00BFC6] transition-colors">Passo 06</div>
                 <Circle ref={div7Ref}>
                   <CheckCircle2 className="w-8 h-8 text-[#00BFC6]" />
                 </Circle>
-                <span className="text-[10px] font-black uppercase text-white tracking-widest">6. Revisor</span>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">Revisor</span>
               </div>
             </div>
           </div>
@@ -278,83 +288,129 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           <AnimatedBeam
             containerRef={containerRef}
             fromRef={div1Ref}
-            toRef={div4Ref}
-            curvature={-75}
-            endYOffset={-10}
-            duration={5}
+            toRef={div2Ref}
+            duration={3}
           />
           <AnimatedBeam
             containerRef={containerRef}
             fromRef={div2Ref}
-            toRef={div4Ref}
-            duration={6}
+            toRef={div3Ref}
+            duration={3}
           />
           <AnimatedBeam
             containerRef={containerRef}
             fromRef={div3Ref}
             toRef={div4Ref}
-            curvature={75}
-            endYOffset={10}
-            duration={4}
+            duration={3}
           />
           <AnimatedBeam
             containerRef={containerRef}
-            fromRef={div5Ref}
-            toRef={div4Ref}
-            curvature={-75}
-            endYOffset={-10}
-            duration={5}
-            reverse
+            fromRef={div4Ref}
+            toRef={div6Ref}
+            duration={3}
           />
           <AnimatedBeam
             containerRef={containerRef}
             fromRef={div6Ref}
-            toRef={div4Ref}
-            duration={6}
-            reverse
+            toRef={div5Ref}
+            duration={3}
           />
           <AnimatedBeam
             containerRef={containerRef}
-            fromRef={div7Ref}
-            toRef={div4Ref}
-            curvature={75}
-            endYOffset={10}
-            duration={4}
-            reverse
+            fromRef={div5Ref}
+            toRef={div7Ref}
+            duration={3}
           />
         </div>
       </section>
 
-      {/* --- FEATURES BENTO GRID --- */}
-      <section className="py-40 px-4 max-w-7xl mx-auto">
-         <div className="grid md:grid-cols-12 gap-6">
-            <div className="md:col-span-8 p-12 bg-white/[0.02] border border-white/10 rounded-[48px] overflow-hidden relative group">
-               <div className="absolute top-0 right-0 w-96 h-96 bg-[#00BFC6]/5 blur-[100px] pointer-events-none transition-all duration-500 group-hover:bg-[#00BFC6]/10" />
-               <div className="space-y-6 relative z-10">
-                  <Sparkles className="w-12 h-12 text-[#00BFC6]" />
-                  <h3 className="text-4xl font-bold tracking-tight">Seu Negócio, Seu DNA.<br/> Sem templates genéricos.</h3>
-                  <p className="text-neutral-400 text-lg max-w-xl">O PostDNA aprende com seu site e referências para criar um estilo visual único que ninguém pode copiar.</p>
-                  <div className="flex items-center gap-4 pt-4">
-                     {[1, 2, 3].map(i => (
-                        <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-[#00BFC6]">
-                           <CheckCircle2 className="w-3 h-3" /> Inteligência Real
-                        </div>
-                     ))}
-                  </div>
-               </div>
-            </div>
-
-            <div className="md:col-span-4 p-12 bg-[#00BFC6] rounded-[48px] text-black space-y-8 flex flex-col justify-between">
-               <div className="space-y-4">
-                  <Zap className="w-12 h-12" />
-               <h3 className="text-3xl font-black uppercase leading-none tracking-tighter">Velocidade <br /> de Elite</h3>
-               </div>
-               <p className="font-bold text-lg leading-snug">O que um designer leva 4 dias para entregar, seu squad faz em 3 minutos.</p>
-               <button onClick={onGetStarted} className="w-full py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-transform">
-                  CRIAR CONTA
-               </button>
-            </div>
+      {/* --- FEATURES BENTO GRID (ESTILO MAGIC UI) --- */}
+      <section className="py-40 px-4 max-w-7xl mx-auto space-y-20">
+         <div className="text-center space-y-4">
+            <div className="text-[#00BFC6] font-black tracking-[0.3em] uppercase text-xs">A Tecnologia de Elite</div>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tight italic uppercase italic">Sua marca no próximo nível</h2>
          </div>
+
+         <BentoGrid>
+            {/* CARD 1: SHERLOCK INTEL */}
+            <BentoCard
+              name="Inteligência Sherlock"
+              className="lg:col-span-2 lg:row-span-1"
+              background={
+                <div className="absolute inset-0 opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]">
+                  <div className="flex flex-col gap-2 p-8 h-full items-center justify-center">
+                    <div className="flex gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center border border-accent/20 animate-pulse"><Search size={24} className="text-accent" /></div>
+                      <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/5"><TrendingUp size={24} className="text-white/40" /></div>
+                      <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/5"><Target size={24} className="text-white/40" /></div>
+                    </div>
+                  </div>
+                </div>
+              }
+              Icon={Search}
+              description="A IA que vasculha o mercado por você e encontra os temas que estão bombando agora."
+              href="/dashboard"
+              cta="Ver por dentro"
+            />
+
+            {/* CARD 2: NOTIFICAÇÕES */}
+            <BentoCard
+              name="Notificações de Elite"
+              className="lg:col-span-1 lg:row-span-1"
+              background={
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden p-6 opacity-40">
+                  <div className="space-y-2 w-full">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5 animate-in slide-in-from-right duration-500" style={{ animationDelay: `${i*200}ms` }}>
+                         <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center"><Zap size={12} className="text-accent" /></div>
+                         <div className="flex-1 h-2 bg-white/10 rounded-full w-2/3" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              }
+              Icon={Zap}
+              description="Alertas de conteúdo pronto, créditos expirando e tendências críticas."
+              href="/dashboard"
+              cta="Ativar agora"
+            />
+
+            {/* CARD 3: CALENDÁRIO */}
+            <BentoCard
+              name="Agenda de Conteúdo"
+              className="lg:col-span-1 lg:row-span-1"
+              background={
+                <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                   <div className="grid grid-cols-4 gap-2 w-full p-8">
+                      {[...Array(8)].map((_, i) => (
+                        <div key={i} className="aspect-square bg-white/10 rounded-lg border border-white/10 flex items-center justify-center">
+                          {i === 3 && <div className="size-2 rounded-full bg-accent animate-ping" />}
+                        </div>
+                      ))}
+                   </div>
+                </div>
+              }
+              Icon={Calendar}
+              description="Postagens para o mês inteiro organizadas em segundos. Sua audiência nunca fica órfã."
+              href="/dashboard"
+              cta="Organizar postagens"
+            />
+
+            {/* CARD 4: DNA VISUAL */}
+            <BentoCard
+              name="DNA Visual Único"
+              className="lg:col-span-2 lg:row-span-1"
+              background={
+                <div className="absolute inset-0 opacity-10 flex items-center justify-center">
+                   <Fingerprint size={300} className="text-neutral-500" strokeWidth={0.5} />
+                </div>
+              }
+              Icon={Palette}
+              description="O squad estuda suas cores, fontes e estilo. Nenhum post é genético — tudo é construído com seu DNA."
+              href="/dashboard"
+              cta="Definir meu estilo"
+            />
+         </BentoGrid>
       </section>
 
       {/* --- SECTION 3: COMO FUNCIONA --- */}
@@ -408,9 +464,25 @@ export default function LandingPage({ onGetStarted, onLogin }) {
              </div>
           </div>
 
-          <button onClick={onGetStarted} className="px-12 py-6 bg-[#00BFC6] text-black font-black rounded-2xl hover:scale-105 transition-all shadow-[0_0_50px_rgba(0,191,198,0.2)] text-lg uppercase tracking-widest">
-            Criar meu primeiro post grátis →
+          <button onClick={onGetStarted} className="px-12 py-6 bg-[#00BFC6] text-black font-black rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_50px_rgba(0,191,198,0.2)] text-lg uppercase tracking-widest">
+            ENTRAR AGORA →
           </button>
+        </div>
+      </section>
+
+      {/* --- SECTION 4.5: TESTEMUNHOS (MARQUEE) --- */}
+      <section className="py-20 bg-black/20 border-y border-white/5 relative overflow-hidden">
+        <div className="max-w-full space-y-4">
+           <Marquee pauseOnHover className="[--duration:40s]">
+              {testimonials.map((t, i) => (
+                <TestimonialCard key={i} {...t} />
+              ))}
+           </Marquee>
+           <Marquee reverse pauseOnHover className="[--duration:50s]">
+              {testimonials.map((t, i) => (
+                <TestimonialCard key={i} {...t} />
+              ))}
+           </Marquee>
         </div>
       </section>
 
@@ -467,48 +539,53 @@ export default function LandingPage({ onGetStarted, onLogin }) {
              <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors">
                 <div className="space-y-4">
                    <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Básico</div>
-                   <div className="text-5xl font-black uppercase italic">R$67<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="text-5xl font-black uppercase italic text-white leading-none">R$67<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
                 </div>
-                <ul className="text-left space-y-4 text-sm font-bold text-neutral-400 uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 80 Créditos</li>
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Carrossel & Posts</li>
-                   <li className="flex items-center gap-2 text-neutral-600">Sem Blog</li>
+                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2 font-bold"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 80 Créditos mensais</li>
+                   <li className="flex items-center gap-2 font-bold text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Carrossel, Post Estático, Stories</li>
+                   <li className="flex items-center gap-2 text-neutral-600"><X size={16} /> Sem blog</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-sm transition-all">Começar no Básico</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all">Assinar Agora</button>
              </div>
 
              {/* CRESCIMENTO */}
-             <div className="p-10 rounded-[40px] bg-[#00BFC6] text-black space-y-8 flex flex-col justify-between scale-105 shadow-[0_0_80px_rgba(0,191,198,0.2)] relative overflow-hidden">
-                <div className="absolute top-6 right-6 px-3 py-1 bg-black text-white text-[8px] font-black uppercase tracking-widest rounded-full">Mais Popular</div>
+             <div className="p-10 rounded-[40px] bg-[#00BFC6] text-black space-y-8 flex flex-col justify-between scale-105 shadow-[0_0_80px_rgba(0,191,198,0.2)] relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8">
+                   <div className="bg-black text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-xl">Mais Popular</div>
+                </div>
                 <div className="space-y-4">
                    <div className="text-xs font-black uppercase tracking-widest text-black/40">Crescimento</div>
                    <div className="text-5xl font-black uppercase italic">R$147<span className="text-xs text-black/40 not-italic">/mês</span></div>
                 </div>
-                <ul className="text-left space-y-4 text-sm font-bold text-black uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> 240 Créditos</li>
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Story Carrossel</li>
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Todos os Tipos</li>
+                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2 font-black"><CheckCircle2 size={16} /> 240 Créditos mensais</li>
+                   <li className="flex items-center gap-2 font-black"><CheckCircle2 size={16} /> Carrossel, Post Estático, Stories</li>
+                   <li className="flex items-center gap-2 font-black text-black/80"><CheckCircle2 size={16} /> Story Carrossel</li>
+                   <li className="flex items-center gap-2 opacity-40"><X size={16} /> Sem Blog</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-transform">Escolher Crescimento</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-transform">🚀 Começar Agora</button>
              </div>
 
              {/* COMPLETO */}
              <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors">
                 <div className="space-y-4">
                    <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Completo</div>
-                   <div className="text-5xl font-black uppercase italic">R$197<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="text-5xl font-black uppercase italic text-white leading-none">R$197<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
                 </div>
-                <ul className="text-left space-y-4 text-sm font-bold text-neutral-400 uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 400 Créditos</li>
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Blog Incluso</li>
-                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Suporte VIP</li>
+                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2 font-bold"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 400 Créditos mensais</li>
+                   <li className="flex items-center gap-2 font-bold text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Todos os tipos de conteúdo</li>
+                   <li className="flex items-center gap-2 font-black text-[#00BFC6]"><CheckCircle2 size={16} /> Blog incluso (8 créditos por artigo)</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-sm transition-all">Começar no Completo</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-[#00BFC6]/10 text-[#00BFC6] hover:bg-[#00BFC6]/20 border border-[#00BFC6]/20 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all">Assinar Agora</button>
              </div>
           </div>
 
-          <div className="pt-10">
-             <button onClick={onGetStarted} className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 hover:text-[#00BFC6] transition-colors underline underline-offset-8 decoration-neutral-800">Ainda em dúvida? Comece com 1 carrossel gratuito →</button>
+          <div className="pt-24 text-center">
+             <button onClick={onGetStarted} className="text-neutral-500 text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors group">
+               Ainda em dúvida? <span className="text-[#00BFC6] group-hover:underline underline-offset-8 transition-all font-black">Comece com 1 carrossel gratuito</span> — sem cartão de crédito.
+             </button>
           </div>
         </div>
       </section>

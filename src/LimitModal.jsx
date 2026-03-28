@@ -66,17 +66,17 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
                   <CheckCircle2 size={14} className="text-accent"/> 80 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-accent"/> Estratégia Sherlock
+                  <CheckCircle2 size={14} className="text-accent"/> Carrossel, Posts & Stories
                 </li>
-                <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-accent"/> Postagens Ilimitadas
+                <li className="flex items-center gap-3 text-gray-600 font-bold text-[10px] uppercase tracking-tight italic">
+                  <X size={14} /> Sem blog
                 </li>
               </ul>
             </div>
             <button 
               onClick={() => onUpgrade('basico')}
               className="w-full py-4 rounded-xl bg-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/20 transition-all mt-8">
-              {brand.plan === 'basico' ? 'Seu Plano Atual' : 'Migrar para Básico'}
+              {brand.plan === 'basico' ? 'Seu Plano Atual' : 'ENTRAR NO BÁSICO'}
             </button>
           </div>
 
@@ -98,17 +98,17 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
                   <CheckCircle2 size={14} className="text-accent"/> 240 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-accent"/> Prioridade na Fila IA
+                  <CheckCircle2 size={14} className="text-accent"/> Post Estático & Stories
                 </li>
                 <li className="flex items-center gap-3 text-gray-300 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-accent"/> Análise de Concorrência
+                  <CheckCircle2 size={14} className="text-accent"/> Story Carrossel
                 </li>
               </ul>
             </div>
             <button 
               onClick={() => onUpgrade('crescimento')}
-              className="w-full py-5 rounded-xl intel-gradient text-black font-black uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all mt-8 shadow-xl">
-              {brand.plan === 'crescimento' ? 'Seu Plano Atual' : 'Escolher Crescimento'}
+              className="w-full py-4 rounded-xl bg-accent text-black font-black uppercase tracking-widest text-[10px] hover:scale-[1.02] transition-all mt-8">
+              {brand.plan === 'crescimento' ? 'Seu Plano Atual' : 'ENTRAR NO CRESCIMENTO'}
             </button>
           </div>
 
@@ -123,21 +123,21 @@ const LimitModal = ({ brand, onClose, onUpgrade }) => {
                 </div>
               </div>
               <ul className="space-y-3">
-                <li className="flex items-center gap-3 text-accent font-black text-[10px] uppercase tracking-wider">
-                  <BookOpen size={14}/> Inclui ARTIGOS DE BLOG
-                </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
                   <CheckCircle2 size={14} className="text-accent"/> 400 créditos mensais
                 </li>
                 <li className="flex items-center gap-3 text-gray-400 font-bold text-[10px] uppercase tracking-tight">
-                  <CheckCircle2 size={14} className="text-accent"/> Suporte VIP 24/7
+                  <CheckCircle2 size={14} className="text-accent"/> Todos os Conteúdos
+                </li>
+                <li className="flex items-center gap-3 text-accent font-black text-[10px] uppercase tracking-tight">
+                  <CheckCircle2 size={14} className="text-accent"/> Blog Incluso
                 </li>
               </ul>
             </div>
             <button 
               onClick={() => onUpgrade('completo')}
               className="w-full py-4 rounded-xl bg-white/10 text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/20 transition-all mt-8">
-              {brand.plan === 'completo' ? 'Seu Plano Atual' : 'Quero ser Completo'}
+              {brand.plan === 'completo' ? 'Seu Plano Atual' : 'ENTRAR NO COMPLETO'}
             </button>
           </div>
 

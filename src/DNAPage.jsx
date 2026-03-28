@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Check, Upload, Palette, Type, ChevronRight, Globe, Zap,
-  RefreshCw, Save, AlertTriangle, Sparkles, ImageIcon, User, X
+  RefreshCw, Save, AlertTriangle, Sparkles, ImageIcon, User, X, Loader2
 } from 'lucide-react';
 import { extractDNA } from './dnaUtils';
+import { analyzeWebsiteDNA } from './aiAnalyzer';
 
 // ─── VOICE SLIDER ──────────────────────────────────────────────────────────────
 const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onChange }) => (
@@ -76,6 +77,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
   const [showFontPicker, setShowFontPicker] = useState(false);
   const [showStylePicker, setShowStylePicker] = useState(false);
   const [logoProposal, setLogoProposal] = useState(null); // { logo, colors, style }
+  const [isAnalyzingSite, setIsAnalyzingSite] = useState(false);
   const fileRef = useRef();
 
   const STYLE_VIBES = [
@@ -103,6 +105,40 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
   const save = () => {
     setBrand(prev => ({ ...prev, ...local }));
     showMsg(t('common.saved'));
+  };
+
+  const handleSiteAnalysis = async () => {
+    const url = local.salesLink;
+    if(!url || !url.includes('.')) {
+      alert("Por favor, digite um formato de site válido (ex: seusite.com.br)");
+      return;
+    }
+    
+    setIsAnalyzingSite(true);
+    showMsg("Sherlock analisando site...");
+    
+    try {
+      // Usaremos url crua - aiAnalyzer limpa.
+       const dna = await analyzeWebsiteDNA(url);
+       setLocal(prev => ({
+          ...prev,
+          colors: dna.colors || prev.colors,
+          voice: { ...(prev.voice || {}), ...(dna.voice || {}) },
+          visualStyle: dna.visualStyle || prev.visualStyle,
+          businessName: dna.businessName || prev.businessName,
+          product: dna.product || prev.product,
+          targetAudience: dna.targetAudience || prev.targetAudience,
+          persona: {
+             ...(prev.persona || {}),
+             mainPain: dna.mainPain || prev.persona?.mainPain
+          }
+       }));
+       showMsg("DNA Escaneado com Sucesso! Confirme abaixo.");
+    } catch (error) {
+       alert(error.message);
+    } finally {
+       setIsAnalyzingSite(false);
+    }
   };
 
   const handleLogoUpload = (e) => {
@@ -373,17 +409,39 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0 }) {
           {/* 4. Informações do Negócio */}
           <Section title={t('dnaPage.sections.business')} icon={<Zap size={16}/>} onSave={save} saveLabel={t('common.save')}>
             <div className="space-y-3">
+              
+              {/* SPECIAL FIELD: WEBSITE WITH AI EXTRACTOR */}
+              <div className="p-4 bg-accent/5 border border-[#c4973b]/20 rounded-[18px] space-y-3 relative overflow-hidden">
+                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-[50px] pointer-events-none" />
+                 <div className="flex items-center gap-2 relative z-10">
+                    <Sparkles size={14} className="text-accent" />
+                    <label className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Site da Marca (Escaneamento IA)</label>
+                 </div>
+                 <div className="flex gap-2 relative z-10">
+                    <input type="text" placeholder="ex: www.suamarca.com.br" value={local.salesLink || ''}
+                      onChange={e => setLocal(p => ({ ...p, salesLink: e.target.value }))}
+                      className="flex-1 h-12 bg-black/40 border border-[#c4973b]/20 rounded-[12px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/80 transition-all placeholder:text-gray-700"/>
+                    <button 
+                      onClick={handleSiteAnalysis}
+                      disabled={isAnalyzingSite || !local.salesLink}
+                      className="px-6 rounded-[12px] bg-[#c4973b] text-black font-black uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(196,151,59,0.3)]"
+                    >
+                      {isAnalyzingSite ? <Loader2 size={14} className="animate-spin" /> : "Extrair DNA"}
+                    </button>
+                 </div>
+                 <p className="text-[9px] text-[#c4973b]/60 font-bold uppercase tracking-widest relative z-10">O Sherlock lerá o seu site e preencherá a Identidade Visual, Tom de Voz e Persona magicamente.</p>
+              </div>
+
               {[
                 { key: 'businessName',   label: t('onboarding.step3.businessLabel'),   ph: t('onboarding.step3.businessPh')              },
                 { key: 'product',        label: t('onboarding.step3.productLabel'),    ph: t('onboarding.step3.productPh') },
                 { key: 'targetAudience', label: t('onboarding.step6.audienceLabel'),   ph: t('onboarding.step6.audiencePh')  },
                 { key: 'price',          label: t('onboarding.step3.priceLabel'),      ph: t('onboarding.step3.pricePh')                   },
-                { key: 'salesLink',      label: t('onboarding.step2.siteLabel'),       ph: t('onboarding.step2.sitePh')           },
               ].map(({ key, label, ph }) => (
                 <div key={key}>
                   <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1">{label}</label>
-                  <input type="text" placeholder={ph} defaultValue={local[key] || ''}
-                    onBlur={e => setLocal(p => ({ ...p, [key]: e.target.value }))}
+                  <input type="text" placeholder={ph} value={local[key] || ''}
+                    onChange={e => setLocal(p => ({ ...p, [key]: e.target.value }))}
                     className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
                 </div>
               ))}
