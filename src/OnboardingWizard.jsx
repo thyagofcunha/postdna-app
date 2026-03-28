@@ -61,12 +61,15 @@ export default function OnboardingWizard({ brand, setBrand, onComplete }) {
          const dna = await analyzeWebsiteDNA(localUrl);
          updatedBrand = {
             ...updatedBrand,
-            colors: dna.colors || updatedBrand.colors,
+            // Prioriza as cores reais da logo se existirem; se não, usa as cores intuídas pela IA
+            colors: (updatedBrand.colors && updatedBrand.colors.length > 0 && localLogo) 
+                       ? updatedBrand.colors 
+                       : (dna.colors || updatedBrand.colors),
             voice: { ...(updatedBrand.voice || {}), ...(dna.voice || {}) },
             visualStyle: dna.visualStyle || updatedBrand.visualStyle,
             businessName: dna.businessName || updatedBrand.businessName,
             product: dna.product || updatedBrand.product,
-            targetAudience: dna.targetAudience || updatedBrand.targetAudience,
+            targetAudience: dna.targetAudience || updatedBrand.targetAudience,    
             persona: {
                ...(updatedBrand.persona || {}),
                mainPain: dna.mainPain || updatedBrand.persona?.mainPain
