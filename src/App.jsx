@@ -2301,7 +2301,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         </div>
         <Header/>
         {dashView === 'home' && <HomeView />}
-        {dashView === 'inteligencia' && <IntelPage brand={brand} hasActivated={hasContent} primaryColor={primaryColor} onCreateFirst={(topic) => { handleCreateFirst(topic || null); setDashView('home'); }} />}
+        {dashView === 'inteligencia' && <IntelPage brand={brand} hasActivated={hasContent} primaryColor={primaryColor} onCreateFirst={(action) => { if(action === 'dna') setDashView('dna'); else { handleCreateFirst(action || null); setDashView('home'); } }} />}
         {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
         {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} approvedCount={approvedContent.length} />}
         {dashView === 'entrega' && (

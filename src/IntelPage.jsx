@@ -126,7 +126,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
   const [updating, setUpdating]         = useState(false);
   const [lastUpdate, setLastUpdate]     = useState(hasActivated ? new Date() : null);
   const [activeTopicIdx, setActiveTopicIdx] = useState(null);
-  const hasIG = !!brand.igHandle;
+  const hasIG = !!brand.isInstagramConnected;
 
   const intel = getMarketIntelligence(brand, t);
 
@@ -374,8 +374,10 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
                 {t('intelPage.ig.ctaSub')}
               </p>
             </div>
-            <button className="flex items-center gap-2 px-6 py-3 rounded-[16px] bg-white/5 border border-white/10 text-sm font-black uppercase tracking-widest hover:border-[#c4973b]/40 transition-all">
-              <Eye size={16}/> {t('intelPage.ig.ctaBtn', { handle: brand.igHandle || 'Instagram' })}
+            <button 
+              onClick={() => onCreateFirst?.('dna')}
+              className="flex items-center gap-2 px-8 py-4 rounded-[22px] gold-gradient text-black text-sm font-black uppercase tracking-widest hover:scale-[1.05] transition-transform shadow-xl">
+              <Zap size={16}/> CONECTAR INSTAGRAM AGORA
             </button>
           </div>
         )}
