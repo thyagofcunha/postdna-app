@@ -13,6 +13,8 @@ export default defineConfig({
     host: true
   },
   preview: {
-    allowedHosts: true
+    allowedHosts: ['postdna-app-production.up.railway.app', '.up.railway.app'],
+    host: true,
+    port: parseInt(process.env.PORT) || 8080
   }
 })

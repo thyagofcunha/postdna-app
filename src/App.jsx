@@ -4,7 +4,7 @@ import {
   ChevronRight, Globe, Type, LayoutDashboard, Loader2,
   Star, TrendingUp, Clock, MoreVertical, Sparkles, Target,
   DollarSign, Users, Mic, MessageSquare, User, Fingerprint,
-  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search
+  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DNAPage from './DNAPage';
@@ -298,14 +298,20 @@ const KPICard = ({ icon, label, value, sub }) => (
 
 
 const ColorFullPicker = ({ label, color, desc, onChange }) => (
-  <div className="flex items-center justify-between gap-6 p-4 rounded-2xl bg-white/3 border border-white/5 hover:border-white/10 transition-all">
-    <div className="flex-1">
-      <p className="text-[10px] font-black uppercase tracking-widest text-[#c4973b] mb-1">{label}</p>
-      <p className="text-[9px] font-bold text-gray-600 uppercase tracking-widest leading-tight">{desc}</p>
+  <div className="flex items-center justify-between gap-4 p-3 lg:p-4 rounded-2xl bg-white/3 border border-white/5 hover:border-white/10 transition-all">
+    <div className="flex-1 min-w-0">
+      <p className="text-[9px] lg:text-[10px] font-black uppercase tracking-widest text-[#c4973b] mb-0.5 truncate">{label}</p>
+      <p className="text-[8px] lg:text-[9px] font-bold text-gray-600 uppercase tracking-widest leading-tight line-clamp-1">{desc}</p>
     </div>
-    <div className="flex items-center gap-4 bg-black/20 p-2 rounded-xl border border-white/10">
-      <p className="text-[9px] font-mono font-black text-gray-500 uppercase">{color}</p>
-      <div className="relative w-10 h-10 rounded-lg overflow-hidden border-2 border-white/20">
+    <div className="flex items-center gap-2 lg:gap-4 bg-black/20 p-1.5 lg:p-2 rounded-xl border border-white/10 shrink-0">
+      <input 
+        type="text" 
+        value={color} 
+        onChange={e => onChange(e.target.value)}
+        className="w-16 lg:w-20 bg-transparent text-[9px] lg:text-[10px] font-mono font-black text-gray-400 uppercase outline-none focus:text-white transition-colors"
+        placeholder="#HEX"
+      />
+      <div className="relative w-8 h-8 lg:w-10 lg:h-10 rounded-lg overflow-hidden border-2 border-white/20 shrink-0">
         <input 
           type="color" 
           value={color} 
@@ -413,7 +419,8 @@ export default function App() {
            ...p,
            logo: logoData,
            colors: dna.colors,
-           suggestedStyle: dna.style
+           suggestedStyle: dna.style,
+           dnaDetected: true
          }));
        };
        img.src = logoData;
@@ -606,88 +613,110 @@ export default function App() {
               </StepWrapper>
 
               <StepWrapper active={step === 2}>
-                 <div className="space-y-10">
-                    <div className="space-y-2">
-                       <h3 className="text-4xl font-black uppercase italic tracking-tighter text-white">
-                         {brand.logo ? "Encontramos as cores da sua marca." : "Qual a essência da sua marca?"}
-                       </h3>
-                       <p className="text-gray-600 font-bold uppercase tracking-widest text-[10px]">Confirme ou ajuste as cores que serão aplicadas nos seus posts.</p>
-                    </div>
+              <div className="text-center space-y-2 mb-6">
+                <h3 className="text-2xl lg:text-4xl font-black uppercase italic tracking-tighter text-white">
+                  {brand.dnaDetected ? "DNA Visual Identificado" : "Cores do Seu DNA"}
+                </h3>
+                <p className="text-gray-600 font-bold uppercase tracking-widest text-[9px] lg:text-[10px]">
+                  {brand.dnaDetected ? "Sherlock encontrou as cores abaixo. Estão corretas?" : "Defina as cores que serão aplicadas nos seus posts."}
+                </p>
+              </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-10 py-6">
-                      {brand.colors?.slice(0,3).map((c, i) => (
-                          <ColorSwatch key={i} color={c} label={i===0?'Destaque':i===1?'Base':'Texto'} 
-                            onChange={(newColor) => {
-                              const newColors = [...brand.colors];
-                              newColors[i] = newColor;
-                              setBrand(p => ({ ...p, colors: newColors }));
-                            }} 
-                          />
+              {brand.dnaDetected ? (
+                <div className="space-y-8 animate-fade-in p-2">
+                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-white/5 p-6 rounded-[32px] border border-white/10 shadow-2xl">
+                    {(brand.colors || []).slice(0, 4).map((c, i) => (
+                      <div key={i} className="flex flex-col items-center gap-3">
+                        <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-[32px] shadow-2xl border-4 border-white/10 group relative overflow-hidden" style={{ backgroundColor: c }}>
+                           <input type="color" value={c} onChange={e => {
+                             const nc = [...brand.colors];
+                             nc[i] = e.target.value;
+                             setBrand({...brand, colors: nc});
+                           }} className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                        </div>
+                        <span className="text-[10px] font-mono text-[#c4973b] font-black">{c.toUpperCase()}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button onClick={() => setStep(3)} className="flex-1 py-5 bg-[#c4973b] text-black font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#c4973b]/20">
+                       Tudo Certo, Confirmar Cores →
+                    </button>
+                    <button 
+                      onClick={() => setBrand(prev => ({ ...prev, dnaDetected: false }))} 
+                      className="px-6 py-5 bg-white/5 border border-white/10 text-gray-500 font-bold uppercase tracking-widest text-[10px] rounded-2xl hover:text-white transition-all">
+                      Ajustar Manualmente
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-2 lg:gap-3 mb-4 lg:mb-8 bg-white/3 p-1 rounded-2xl border border-white/5">
+                      {['curadoria', 'personalizar'].map(tab => (
+                        <button 
+                          key={tab}
+                          onClick={() => setColorTab(tab)}
+                          className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-600 hover:text-white'}`}
+                        >
+                          {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
+                        </button>
                       ))}
-                    </div>
+                   </div>
 
-                    <div className="flex items-center gap-3 mb-8 bg-white/3 p-1 rounded-2xl border border-white/5">
-                        {['curadoria', 'personalizar'].map(tab => (
-                          <button 
-                            key={tab}
-                            onClick={() => setColorTab(tab)}
-                            className={`flex-1 py-3 text-[9px] font-black uppercase tracking-widest rounded-xl transition-all ${colorTab === tab ? 'bg-[#c4973b] text-black shadow-lg shadow-[#c4973b]/20' : 'text-gray-600 hover:text-white'}`}
-                          >
-                            {tab === 'curadoria' ? '✨ Curadoria' : '⚙️ Personalizar'}
-                          </button>
-                        ))}
-                     </div>
-
+                   <div className="max-h-[350px] lg:max-h-[500px] overflow-y-auto pr-2 custom-scrollbar space-y-4">
                      {colorTab === 'curadoria' ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
                            {ONBOARDING_PALETTES.map(p => (
                              <button 
                                key={p.id}
                                onClick={() => setBrand(prev => ({ ...prev, colors: p.colors }))}
-                               className={`p-5 rounded-[28px] border-2 transition-all text-left flex flex-col justify-between ${brand.colors?.[0] === p.colors[0] ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/3 hover:border-white/10'}`}
+                               className={`p-4 lg:p-5 rounded-[24px] lg:rounded-[28px] border-2 transition-all text-left flex flex-col justify-between ${brand.colors?.[0] === p.colors[0] ? 'border-[#c4973b] bg-[#c4973b]/5' : 'border-white/5 bg-white/3 hover:border-white/10'}`}
                              >
                                <div className="space-y-3">
-                                 <div className="flex gap-1 h-3">
+                                 <div className="flex gap-1 h-2 lg:h-3">
                                    {p.colors.map((c, idx) => <div key={idx} className="w-full rounded-full" style={{ backgroundColor: c }} />)}
                                  </div>
                                  <div className="flex justify-between items-end">
-                                    <div>
-                                      <p className="text-[11px] font-black uppercase text-white tracking-widest">{p.name}</p>
-                                      <p className="text-[9px] font-bold text-gray-600 uppercase tracking-tighter mt-1">{p.mood}</p>
+                                    <div className="min-w-0">
+                                      <p className="text-[10px] lg:text-[11px] font-black uppercase text-white tracking-widest truncate">{p.name}</p>
+                                      <p className="text-[8px] lg:text-[9px] font-bold text-gray-600 uppercase tracking-tighter mt-0.5">{p.mood}</p>
                                     </div>
-                                    <div className="w-2 h-2 rounded-full gold-gradient opacity-0 group-hover:opacity-100 transition-all shadow-[0_0_10px_#c4973b]" />
+                                    <div className={`w-2 h-2 rounded-full gold-gradient shadow-[0_0_10px_#c4973b] transition-opacity ${brand.colors?.[0] === p.colors[0] ? 'opacity-100' : 'opacity-0'}`} />
                                  </div>
                                </div>
                              </button>
                            ))}
                         </div>
                      ) : (
-                        <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        <div className="space-y-3 lg:space-y-4">
                            <ColorFullPicker 
                              label="Destaque Principal" 
-                             color={brand.colors[0]} 
+                             color={brand.colors[0] || '#c4973b'} 
                              desc="Cor de impacto para botões e CTA"
                              onChange={(c) => { const nc = [...brand.colors]; nc[0] = c; setBrand({...brand, colors: nc}); }} 
                            />
                            <ColorFullPicker 
                              label="Base da Marca" 
-                             color={brand.colors[1]} 
+                             color={brand.colors[1] || '#000000'} 
                              desc="Cor predominante do fundo e containers"
                              onChange={(c) => { const nc = [...brand.colors]; nc[1] = c; setBrand({...brand, colors: nc}); }} 
                            />
                            <ColorFullPicker 
                              label="Leitura e Texto" 
-                             color={brand.colors[2]} 
+                             color={brand.colors[2] || '#ffffff'} 
                              desc="Contraste ideal para máxima legibilidade"
                              onChange={(c) => { const nc = [...brand.colors]; nc[2] = c; setBrand({...brand, colors: nc}); }} 
                            />
                         </div>
                      )}
+                   </div>
 
-                    <button onClick={() => setStep(3)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-8">
-                       Confirmar cores →
-                    </button>
-                 </div>
+                  <button onClick={() => setStep(3)} className="gold-gradient w-full py-5 rounded-2xl text-black font-black uppercase tracking-widest text-xs shadow-xl mt-6 lg:mt-8">
+                     Confirmar cores →
+                  </button>
+                </div>
+              )}
               </StepWrapper>
 
               <StepWrapper active={step === 3}>
@@ -992,6 +1021,7 @@ const NAV_ITEMS = [
 function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   const { t, i18n } = useTranslation();
   const [dashView, setDashView]   = useState('home');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDNAIncomplete, setIsDNAIncomplete] = useState(false);
   const [isLimitModalOpen, setIsLimitModalOpen] = useState(false);
   const [pipelineSubtitle, setPipelineSubtitle] = useState('');
@@ -1306,7 +1336,20 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
 
   // Sidebar
   const Sidebar = () => (
-    <aside className="w-64 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0">
+    <>
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      <aside className={`fixed lg:static inset-y-0 left-0 w-64 glass border-r border-white/5 p-6 flex flex-col gap-5 shrink-0 z-[70] transform transition-transform duration-300 lg:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center"><Zap size={16} className="text-black"/></div>
         <span className="text-sm font-black uppercase tracking-tighter italic">Post<span className="text-[#c4973b]">DNA</span></span>
@@ -1367,6 +1410,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
         </p>
       </div>
     </aside>
+    </>
   );
 
   // ── PIPELINE OVERLAY ──
@@ -1472,10 +1516,21 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   const Header = () => (
-    <header className="flex items-center justify-between mb-10 shrink-0">
+    <header className="flex items-center justify-between mb-8 lg:mb-10 shrink-0 gap-4">
+      <div className="flex items-center gap-4">
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400"
+        >
+          <Menu size={20} />
+        </button>
+        <div className="lg:hidden">
+          <span className="text-sm font-black uppercase tracking-tighter italic">Post<span className="text-[#c4973b]">DNA</span></span>
+        </div>
+      </div>
       <div>
-        <h1 className="text-3xl font-black uppercase italic tracking-tighter leading-none mb-2">
-          {t('dashboard.welcomeActive')} {brand.userName || 'Chefe'}.
+        <h1 className="text-xl lg:text-3xl font-black uppercase italic tracking-tighter leading-none mb-2">
+          {t('dashboard.welcomeActive')} {firstName || 'Chefe'}.
         </h1>
         <div className="text-gray-500 font-bold uppercase tracking-widest text-[10px] flex items-center gap-3">
           <div className="flex items-center gap-2">
@@ -1788,9 +1843,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
   );
 
   return (
-    <div className="flex-1 flex overflow-hidden">
-      <Sidebar/>
-      <PipelineOverlay/>
+    <div className="flex h-screen bg-[#050505] text-white overflow-hidden font-inter selection:bg-[#c4973b] selection:text-black">
+      <Sidebar />
+      <PipelineOverlay />
       <AnimatePresence>
         {selectedItem && (
           <ContentReviewModal 
@@ -1805,7 +1860,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit }) {
           />
         )}
       </AnimatePresence>
-      <main className="flex-1 flex flex-col overflow-auto p-8 pt-0">
+      <main className="flex-1 flex flex-col min-w-0 overflow-x-hidden relative h-full bg-[#050505]">
         {/* Credit Banner Global */}
         <div className="flex-shrink-0 -mx-8 mb-8 overflow-hidden">
           <div className="bg-[#c4973b]/5 border-b border-white/5 px-8 py-5 flex items-center justify-between group hover:bg-[#c4973b]/10 transition-all">
