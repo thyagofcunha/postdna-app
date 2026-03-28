@@ -41,6 +41,21 @@ const TestimonialCard = ({ name, handle, content, avatar }) => (
   </div>
 );
 
+const Circle = React.forwardRef(({ className, children }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "z-10 flex size-20 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-2xl backdrop-blur-md transition-all duration-500 hover:border-[#00BFC6]/50 group",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+})
+Circle.displayName = "Circle"
+
 // Mock Data for Social Proof
 const testimonials = [
   {
@@ -70,14 +85,15 @@ const testimonials = [
 ]
 
 export default function LandingPage({ onGetStarted, onLogin }) {
-  const { t } = useTranslation()
-  const containerRef = useRef(null)
-  const hubRef = useRef(null)
-  const sherlockRef = useRef(null)
-  const strategyRef = useRef(null)
-  const designerRef = useRef(null)
-  const copywriterRef = useRef(null)
-  const analystRef = useRef(null)
+  const { t } = useTranslation();
+  const containerRef = useRef(null);
+  const div1Ref = useRef(null);
+  const div2Ref = useRef(null);
+  const div3Ref = useRef(null);
+  const div4Ref = useRef(null);
+  const div5Ref = useRef(null);
+  const div6Ref = useRef(null);
+  const div7Ref = useRef(null);
 
   return (
     <div className="min-h-screen bg-[#060608] text-white selection:bg-[#00BFC6]/30 font-sans">
@@ -197,90 +213,115 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* --- AGENT HUB SECTION (CENTRO + AGENTES) --- */}
       <section className="py-40 px-4 relative overflow-hidden bg-[#08080A]">
         <div className="text-center mb-24 space-y-4 relative z-10">
-          <div className="text-[#00BFC6] font-bold tracking-[0.3em] uppercase text-xs">A Tecnologia por trás do DNA</div>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight">O Squad trabalhando por você</h2>
-          <p className="text-neutral-500 max-w-2xl mx-auto">Um fluxo integrado de agentes especialistas que garantem que seu conteúdo nunca seja genérico.</p>
+          <div className="text-[#00BFC6] font-black tracking-[0.3em] uppercase text-xs">A Tecnologia por trás do DNA</div>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight italic uppercase italic">O Squad trabalhando por você</h2>
+          <p className="text-neutral-500 max-w-2xl mx-auto font-medium">Um fluxo integrado de agentes especialistas que garantem que seu conteúdo nunca seja genérico.</p>
         </div>
 
-        <div className="max-w-6xl mx-auto relative h-[600px] flex items-center justify-center p-10 bg-black/40 rounded-[60px] border border-white/5" ref={containerRef}>
-           
-           {/* CENTRAL HUB (POSTDNA) */}
-           <div className="relative z-20 group" ref={hubRef}>
-              <div className="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-gradient-to-br from-[#00E5EE] to-[#00BFC6] p-0.5 shadow-[0_0_80px_rgba(0,191,198,0.4)] transition-all duration-500 group-hover:scale-110">
-                 <div className="w-full h-full bg-[#060608] rounded-2xl flex items-center justify-center overflow-hidden">
-                    <img src="/assets/postdna-icon.svg" className="w-16 md:w-20" alt="PostDNA Hub" />
-                    <div className="absolute inset-0 bg-[#00BFC6]/5 animate-pulse" />
-                 </div>
+        <div
+          className="relative flex h-[600px] w-full items-center justify-center overflow-hidden p-10 max-w-6xl mx-auto bg-black/40 rounded-[60px] border border-white/5"
+          ref={containerRef}
+        >
+          <div className="flex size-full max-h-[400px] max-w-lg flex-col items-stretch justify-between gap-10">
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div1Ref}>
+                  <Search className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">1. Sherlock</span>
               </div>
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap text-sm font-black tracking-widest text-[#00BFC6]">NÚCLEO POSTDNA</div>
-           </div>
-
-           {/* OUTER AGENTS */}
-           <div className="absolute inset-0 z-10">
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div5Ref}>
+                  <Palette className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">5. Designer</span>
+              </div>
+            </div>
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div2Ref}>
+                  <BarChart3 className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">2. Analista</span>
+              </div>
               
-              {/* Top Left: SHERLOCK */}
-              <div className="absolute top-20 left-10 md:left-24 flex flex-col items-center gap-3 group" ref={sherlockRef}>
-                 <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-[#00BFC6]/50 transition-colors">
-                    <Search className="w-8 h-8 text-[#00BFC6]" />
-                 </div>
-                 <div className="text-center">
-                    <div className="text-xs font-black uppercase text-white">Sherlock</div>
-                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-tighter italic">Investigador de Mercado</div>
-                 </div>
+              <Circle ref={div4Ref} className="size-28 md:size-32 bg-gradient-to-br from-[#00E5EE] to-[#00BFC6] p-0.5 border-none shadow-[0_0_80px_rgba(0,191,198,0.4)]">
+                <div className="w-full h-full bg-[#060608] rounded-2xl flex items-center justify-center relative overflow-hidden">
+                  <img src="/assets/postdna-icon.svg" className="w-14 md:w-16 relative z-10" alt="PostDNA" />
+                  <div className="absolute inset-0 bg-[#00BFC6]/5 animate-pulse" />
+                </div>
+              </Circle>
+
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div6Ref}>
+                  <Type className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">4. Copywriter</span>
               </div>
-
-              {/* Top Right: DESIGNER */}
-              <div className="absolute top-20 right-10 md:right-24 flex flex-col items-center gap-3 group" ref={designerRef}>
-                 <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-[#00BFC6]/50 transition-colors">
-                    <Palette className="w-8 h-8 text-[#00BFC6]" />
-                 </div>
-                 <div className="text-center">
-                    <div className="text-xs font-black uppercase text-white">Visual Designer</div>
-                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-tighter italic">Identidade de Elite</div>
-                 </div>
+            </div>
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div3Ref}>
+                  <Target className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">3. Estrategista</span>
               </div>
-
-              {/* Bottom Left: ANALISTA */}
-              <div className="absolute bottom-20 left-10 md:left-24 flex flex-col items-center gap-3 group" ref={analystRef}>
-                 <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-[#00BFC6]/50 transition-colors">
-                    <BarChart3 className="w-8 h-8 text-[#00BFC6]" />
-                 </div>
-                 <div className="text-center">
-                    <div className="text-xs font-black uppercase text-white">Analista de Trends</div>
-                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-tighter italic">Viralidade Pautada</div>
-                 </div>
+              <div className="flex flex-col items-center gap-2">
+                <Circle ref={div7Ref}>
+                  <CheckCircle2 className="w-8 h-8 text-[#00BFC6]" />
+                </Circle>
+                <span className="text-[10px] font-black uppercase text-white tracking-widest">6. Revisor</span>
               </div>
+            </div>
+          </div>
 
-              {/* Bottom Right: REDATOR */}
-              <div className="absolute bottom-20 right-10 md:right-24 flex flex-col items-center gap-3 group" ref={copywriterRef}>
-                 <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-[#00BFC6]/50 transition-colors">
-                    <Type className="w-8 h-8 text-[#00BFC6]" />
-                 </div>
-                 <div className="text-center">
-                    <div className="text-xs font-black uppercase text-white">Copywriter VIP</div>
-                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-tighter italic">Conversão em Cada Palavra</div>
-                 </div>
-              </div>
-
-              {/* Middle Top: ESTRATEGISTA */}
-              <div className="absolute top-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 group" ref={strategyRef}>
-                 <div className="w-24 h-24 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-[#00BFC6]/50 transition-colors bg-gradient-to-t from-white/5 to-transparent">
-                    <Target className="w-10 h-10 text-[#00BFC6]" />
-                 </div>
-                 <div className="text-center">
-                    <div className="text-sm font-black uppercase text-white tracking-widest">Estrategista Chefe</div>
-                    <div className="text-[10px] font-bold text-neutral-500 uppercase tracking-tighter italic">Orquestração de Dados</div>
-                 </div>
-              </div>
-
-           </div>
-
-           {/* BEAMS: Outer -> Hub */}
-           <AnimatedBeam containerRef={containerRef} fromRef={sherlockRef} toRef={hubRef} duration={5} />
-           <AnimatedBeam containerRef={containerRef} fromRef={designerRef} toRef={hubRef} duration={7} reverse />
-           <AnimatedBeam containerRef={containerRef} fromRef={analystRef} toRef={hubRef} duration={6} />
-           <AnimatedBeam containerRef={containerRef} fromRef={copywriterRef} toRef={hubRef} duration={5} reverse />
-           <AnimatedBeam containerRef={containerRef} fromRef={strategyRef} toRef={hubRef} duration={4} curvature={20} />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div1Ref}
+            toRef={div4Ref}
+            curvature={-75}
+            endYOffset={-10}
+            duration={5}
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div2Ref}
+            toRef={div4Ref}
+            duration={6}
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div3Ref}
+            toRef={div4Ref}
+            curvature={75}
+            endYOffset={10}
+            duration={4}
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div5Ref}
+            toRef={div4Ref}
+            curvature={-75}
+            endYOffset={-10}
+            duration={5}
+            reverse
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div6Ref}
+            toRef={div4Ref}
+            duration={6}
+            reverse
+          />
+          <AnimatedBeam
+            containerRef={containerRef}
+            fromRef={div7Ref}
+            toRef={div4Ref}
+            curvature={75}
+            endYOffset={10}
+            duration={4}
+            reverse
+          />
         </div>
       </section>
 
