@@ -59,21 +59,35 @@ const CalendarPage = ({ approvedContent = [], brand, setDashView, onOpenDetails 
 
   if ((approvedContent || []).length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center space-y-6 animate-in fade-in duration-700">
-        <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center relative group">
-           <div className="absolute inset-0 bg-[#c4973b]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-           <CalendarIcon size={40} className="text-gray-700 relative z-10" />
+      <div className="flex flex-col gap-10">
+        {/* INFO CARD */}
+        <div className="flex items-start gap-4 bg-[#c4973b]/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-[#c4973b]/5">
+           <div className="w-10 h-10 rounded-xl bg-[#c4973b]/10 flex items-center justify-center text-xl shrink-0">📅</div>
+           <div className="space-y-1">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">O que é o Calendário de Marca?</h4>
+              <p className="text-[11px] text-gray-400 font-bold leading-relaxed">
+                 O Calendário é o <strong className="text-white">histórico de execução</strong> do seu Squad. 
+                 Assim que você aprova um conteúdo (Copy + Design), ele é registrado aqui automaticamente para controle de consistência e frequência.
+              </p>
+           </div>
         </div>
-        <div className="space-y-2">
-          <p className="text-sm font-black uppercase tracking-widest text-gray-400">Seu calendário está esperando</p>
-          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
-            Quando você aprovar um post, ele aparecerá aqui como um registro histórico da sua marca.
-          </p>
+
+        <div className="flex flex-col items-center justify-center py-10 text-center space-y-6 animate-in fade-in duration-700">
+          <div className="w-24 h-24 rounded-[32px] bg-white/5 border border-white/5 flex items-center justify-center relative group">
+             <div className="absolute inset-0 bg-[#c4973b]/10 blur-2xl rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
+             <CalendarIcon size={40} className="text-[#c4973b] relative z-10" />
+          </div>
+          <div className="space-y-2">
+            <p className="text-sm font-black uppercase tracking-widest text-white">Seu calendário ainda está virgem</p>
+            <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed">
+              Aprove conteúdos para vê-los organizados por data e horário.
+            </p>
+          </div>
+          <button onClick={() => setDashView('criar')}
+            className="gold-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
+            <Sparkles size={14} /> + Criar primeiro conteúdo
+          </button>
         </div>
-        <button onClick={() => setDashView('criar')}
-          className="gold-gradient text-black px-8 py-4 rounded-[20px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-2 hover:scale-[1.05] transition-transform shadow-xl">
-          <Sparkles size={14} /> + Criar primeiro conteúdo
-        </button>
       </div>
     );
   }

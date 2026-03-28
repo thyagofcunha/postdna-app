@@ -20,6 +20,7 @@ import SavedIdeasPage from './SavedIdeasPage';
 import ImageBankPage from './ImageBankPage';
 import DeliveryPage from './DeliveryPage';
 import LandingPage from './LandingPage';
+import CalendarPage from './CalendarPage';
 
 
 const TOTAL_STEPS = 7;
