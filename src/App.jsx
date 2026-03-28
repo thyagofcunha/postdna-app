@@ -23,6 +23,7 @@ import DeliveryPage from './DeliveryPage';
 import LandingPage from './LandingPage';
 import SettingsPage from './SettingsPage';
 import CancellationFlow from './CancellationFlow';
+import OnboardingWizard from './OnboardingWizard';
 
 const sanitizeColor = (c, fallback = '#000000') => 
   (typeof c === 'string' && c.startsWith('#') && (c.length === 4 || c.length === 7 || c.length === 9)) ? c : fallback;
@@ -698,7 +699,7 @@ export default function App() {
       <Route path="/onboarding" element={
         !isLoggedIn ? <Navigate to="/login" replace /> :
         isSetup ? <Navigate to="/dashboard" replace /> :
-        <Dashboard initialView="dna" forceOnboarding={true} brand={brand} setBrand={setBrand} primaryColor={primaryColor} onEditBrandKit={() => navigate("/onboarding")} />
+        <OnboardingWizard brand={brand} setBrand={setBrand} onComplete={() => navigate("/dashboard")} />
       } />
       
       <Route path="/dashboard/*" element={
