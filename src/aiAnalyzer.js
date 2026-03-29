@@ -82,7 +82,7 @@ ${markdown}
     throw new Error("Falha ao decodificar a identidade via IA. Verifique sua chave de acesso ou tente colar um link diferente.");
   }
 }
-export async function generateContent(brand, topic, type, objective) {
+export async function generateContent(brand, topic, type, objective = 'EDUCAR', vibe = 'editorial') {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   if (!apiKey) throw new Error("API Key não configurada.");
 
@@ -117,14 +117,15 @@ Você é o motor de inteligência do PostDNA, obedecendo à hierarquia rigorosa 
 - TEMA: "${topic}"
 - FORMATO: ${type}
 - QUANTIDADE: Gerar exatamente ${numSlides} slides no array.
-- FASE DO FUNIL: ${funnelPhase}
+- PHASE: ${funnelPhase}
+- ESTILO VISUAL REQUERIDO: ${vibe.toUpperCase()}
 
-### REGRAS CRÍTICAS DOS AGENTES:
-- Sherlock: Baseie-se em dores reais.
-- Estrategista: Transforme o tema em uma narrativa viciante.
-- Copy: Jargões da marca e gatilhos mentais.
-- Designer: Alterne layouts. Se for Carrossel, use EDITORIAL na capa obrigatoriamente.
-- Revisor: Se uma headline for longa demais, encurte-a sem piedade.
+### REGRAS CRÍTICAS DO SQUAD:
+1. **Sherlock**: Identifique o gatilho emocional para este objetivo.
+2. **Estrategista**: Se o Estilo for TWEET, use frases curtas e provocativas. Se for EDITORIAL, foque em narrativa visual.
+3. **Copy**: Adapte o tom para ${vibe}. Máx 12 palavras por slide.
+4. **Designer**: Use OBRIGATORIAMENTE o layout "${vibe}" na maioria dos slides.
+5. **Revisor**: Verifique se o ${vibe} está sendo respeitado.
 
 ### FORMATO DE SAÍDA (JSON):
 {
@@ -177,9 +178,9 @@ Você é o motor de inteligência do PostDNA, obedecendo à hierarquia rigorosa 
           image: `https://picsum.photos/seed/${randomSeed}/1080/1440`,
           safe_zone: type.includes('STORY'),
           max_lines: type.includes('STORY') ? 4 : 8,
-          primaryColor: brand.colors?.[0] || '#c4973b',
-          secondaryColor: brand.colors?.[1] || '#1a2240',
-          textColor: s.layout === 'editorial' ? '#1a2240' : '#ffffff'
+          primaryColor: brand.colors?.[0] || '#00BFC6',
+          secondaryColor: brand.colors?.[1] || '#060608',
+          textColor: (s.layout === 'editorial' || vibe === 'editorial') ? '#ffffff' : '#00BFC6'
         };
       }),
       hasImages: true

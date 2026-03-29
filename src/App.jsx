@@ -1015,8 +1015,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
   // const totalCredits = slots.length;
   // const hasCredits = usedCredits < totalCredits;
 
-  const runPipeline = async (idx, isFirst, topic = null) => {
-    const item = agenda[idx];
+  const runPipeline = async (idx, isFirst, topic = null, itemOverride = null) => {
+    const item = itemOverride || agenda[idx];
     const itemType = item?.type || 'CARROSSEL';
     const cost = CREDIT_COSTS[itemType] || 10;
     const hasCache = !!item?.research_cache || !!selectedItem?.research_cache;
@@ -1060,7 +1060,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       setPipelineSubtitle("Revisor (IA): Auditando qualidade e limites de texto...");
       
       const objective = item?.objective || 'EDUCAR';
-      const realGeneratedContent = await generateContent(brand, topic || item.topic, itemType, objective);
+      const realGeneratedContent = await generateContent(brand, topic || item.topic, itemType, objective, item?.vibe || 'editorial');
 
       const finishedItem = { 
         ...(agenda[idx] || item), 
@@ -1224,8 +1224,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     
     setAgenda(newAgenda);
     localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
-    setDashView('home'); // Mudar de tela depois de já ter ativado o Squad
-    runPipeline(0, approvedContent.length === 0, topicHint);
+    setDashView('home'); 
+    runPipeline(0, approvedContent.length === 0, topicHint, newItem);
   };
 
   // Sidebar
