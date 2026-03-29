@@ -766,6 +766,7 @@ const NAV_ITEMS = [
 function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView = 'home', forceOnboarding = false }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const firstName = brand.userName ? brand.userName.split(' ')[0] : null;
   const [dashView, setDashView]   = useState(initialView);
   const [globalAlert, setGlobalAlert] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -937,7 +938,6 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
   const slots     = PLAN_SLOTS[plan] || PLAN_SLOTS.crescimento;
   const hasContent= agenda.length > 0;
-  const firstName = brand.userName ? brand.userName.split(' ')[0] : null;
 
   const startSherlockResearch = (type) => {
     if (totalCredits < CREDIT_COSTS.SUGGESTION) {
