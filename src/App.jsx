@@ -586,7 +586,9 @@ export default function App() {
       onboardingComplete: false
     };
     try {
-      const s = localStorage.getItem('sc_brand'); 
+      // 1. Tentar ler usuário logado atual
+      const lastUser = localStorage.getItem('last_postdna_user') || 'guest';
+      const s = localStorage.getItem(`sc_brand_${lastUser}`); 
       if (s) {
         const saved = JSON.parse(s);
         const final = { ...defaultBrand, ...saved };
@@ -669,8 +671,10 @@ export default function App() {
 */
 
   useEffect(() => {
+    const userKey = brand.userName ? brand.userName.replace(/\s+/g, '_').toLowerCase() : 'guest';
+    localStorage.setItem('last_postdna_user', userKey);
     const { logo, ...rest } = brand;
-    try { localStorage.setItem('sc_brand', JSON.stringify(rest)); } catch {}
+    try { localStorage.setItem(`sc_brand_${userKey}`, JSON.stringify(rest)); } catch {}
     document.title = `${t('common.productName')} | ${t('dashboard.sidebar.home')}`;
   }, [brand, t]);
 
@@ -785,9 +789,11 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
   const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
   const [showPushBanner, setShowPushBanner] = useState(false);
   
-  const [agenda, setAgenda]       = useState(JSON.parse(localStorage.getItem('postdna_agenda') || '[]'));
-  const [approvedContent, setApprovedContent] = useState(JSON.parse(localStorage.getItem('postdna_approved') || '[]'));
-  const [recentContent, setRecentContent] = useState(JSON.parse(localStorage.getItem('postdna_recent') || '[]'));
+  const userKey = brand.userName ? brand.userName.replace(/\s+/g, '_').toLowerCase() : 'guest';
+  
+  const [agenda, setAgenda]       = useState(() => JSON.parse(localStorage.getItem(`postdna_agenda_${userKey}`) || '[]'));
+  const [approvedContent, setApprovedContent] = useState(() => JSON.parse(localStorage.getItem(`postdna_approved_${userKey}`) || '[]'));
+  const [recentContent, setRecentContent] = useState(() => JSON.parse(localStorage.getItem(`postdna_recent_${userKey}`) || '[]'));
   const [notifications, setNotifications] = useState(brand.notifications || []);
   
   const plan = brand.plan || 'free';
@@ -1088,7 +1094,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
         const newAgenda = agenda.map((a, i) => i === idx ? finishedItem : a);
         setAgenda(newAgenda);
-        localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
+        localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
         
         addNotification(
           'content_ready', 
@@ -1191,7 +1197,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     
     const newApproved = [approvedItem, ...approvedContent];
     setApprovedContent(newApproved);
-    localStorage.setItem('postdna_approved', JSON.stringify(newApproved));
+    localStorage.setItem(`postdna_approved_${userKey}`, JSON.stringify(newApproved));
     
     // Na aprovação, mantemos no dashboard com status 'Pronto' para retenção visual
     setAgenda(p => p.map((a, i) => i === idx ? { ...a, status: 'Pronto' } : a));
@@ -1231,11 +1237,11 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     const newAgenda = [newItem, ...agenda];
     const newRecent = [{ ...newItem, createdAt: new Date().toISOString() }, ...recentContent].slice(0, 5);
     setRecentContent(newRecent);
-    localStorage.setItem('postdna_recent', JSON.stringify(newRecent));
+    localStorage.setItem(`postdna_recent_${userKey}`, JSON.stringify(newRecent));
 
     setDashView('home');
     setAgenda(newAgenda);
-    localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
+    localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
     setGeneratingIdx(0);
     setSelectedItem(newItem);
     runPipeline(0, approvedContent.length === 0, topicHint);
