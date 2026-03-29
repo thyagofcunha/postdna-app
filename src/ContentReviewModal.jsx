@@ -5,7 +5,7 @@ import {
   Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell
 } from 'lucide-react';
 
-export default function ContentReviewModal({ item, brand, onApprove, onClose, readOnly = false, showPushBanner = false, onRequestPush }) {
+export default function ContentReviewModal({ item, brand, onApprove, onClose, setGlobalAlert, readOnly = false, showPushBanner = false, onRequestPush }) {
   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy'
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -87,8 +87,10 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, re
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activeTab === tab.id ? 'bg-accent text-black' : 'text-gray-300 hover:text-white'
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black transition-all ${
+                    activeTab === tab.id 
+                      ? 'bg-accent text-black shadow-lg shadow-accent/10' 
+                      : 'text-white/70 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10'
                   }`}
                 >
                   {tab.icon} {tab.label}
@@ -113,26 +115,51 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, re
                     )}
 
                     <div className="absolute inset-0">
-                      <img src={currentItem.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                      {currentItem.layout === 'editorial' ? (
+                        <div className="w-full h-full" style={{ backgroundColor: brand.colors?.[0] || '#F0EAD6' }}>
+                          {currentItem.image && (
+                            <img src={currentItem.image} className="w-full h-full object-cover opacity-30 mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                        </div>
+                      ) : (
+                        <div className="w-full h-full" style={{ backgroundColor: brand.colors?.[1] || '#1A2240' }}>
+                          {currentItem.image && (
+                            <img src={currentItem.image} className="w-full h-full object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                        </div>
+                      )}
                     </div>
                     
                     <div className="absolute inset-0 p-8 flex flex-col justify-end">
                       {/* Brand Logo Mini - Safe Zone check for stories */}
                       <div className={`absolute ${isStory ? 'top-12 right-6' : 'top-8 left-8'} w-10 h-10 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md`}>
-                        {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-1" /> : <span className="text-[10px] font-black">DNA</span>}
+                        {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-1" /> : (
+                          <span className={`text-[10px] font-black ${currentItem.layout === 'editorial' ? 'text-[#1A2240]' : 'text-white'}`}>DNA</span>
+                        )}
                       </div>
 
                       <div className="z-10 space-y-4">
-                        <div className="px-3 py-1 rounded-full bg-accent text-black text-[9px] font-black uppercase tracking-widest w-fit">
+                        <div 
+                          className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest w-fit"
+                          style={{ 
+                            backgroundColor: currentItem.layout === 'editorial' ? '#1A2240' : brand.colors?.[0] || '#C4973B',
+                            color: currentItem.layout === 'editorial' ? '#F0EAD6' : '#1A2240'
+                          }}
+                        >
                           {isStory ? currentItem.frameType || 'STORY' : 'FEED'} {currentSlide + 1}
                         </div>
                         <h3 
-                          className={`${isStory ? 'text-3xl' : 'text-4xl'} font-black uppercase italic tracking-tighter leading-tight text-white`}
+                          className={`${isStory ? 'text-3xl' : 'text-4xl'} font-black uppercase italic tracking-tighter leading-tight`}
+                          style={{ color: currentItem.layout === 'editorial' ? '#1A2240' : '#ffffff' }}
                         >
                           {currentItem.headline}
                         </h3>
-                        <p className="text-sm text-gray-300 font-bold leading-relaxed line-clamp-4">
+                        <p 
+                          className="text-sm font-bold leading-relaxed line-clamp-4"
+                          style={{ color: currentItem.layout === 'editorial' ? 'rgba(26, 34, 64, 0.8)' : 'rgba(255, 255, 255, 0.7)' }}
+                        >
                           {currentItem.body}
                         </p>
                       </div>
@@ -327,39 +354,25 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, re
                 <div className="flex gap-2">
                   <button 
                     onClick={() => {
-                        const btn = document.activeElement;
-                        const originalText = btn.innerText;
-                        btn.innerText = "REGERANDO...";
-                        btn.disabled = true;
-                        setTimeout(() => {
-                           // Mock change
-                           item.caption = "✨ Versão Regerada: " + (item.caption || "");
-                           if(item.slides?.[currentSlide]) {
-                              item.slides[currentSlide].headline = "NOVO: " + item.slides[currentSlide].headline;
-                           }
-                           btn.innerText = originalText;
-                           btn.disabled = false;
-                           setActiveTab('copy');
-                        }, 1500);
+                        // In a real app, this would call a prop function like onRegenerateText(item, currentSlide)
+                        setGlobalAlert({
+                          title: "IA em Ação",
+                          message: "Estamos regerando o texto deste slide com uma nova abordagem persuasiva. Aguarde um instante...",
+                          type: "info"
+                        });
+                        setTimeout(() => setGlobalAlert(null), 2000);
                     }}
                     className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
                     REGERAR TEXTO
                   </button>
                   <button 
                     onClick={() => {
-                        const btn = document.activeElement;
-                        const originalText = btn.innerText;
-                        btn.innerText = "TROCANDO...";
-                        btn.disabled = true;
-                        setTimeout(() => {
-                           // Mock change
-                           if(item.slides?.[currentSlide]) {
-                              item.slides[currentSlide].image = "https://picsum.photos/seed/" + Date.now() + "/800/1000";
-                           }
-                           btn.innerText = originalText;
-                           btn.disabled = false;
-                           setActiveTab('preview');
-                        }, 1500);
+                        setGlobalAlert({
+                          title: "Novo Visual",
+                          message: "O Agente Designer está buscando uma nova composição visual para este slide.",
+                          type: "info"
+                        });
+                        setTimeout(() => setGlobalAlert(null), 2000);
                     }}
                     className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
                     TROCAR DESIGN

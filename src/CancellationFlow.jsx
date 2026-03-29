@@ -6,7 +6,7 @@ import {
   MessageSquare, Pause, Search, Sparkles, Trash2, X, Zap 
 } from 'lucide-react';
 
-export default function CancellationFlow({ brand, onConfirm, onDowngrade, onPause, onClose }) {
+export default function CancellationFlow({ brand, onConfirm, onDowngrade, onPause, onClose, setGlobalAlert }) {
   const [step, setStep] = useState(1);
   const [reason, setReason] = useState('');
   const [reasonText, setReasonText] = useState('');
@@ -33,7 +33,11 @@ export default function CancellationFlow({ brand, onConfirm, onDowngrade, onPaus
   const handleNext = () => {
     if (reason === 'alternative' || reason === 'not_met') {
       if (!reasonText.trim()) {
-        alert("Poderia nos contar um pouco mais sobre o que faltou? Seu feedback é vital.");
+        setGlobalAlert?.({
+          title: "Feedback Essencial",
+          message: "Poderia nos contar um pouco mais sobre o que faltou? Seu feedback é vital para melhorarmos.",
+          type: "warning"
+        });
         return;
       }
       setStep(3); // Skip offer for these reasons

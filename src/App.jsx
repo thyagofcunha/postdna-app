@@ -4,7 +4,7 @@ import {
   ChevronRight, ChevronLeft, Globe, Type, LayoutDashboard, Loader2,
   Star, TrendingUp, Clock, MoreVertical, Sparkles, Target,
   DollarSign, Users, Mic, MessageSquare, User, Fingerprint,
-  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft, ExternalLink, Bell, RefreshCw
+  Layers, Square, Frame, Box, Heart, Camera, History, Lock, Search, Menu, X, ArrowLeft, ExternalLink, Bell, RefreshCw, Package, Download
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -751,6 +751,7 @@ const NAV_ITEMS = [
     { key: 'home',        icon: <LayoutDashboard size={15}/>, label: 'dashboard.sidebar.home'          },
     { key: 'criar',       icon: <Plus size={15}/>,            label: 'dashboard.sidebar.create'   },
     { key: 'calendario',  icon: <Calendar size={15}/>,        label: 'dashboard.sidebar.calendar'         },
+    { key: 'entrega',     icon: <Package size={15}/>,         label: 'Meus Downloads'         },
   ]},
   { section: 'dashboard.sidebar.marca', items: [
     { key: 'dna',         icon: <Fingerprint size={15}/>,   label: 'DNA da Marca'     },
@@ -1820,7 +1821,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#060608] font-sans selection:bg-accent/30">
-      {!forceOnboarding && <Sidebar />}
+      {!forceOnboarding && Sidebar()}
       
       <main className="flex-1 flex flex-col relative overflow-hidden">
         {forceOnboarding && (
@@ -1833,7 +1834,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
         )}
         {/* Top Header */}
         <div className="p-8 lg:p-12 overflow-y-auto custom-scrollbar flex-1 relative z-10">
-          {!forceOnboarding && <Header />}
+          {!forceOnboarding && Header()}
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -1843,9 +1844,9 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              {dashView === 'home' && <HomeView />}
-              {dashView === 'criar' && <CreateView />}
-              {dashView === 'calendario' && <CalendarView />}
+              {dashView === 'home' && HomeView()}
+              {dashView === 'criar' && CreateView()}
+              {dashView === 'calendario' && CalendarView()}
               {dashView === 'vibe' && <IntelPage brand={brand} setBrand={setBrand} onRefreshSuggestions={refreshSuggestions} />}
               {dashView === 'referencias' && <RefsPage brand={brand} setBrand={setBrand} />}
               {dashView === 'dna' && <DNAPage brand={brand} setBrand={setBrand} onDone={() => {
@@ -1861,17 +1862,15 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
         </div>
       </main>
 
-      <PipelineOverlay />
+      {PipelineOverlay()}
       
-      {isSherlockConfirmOpen && (
-        <SherlockConfirmationModal 
-          type={sherlockSearchType} 
-          onClose={() => setIsSherlockConfirmOpen(false)} 
-          onConfirm={() => startSherlockResearch(sherlockSearchType)} 
-        />
-      )}
+      {isSherlockConfirmOpen && SherlockConfirmationModal({
+          type: sherlockSearchType,
+          onClose: () => setIsSherlockConfirmOpen(false),
+          onConfirm: () => startSherlockResearch(sherlockSearchType)
+      })}
       
-      {sherlockResults && <SherlockResultsView />}
+      {sherlockResults && SherlockResultsView()}
       
       {selectedItem && (
         <ContentReviewModal 

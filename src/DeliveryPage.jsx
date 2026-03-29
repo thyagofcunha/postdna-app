@@ -5,13 +5,16 @@ import {
   RotateCw, ChevronLeft, Maximize2, FileText, 
   Camera, Settings, Package, Sliders, X
 } from 'lucide-react';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
 
-const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
+const DeliveryPage = ({ item, brand, onBack, onCreateVariation, setGlobalAlert }) => {
   const [copiedCaption, setCopiedCaption] = useState(false);
-  const [copiedHashtags, setCopiedHashtags] = useState(false);
   const [editableCaption, setEditableCaption] = useState(item.caption || "");
   const [fullScreenSlide, setFullScreenSlide] = useState(null);
   const [downloadModal, setDownloadModal] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
 
   const handleCopy = (text, setter) => {
     navigator.clipboard.writeText(text);
@@ -19,14 +22,97 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
     setTimeout(() => setter(false), 2000);
   };
 
-  const handleDownloadZip = (quality) => {
-    // Simulação de geração de ZIP com nomenclatura correta
-    const res = quality === 'high' ? '2160' : '1080';
-    const date = new Date().toISOString().split('T')[0];
-    const filename = `${brand.businessName.toLowerCase().replace(/\s/g, '-')}_${item.type.toLowerCase()}_all_slides_${date}_${res}px.zip`;
+  const handleDownloadZip = async (quality) => {
+    setIsZipping(true);
+    setGlobalAlert?.({ 
+      title: "Padrão Opensquad Ativado", 
+      message: "Convertendo HTML em JPG e organizando pastas... Aguarde.", 
+      type: "info" 
+    });
     
-    alert(`Iniciando download: ${filename}\nQualidade: ${quality === 'high' ? 'Alta Resolução (2160px)' : 'Padrão Instagram (1080px)'}`);
-    setDownloadModal(false);
+    try {
+      const zip = new JSZip();
+      const folderName = item.topic.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+      const rootFolder = zip.folder(folderName);
+      
+      // 1. Legenda
+      rootFolder.file("legenda.txt", editableCaption);
+      
+      // Container temporário para renderizar
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.left = '-5000px';
+      container.style.top = '0';
+      document.body.appendChild(container);
+
+      const isStory = item.type === 'STORIES' || item.type === 'REELS';
+
+      for (let i = 0; i < item.slides.length; i++) {
+        const slide = item.slides[i];
+        
+        const slideEl = document.createElement('div');
+        slideEl.style.width = '1080px';
+        slideEl.style.height = isStory ? '1920px' : '1080px';
+        slideEl.style.position = 'relative';
+        slideEl.style.overflow = 'hidden';
+        slideEl.style.backgroundColor = slide.layout === 'editorial' ? (brand.colors?.[0] || '#F0EAD6') : (brand.colors?.[1] || '#1A2240');
+        
+        slideEl.innerHTML = `
+          <div style="width: 100%; height: 100%; position: relative;">
+            <img src="${slide.image}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.45" />
+            <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
+            <div style="position: absolute; inset: 0; padding: 80px; display: flex; flex-direction: column; justify-content: flex-end; gap: 35px; font-family: 'Sora', 'Inter', sans-serif;">
+               <div style="background-color: ${slide.layout === 'editorial' ? '#1A2240' : (brand.colors?.[0] || '#C4973B')}; color: ${slide.layout === 'editorial' ? '#F0EAD6' : '#1A2240'}; padding: 12px 36px; border-radius: 60px; font-size: 26px; font-weight: 900; width: fit-content; text-transform: uppercase; letter-spacing: 0.1em;">
+                 ${isStory ? (slide.frameType || 'STORY') : 'ESPECIAL'}
+               </div>
+               <h1 style="font-size: ${isStory ? '90px' : '115px'}; font-weight: 900; text-transform: uppercase; font-style: italic; line-height: 0.95; color: ${slide.layout === 'editorial' ? '#1A2240' : '#ffffff'}; margin: 0; tracking: -0.05em;">
+                 ${slide.headline}
+               </h1>
+               <p style="font-size: 34px; font-weight: 700; color: ${slide.layout === 'editorial' ? 'rgba(26, 34, 64, 0.9)' : 'rgba(255, 255, 255, 0.8)'}; line-height: 1.4; margin: 0; max-width: 90%;">
+                 ${slide.body}
+               </p>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(slideEl);
+        
+        // Esperar carregar imagem se necessário (Picsum é rápido)
+        await new Promise(r => setTimeout(r, 300));
+
+        const canvas = await html2canvas(slideEl, { 
+          useCORS: true, 
+          scale: quality === 'high' ? 2 : 1.5,
+          logging: false,
+          width: 1080,
+          height: isStory ? 1920 : 1080
+        });
+        
+        const imgData = canvas.toDataURL("image/jpeg", 0.92);
+        const fileName = `${String(i + 1).padStart(2, '0')}.jpg`;
+        const base64Data = imgData.replace(/^data:image\/jpeg;base64,/, "");
+        
+        rootFolder.file(fileName, base64Data, {base64: true});
+        container.removeChild(slideEl);
+      }
+      
+      document.body.removeChild(container);
+      
+      const zipContent = await zip.generateAsync({ type: "blob" });
+      saveAs(zipContent, `${folderName}.zip`);
+      
+      setGlobalAlert?.({
+        title: "Download Concluído",
+        message: `ZIP '${folderName}.zip' gerado com sucesso no Padrão Opensquad.`,
+        type: "success"
+      });
+    } catch (err) {
+       console.error(err);
+       setGlobalAlert?.({ title: "Erro na Conversão", message: "Houve um erro ao renderizar os slides. Tente novamente.", type: "error" });
+    } finally {
+      setIsZipping(false);
+      setDownloadModal(false);
+    }
   };
 
   if (!item) return null;
@@ -41,7 +127,7 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
             onClick={onBack}
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-accent hover:gap-3 transition-all"
           >
-            <ChevronLeft size={16} /> Voltar ao Calendário
+            <ChevronLeft size={16} /> Voltar
           </button>
           <div className="space-y-2">
             <h2 className="text-4xl font-black uppercase italic tracking-tighter text-white leading-tight">{item.topic}</h2>
@@ -50,7 +136,7 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
                 {item.type}
               </span>
               <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
-                GERADO EM {new Date(item.date).toLocaleDateString()} · <span className="text-green-500">AGENDADO</span>
+                PRONTO PARA DOWNLOAD
               </span>
             </div>
           </div>
@@ -59,128 +145,64 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
         <div className="flex flex-wrap gap-4">
           <button 
             onClick={() => setDownloadModal(true)}
-            className="intel-gradient px-8 py-4 rounded-2xl text-[12px] font-black uppercase tracking-widest text-black flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-accent/20"
+            disabled={isZipping}
+            className={`intel-gradient px-8 py-4 rounded-2xl text-[12px] font-black uppercase tracking-widest text-black flex items-center gap-2 transition-all shadow-xl shadow-accent/20 ${isZipping ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
           >
-            <Package size={18} /> Baixar todos os slides
-          </button>
-          <button 
-             onClick={() => handleCopy(editableCaption, setCopiedCaption)}
-             className="bg-white/5 border border-white/10 px-8 py-4 rounded-2xl text-[12px] font-black uppercase tracking-widest text-white flex items-center gap-2 hover:bg-white/10 transition-all"
-          >
-            <FileText size={18} /> Baixar Legenda (.txt)
+            {isZipping ? <RefreshCw size={18} className="animate-spin" /> : <Package size={18} />} 
+            {isZipping ? 'Convertendo...' : 'Baixar ZIP Estruturado'}
           </button>
         </div>
       </header>
 
-      {/* SECTION 1: SLIDE PREVIEW */}
+      {/* PREVIEW */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Preview dos Slides</h3>
-          <p className="text-[10px] font-bold text-gray-700 uppercase italic">Formato {item.type === 'STORIES' ? '9:16' : '1:1'}</p>
-        </div>
-        
+        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Slides Convertidos</h3>
         <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide px-2">
           {(item.slides || []).map((slide, idx) => (
             <div key={idx} className="flex-none w-[320px] space-y-4">
-              <div className="group relative aspect-square rounded-[32px] overflow-hidden bg-white/5 border border-white/10 shadow-2xl">
-                <img 
-                  src={slide.image} 
-                  alt={`Slide ${idx + 1}`} 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6">
-                   <h4 className="text-white text-lg font-black uppercase italic leading-tight mb-2">{slide.headline}</h4>
-                   <div 
-                    className="absolute top-4 right-4 p-3 bg-black/40 backdrop-blur-md rounded-xl opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer text-white hover:bg-black/60"
-                    onClick={() => setFullScreenSlide(slide)}
-                   >
-                     <Maximize2 size={18} />
-                   </div>
+              <div 
+                className="group relative aspect-square rounded-[32px] overflow-hidden border border-white/10 shadow-2xl"
+                style={{ backgroundColor: slide.layout === 'editorial' ? (brand.colors?.[0] || '#c4973b') : (brand.colors?.[1] || '#1a2240') }}
+              >
+                <img src={slide.image} alt={`Slide ${idx + 1}`} className="w-full h-full object-cover opacity-50" />
+                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                   <h4 className={`text-sm font-black uppercase italic leading-tight ${slide.layout === 'editorial' ? 'text-navy' : 'text-white'}`}>{slide.headline}</h4>
                 </div>
               </div>
-              <div className="flex items-center justify-between px-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">SLIDE {idx + 1}</span>
-                <button 
-                  className="p-2 hover:text-accent transition-colors text-gray-600"
-                  title="Baixar este slide"
-                >
-                  <Download size={16} />
-                </button>
-              </div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 px-2">SLIDE {idx + 1}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* SECTION 3: CAPTION & SCHEDULING */}
+      {/* CAPTION */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         <section className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Legenda Otimizada</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Legenda (arquivo legenda.txt)</h3>
             <button 
               onClick={() => handleCopy(editableCaption, setCopiedCaption)}
               className="text-accent text-[10px] font-black uppercase tracking-widest flex items-center gap-2"
             >
               {copiedCaption ? <Check size={14} /> : <Copy size={14} />} 
-              {copiedCaption ? 'Copiado!' : 'Copiar Legenda'}
+              {copiedCaption ? 'Copiado!' : 'Copiar'}
             </button>
           </div>
           <textarea 
             value={editableCaption}
             onChange={(e) => setEditableCaption(e.target.value)}
-            className="w-full h-64 bg-white/5 border border-white/10 rounded-[32px] p-8 text-gray-300 text-sm leading-relaxed focus:outline-none focus:border-accent/30 transition-all font-medium resize-none shadow-inner"
+            className="w-full h-64 bg-white/10 border border-white/10 rounded-[32px] p-8 text-gray-300 text-sm leading-relaxed focus:outline-none focus:border-accent/30 transition-all font-medium resize-none shadow-inner"
           />
         </section>
 
-        <section className="space-y-12">
-          {/* SCHEDULING */}
-          <div className="space-y-6">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Agendamento Automático</h3>
-            <div className="p-8 rounded-[32px] bg-white/5 border border-white/10 space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] flex items-center justify-center text-white shadow-lg">
-                    <Camera size={24} />
-                  </div>
-                  <div>
-                    <p className="text-white text-sm font-bold">Instagram Business</p>
-                    <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">@{brand.userName.toLowerCase()}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-accent">Publicar em</p>
-                  <p className="text-white text-sm font-black uppercase italic">{new Date(item.date).toLocaleDateString('pt-BR', {day: 'numeric', month: 'long', year: 'numeric'})}</p>
-                </div>
-              </div>
-              <button className="w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                <Calendar size={14} /> Alterar data e hora
-              </button>
-            </div>
-          </div>
-
-          {/* ADDITIONAL ACTIONS */}
-          <div className="space-y-6">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Ações Rápidas</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <button 
-                onClick={onCreateVariation}
-                className="p-6 rounded-[24px] bg-white/5 border border-white/10 text-center space-y-3 group hover:border-[#c4973b]/30 transition-all"
-              >
-                <div className="w-10 h-10 rounded-xl bg-white/5 text-gray-400 mx-auto flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <RotateCw size={20} />
-                </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-white">Criar Variação</p>
-              </button>
-              
-              <button 
-                className="p-6 rounded-[24px] bg-white/5 border border-white/10 text-center space-y-3 group hover:border-blue-500/30 transition-all"
-              >
-                <div className="w-10 h-10 rounded-xl bg-white/5 text-gray-400 mx-auto flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Share2 size={20} />
-                </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-white">Compartilhar</p>
-              </button>
-            </div>
+        <section className="space-y-6">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Estrutura do Download</h3>
+          <div className="p-8 rounded-[32px] bg-white/5 border border-white/10 space-y-4 font-mono text-[10px] text-gray-400">
+             <p className="text-white">📄 {item.topic.toLowerCase().replace(/\s/g, '-')}.zip</p>
+             <p className="ml-4">📁 {item.topic.toLowerCase().replace(/\s/g, '-')}/</p>
+             <p className="ml-8">🖼️ 01.jpg (Capa)</p>
+             <p className="ml-8">🖼️ 02.jpg ...</p>
+             <p className="ml-8">📄 legenda.txt</p>
           </div>
         </section>
       </div>
@@ -192,28 +214,28 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
             <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setDownloadModal(false)} />
             <motion.div initial={{scale:0.9,opacity:0}} animate={{scale:1,opacity:1}} exit={{scale:0.9,opacity:0}} className="relative w-full max-w-sm glass rounded-[32px] p-8 border border-white/10 space-y-8">
               <div className="text-center space-y-2">
-                <h4 className="text-white text-xl font-black uppercase italic tracking-tighter">Escolha a Qualidade</h4>
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Resolução final do arquivo ZIP</p>
+                <h4 className="text-white text-xl font-black uppercase italic tracking-tighter text-glow">Qualidade Profissional</h4>
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Iniciando Padrão Opensquad</p>
               </div>
 
               <div className="space-y-4">
                 <button 
                   onClick={() => handleDownloadZip('standard')}
-                  className="w-full p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 transition-all"
+                  className="w-full p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 transition-all text-left"
                 >
-                  <div className="text-left">
+                  <div>
                     <p className="text-white font-black text-[12px] uppercase">Padrão Instagram</p>
-                    <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest">1080px · PNG Alta fidelidade</p>
+                    <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest">Slides 1080px (Rápido)</p>
                   </div>
                   <Check className="text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
                 <button 
                   onClick={() => handleDownloadZip('high')}
-                  className="w-full p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 transition-all"
+                  className="w-full p-6 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 transition-all text-left"
                 >
-                  <div className="text-left">
-                    <p className="text-accent font-black text-[12px] uppercase">Super Resolução</p>
-                    <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest">2160px · Uso Editorial</p>
+                  <div>
+                    <p className="text-accent font-black text-[12px] uppercase">Alta Qualidade (4K)</p>
+                    <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest">Slides 2160px (Ultra HDR)</p>
                   </div>
                   <Check className="text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
@@ -222,25 +244,6 @@ const DeliveryPage = ({ item, brand, onBack, onCreateVariation }) => {
           </div>
         )}
       </AnimatePresence>
-
-      {/* FULL SCREEN PREVIEW */}
-      <AnimatePresence>
-        {fullScreenSlide && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-8">
-            <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} className="absolute inset-0 bg-black/95 backdrop-blur-xl" onClick={() => setFullScreenSlide(null)} />
-            <motion.div initial={{scale:0.9,opacity:0, y: 20}} animate={{scale:1,opacity:1, y: 0}} exit={{scale:0.9,opacity:0, y: 20}} className="relative h-full aspect-square md:aspect-auto md:max-h-[90vh]">
-              <img src={fullScreenSlide.image} className="h-full object-contain rounded-2xl shadow-2xl border border-white/10" />
-              <button 
-                onClick={() => setFullScreenSlide(null)}
-                className="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-full text-black flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
-              >
-                <X size={24} />
-              </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
     </div>
   );
 };

@@ -129,6 +129,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
   const hasIG = !!brand.isInstagramConnected;
 
   const intel = getMarketIntelligence(brand, t);
+  const color = primaryColor || 'var(--accent)';
 
   const handleUpdate = () => {
     setUpdating(true);
@@ -176,9 +177,10 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
     <div className="space-y-8 pb-10">
 
       {/* INFO CARD */}
-      <div className="flex items-start gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[28px] p-6 shadow-xl shadow-accent/5">
-         <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-xl shrink-0">🔍</div>
-         <div className="space-y-1">
+      <div className="flex items-start gap-4 bg-accent/5 border border-white/10 rounded-[28px] p-6 shadow-2xl relative overflow-hidden group">
+         <div className="absolute inset-0 bg-accent/3 opacity-0 group-hover:opacity-100 transition-opacity" />
+         <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-xl shrink-0 z-10">🔍</div>
+         <div className="space-y-1 z-10">
             <h4 className="text-[10px] font-black uppercase tracking-widest text-accent">O que é a Inteligência de Mercado?</h4>
             <p className="text-[11px] text-gray-300 font-bold leading-relaxed">
                O Sherlock analisa as <strong className="text-white">tendências e padrões</strong> do seu nicho em tempo real. 
@@ -210,7 +212,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
           <button onClick={handleUpdate} disabled={updating}
             className={`flex items-center gap-2 px-4 py-2 rounded-[14px] border text-[10px] font-black uppercase tracking-widest transition-all ${
               updating
-                ? 'bg-accent/10 border-[#c4973b]/30 text-accent cursor-wait'
+                ? 'bg-accent/10 border-accent/30 text-accent cursor-wait'
                 : 'bg-white/5 border-white/10 text-gray-300 hover:border-accent/40 hover:text-white'
             }`}>
             <RefreshCw size={12} className={updating ? 'animate-spin' : ''}/>
@@ -223,7 +225,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       <AnimatePresence>
         {updating && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="flex items-center gap-4 bg-accent/5 border border-[#c4973b]/20 rounded-[18px] p-4">
+            className="flex items-center gap-4 bg-accent/5 border border-accent/20 rounded-[18px] p-4">
             <div className="w-9 h-9 rounded-xl bg-accent/10 flex items-center justify-center text-lg shrink-0">🔍</div>
             <div>
               <p className="text-xs font-black uppercase tracking-widest text-accent">{t('intelPage.sherlockWorking')}</p>
@@ -243,7 +245,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── BLOCK 1: Temas em alta ── */}
       <section className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-base">🔍</div>
+          <div className="w-8 h-8 rounded-xl bg-accent/10 border border-white/10 flex items-center justify-center text-base">🔍</div>
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{t('intelPage.trending.title')}</h3>
             <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{t('intelPage.trending.subtitle')}</p>
@@ -259,11 +261,11 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
               }`}
               onClick={() => setActiveTopicIdx(activeTopicIdx === i ? null : i)}
             >
-              <div className="absolute top-0 right-0 w-16 h-16 rounded-full blur-2xl opacity-0 group-hover:opacity-15 transition-opacity" style={{ background: primaryColor }}/>
+              <div className="absolute top-0 right-0 w-16 h-16 rounded-full blur-2xl opacity-0 group-hover:opacity-15 transition-opacity" style={{ background: color }}/>
 
               <div className="flex items-start justify-between mb-3">
                 <span className="text-[8px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border"
-                  style={{ color: primaryColor, borderColor: primaryColor + '40', background: primaryColor + '15' }}>
+                  style={{ color: color, borderColor: color + '40', background: color + '15' }}>
                   {topic.trend}
                 </span>
                 <span className="text-[9px] text-gray-400 font-black uppercase tracking-widest">#{i+1}</span>
@@ -335,11 +337,11 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
               ].map((p, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 rounded-[16px] bg-white/3 border border-white/5 hover:border-white/10 transition-all">
                   <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black shrink-0"
-                    style={{ background: primaryColor + '33', color: primaryColor }}>
+                    style={{ background: color + '33', color: color }}>
                     {i+1}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[8px] font-black uppercase tracking-widest mb-0.5" style={{ color: primaryColor }}>{p.type}</p>
+                    <p className="text-[8px] font-black uppercase tracking-widest mb-0.5" style={{ color: color }}>{p.type}</p>
                     <p className="text-xs font-bold text-white truncate">{p.topic}</p>
                   </div>
                   <div className="flex gap-4 shrink-0 text-right">
@@ -386,7 +388,7 @@ export default function IntelPage({ brand, hasActivated, primaryColor, onCreateF
       {/* ── SHERLOCK SIGNATURE ── */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
         className="flex items-center gap-4 bg-white/3 border border-white/5 rounded-[20px] p-5">
-        <div className="w-10 h-10 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-xl shrink-0">🔍</div>
+        <div className="w-10 h-10 rounded-xl bg-accent/10 border border-white/10 flex items-center justify-center text-xl shrink-0">🔍</div>
         <div>
           <p className="text-[9px] font-black uppercase tracking-widest text-accent mb-0.5">{t('intelPage.sherlock.title')}</p>
           <p className="text-[10px] text-gray-300 font-bold">

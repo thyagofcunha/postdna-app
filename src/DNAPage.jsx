@@ -69,7 +69,7 @@ const Toast = ({ message, visible }) => (
 );
 
 // ─── MAIN DNA PAGE ──────────────────────────────────────────────────────────────
-export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) {
+export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, setGlobalAlert }) {
   const { t, i18n } = useTranslation();
   const [local, setLocal]   = useState({ ...brand });
   const [toast, setToast]   = useState('');
@@ -110,7 +110,11 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
   const handleSiteAnalysis = async () => {
     const url = local.salesLink;
     if(!url || !url.includes('.')) {
-      alert("Por favor, digite um formato de site válido (ex: seusite.com.br)");
+      setGlobalAlert?.({
+        title: "URL Inválida",
+        message: "Por favor, digite um formato de site válido (ex: seusite.com.br)",
+        type: "warning"
+      });
       return;
     }
     
@@ -135,8 +139,12 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
        }));
        showMsg("DNA Escaneado com Sucesso! Confirme abaixo.");
     } catch (error) {
-       alert(error.message);
-    } finally {
+       setGlobalAlert?.({
+         title: "Erro no Sherlock",
+         message: error.message,
+         type: "error"
+       });
+     } finally {
        setIsAnalyzingSite(false);
     }
   };
@@ -570,10 +578,15 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                 <div className="flex flex-wrap gap-4">
                    <button 
                      onClick={() => {
-                        if(confirm("Isso apagará seu histórico de conteúdos e DNA local. Deseja continuar?")) {
-                           localStorage.clear();
-                           window.location.reload();
-                        }
+                        setGlobalAlert?.({
+                           title: "Reset Total?",
+                           message: "Isso apagará seu histórico de conteúdos e DNA local. Deseja continuar?",
+                           type: "warning",
+                           onConfirm: () => {
+                              localStorage.clear();
+                              window.location.reload();
+                           }
+                        });
                      }}
                      className="px-6 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-[9px] font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all shadow-xl"
                    >
@@ -582,7 +595,11 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                    <button 
                      onClick={() => {
                         setLocal(p => ({ ...p, credit_balance: (p.credit_balance || 0) + 100 }));
-                        alert("100 Créditos de teste adicionados!");
+                        setGlobalAlert?.({
+                           title: "Bônus Ativado!",
+                           message: "100 Créditos de teste adicionados com sucesso!",
+                           type: "success"
+                        });
                      }}
                      className="px-6 py-3 rounded-xl bg-accent/10 border border-[#c4973b]/20 text-accent text-[9px] font-black uppercase tracking-widest hover:bg-accent hover:text-black transition-all shadow-xl"
                    >

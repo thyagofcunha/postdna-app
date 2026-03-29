@@ -138,12 +138,18 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
             <button
               key={o.id}
               onClick={() => setObjective(objective === o.id ? null : o.id)}
-              className={`p-4 rounded-2xl border transition-all flex flex-col items-center gap-1 ${
-                objective === o.id ? 'bg-accent text-black border-[#c4973b] shadow-lg shadow-accent/20' : 'bg-white/5 border-white/5 text-gray-500 hover:border-white/10'
+              className={`p-5 rounded-2xl border transition-all flex flex-col items-center gap-1.5 ${
+                objective === o.id 
+                  ? 'bg-accent text-black border-accent shadow-xl shadow-accent/20' 
+                  : 'bg-white/5 border-white/5 text-gray-300 hover:border-white/20 hover:bg-white/10'
               }`}
             >
-              <span className="text-[10px] font-black uppercase tracking-widest">{o.label}</span>
-              <span className={`text-[7px] font-bold uppercase ${objective === o.id ? 'text-black/60' : 'text-gray-700'}`}>{o.desc}</span>
+              <span className={`text-[10px] font-black uppercase tracking-widest ${objective === o.id ? 'text-black' : 'text-white'}`}>
+                {o.label}
+              </span>
+              <span className={`text-[7px] font-bold uppercase tracking-widest ${objective === o.id ? 'text-black/60' : 'text-gray-500'}`}>
+                {o.desc}
+              </span>
             </button>
           ))}
         </div>
