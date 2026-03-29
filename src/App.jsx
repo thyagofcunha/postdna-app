@@ -963,39 +963,38 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       return { ...prev, credit_balance: newBalance, extra_credits: newExtra };
     });
     
+    // Sugestões dinâmicas baseadas no DNA Real da Marca
     setTimeout(() => {
+      const biz = brand.businessName || 'sua marca';
+      const prod = brand.product || 'seu produto';
       const results = [
-        {
-          id: Date.now(),
-          title: type === 'BLOG' ? "Como [Produto] resolve a maior dor de [Público] em 2024" : "O segredo para dominar [Nicho] com [Marca]",
-          reasoning: "Tendência de busca em alta para 'soluções rápidas' e carência de conteúdo aprofundado.",
-          brand_angle: `Destaque sua autoridade no segmento.`,
-          suggested_format: type,
-          highlight: true,
-          research_cache: { source: 'Sherlock AI', depth: 'high' }
-        },
-        {
+        { 
           id: Date.now() + 1,
-          title: `3 erros que seu público comete ao tentar [Objetivo]`,
-          reasoning: "Conteúdo de 'erro' gera 40% mais salvamentos no seu nicho.",
-          brand_angle: "Posicione seu produto como a solução definitiva.",
-          suggested_format: type === 'CARROSSEL' ? 'POST' : type,
-          research_cache: { source: 'Sherlock AI', depth: 'mid' }
+          title: `O segredo para dominar o nicho de ${prod} com a ${biz}`,
+          reasoning: `Identificamos que o público de ${prod} responde melhor a gatilhos de autoridade agora.`,
+          brand_angle: `Como a ${biz} resolve a dor de ${brand.mainPain || 'falta de tempo'} de forma única.`,
+          suggested_format: 'CARROSSEL',
+          highlight: true
         },
-        {
+        { 
           id: Date.now() + 2,
-          title: `O guia definitivo de ${brand.product || 'seu produto'} para iniciantes`,
+          title: `3 erros que seu público comete ao investir em ${prod}`,
+          reasoning: "Conteúdo de 'erro' gera 40% mais salvamentos no seu nicho.",
+          brand_angle: `Posicionar a ${biz} como o guia definitivo contra falhas comuns.`,
+          suggested_format: 'POST'
+        },
+        { 
+          id: Date.now() + 3,
+          title: `O guia definitivo de ${prod} para iniciantes por ${biz}`,
           reasoning: "Posts de guia têm a melhor taxa de retenção no seu histórico.",
-          brand_angle: "Focar na simplicidade e no DNA visual.",
-          suggested_format: type,
-          research_cache: { source: 'Sherlock AI', depth: 'standard' }
+          brand_angle: "Focar na simplicidade e na identidade visual exclusiva.",
+          suggested_format: type
         }
       ];
-
       setSherlockResults(results);
       setIsSherlockSearching(false);
       setBrand(prev => ({ ...prev, saved_suggestions: [...(prev.saved_suggestions || []), ...results] }));
-    }, 3000);
+    }, 2500);
   };
 
   const refreshSuggestions = () => {
@@ -1022,17 +1021,6 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       return;
     }
 
-    // NOVO: Check de Referências
-    if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
-      setGlobalAlert({ 
-          title: "Faltam Referências", 
-          message: "Para um conteúdo de alta conversão, o Sherlock precisa de pelo menos uma referência (Inspiração ou Concorrente) na aba Referências.", 
-          type: "warning", 
-          onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); } 
-      });
-      return;
-    }
-    
     setGeneratingIdx(idx);
     setAgenda(p => p.map((it, i) => i === idx ? { ...it, status: 'Gerando...' } : it));
 
@@ -1214,17 +1202,28 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       return;
     }
 
-    // Check de Referências
+    // Check de Referências (Agora opcional mas recomendado)
     if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
       setGlobalAlert({ 
-          title: "Sherlock Travado", 
-          message: "O Sherlock precisa de referências para começar a investigar. Adicione pelo menos uma conta em Referências.", 
+          title: "Potencialize seu Sherlock", 
+          message: "O Sherlock trabalha com 300% mais precisão quando tem referências. Quer adicionar uma conta agora ou continuar apenas com seu DNA?", 
           type: "warning", 
-          onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); } 
+          confirmText: "Adicionar Referências",
+          cancelText: "Pular e Cruzar Dados DNA",
+          onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); },
+          onCancel: () => { 
+            setGlobalAlert(null);
+            proceedWithCreation(topicHint); 
+          }
       });
       return;
     }
+    
+    proceedWithCreation(topicHint);
+  };
 
+  const proceedWithCreation = (topicHint) => {
+    const type = brand.selectedType || 'CARROSSEL';
     const topics = generateAITopics(brand);
     const newItem = {
       id: Date.now(),
