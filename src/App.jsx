@@ -1015,7 +1015,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
   // const totalCredits = slots.length;
   // const hasCredits = usedCredits < totalCredits;
 
-  const runPipeline = (idx, isFirst, topic = null) => {
+  const runPipeline = async (idx, isFirst, topic = null) => {
     const item = agenda[idx];
     const itemType = item?.type || 'CARROSSEL';
     const cost = CREDIT_COSTS[itemType] || 10;
@@ -1030,110 +1030,80 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     setGeneratingIdx(idx);
     setAgenda(p => p.map((it, i) => i === idx ? { ...it, status: 'Gerando...' } : it));
 
-    const baseDelay = isFirst ? 60000 : 1500; // Long delays for first run, short for subsequent
-    const delays = [0, baseDelay, baseDelay * 2, baseDelay * 3, baseDelay * 4];
-
-    // Se tem cache, pula o Sherlock (Stage 0)
-    const effectiveStartStage = hasCache ? 1 : 0;
-    if (hasCache) {
-      setPipelineStage(1);
-      setPipelineSubtitle("Estrategista: Definindo estrutura e direção visual de cada slide...");
-    } else {
-      setPipelineStage(0);
-      setPipelineSubtitle("Sherlock está investigando as tendências do seu nicho...");
-    }
-
-    // 1. SHERLOCK (PULANDO SE TIVER CACHE)
-    if (!hasCache) {
-      setGeneratingIdx(0); 
-      setPipelineStage(0);
+    try {
+      // ── HIERARQUIA AGÊNTICA (ESTILO OPENSQUAD) ──
       
-      // Delay consciente de 800ms para garantir que o usuário veja a transição do Squad
-      (async () => {
-        await new Promise(r => setTimeout(r, 800));
-        setPipelineSubtitle("Estrategista: Definindo estrutura e direção visual de cada slide...");
-      })();
-    }
-
-    // 2. ESTRATEGISTA
-    setTimeout(() => {
-      setPipelineStage(2);
-      setPipelineSubtitle("Copywriter: Escrevendo textos persuasivos e legendas otimizadas...");
-    }, delays[1]);
-    
-    // 3. COPYWRITER
-    setTimeout(() => {
-      setPipelineStage(3);
-      setPipelineSubtitle("Designer: Buscando a imagem perfeita no seu banco ou em bancos premium...");
-    }, delays[2]);
-
-    // 4. DESIGNER
-    setTimeout(() => {
-      setPipelineStage(4);
-      setPipelineSubtitle("Revisor: Verificando legibilidade, contraste e identidade visual...");
-    }, delays[3]);
-
-    // 5. REVISOR & Conclusão (CHAMADA REAL PARA OPENAI)
-    setTimeout(async () => {
-      try {
-        const objective = item?.objective || 'EDUCAR'; // Fallback se não definido
-        
-        // Chamada Assíncrona para o Squad de Agentes no OpenAI
-        const realGeneratedContent = await generateContent(brand, topic, itemType, objective);
-
-        setPipelineStage(-1);
-        setGeneratingIdx(null);
-        
-        const finishedItem = { 
-          ...(agenda[idx] || item), 
-          ...realGeneratedContent, 
-          status: 'Aguardando revisão' 
-        };
-
-        const newAgenda = agenda.map((a, i) => i === idx ? finishedItem : a);
-        setAgenda(newAgenda);
-        localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
-        
-        addNotification(
-          'content_ready', 
-          'Seu conteúdo está pronto ✅', 
-          `${itemType} sobre '${topic}' está pronto para revisão.`,
-          '#'
-        );
-
-        setBrand(prev => {
-          let newBalance = prev.credit_balance || 0;
-          let newExtra = prev.extra_credits || 0;
-          let remaining = cost;
-          if (newBalance >= remaining) {
-            newBalance -= remaining;
-          } else {
-            remaining -= newBalance;
-            newBalance = 0;
-            newExtra = Math.max(0, newExtra - remaining);
-          }
-          return { ...prev, credit_balance: newBalance, extra_credits: newExtra };
-        });
-
-        setIsTransitioning(true);
-        setIsSherlockCached(false);
-        setTimeout(() => {
-          setIsTransitioning(false);
-          setSelectedItem(finishedItem);
-        }, 1500);
-
-      } catch (err) {
-        console.error("Erro no Pipeline:", err);
-        setPipelineStage(-1);
-        setGeneratingIdx(null);
-        setGlobalAlert({
-          title: "Erro na Geração",
-          message: "O motor de IA falhou. Verifique sua chave da OpenAI ou tente novamente.",
-          type: "error",
-          onConfirm: () => setGlobalAlert(null)
-        });
+      // 1. SHERLOCK
+      if (!hasCache) {
+        setPipelineStage(0);
+        setPipelineSubtitle("Sherlock: Investigando nicho e tendências virais...");
+        await new Promise(r => setTimeout(r, 1800));
       }
-    }, delays[3] + (isFirst ? 1000 : 500)); 
+
+      // 2. ESTRATEGISTA
+      setPipelineStage(1);
+      setPipelineSubtitle("Estrategista: Definindo estrutura narrativa e layouts (Editorial/Tweet)...");
+      await new Promise(r => setTimeout(r, 1800));
+
+      // 3. COPYWRITER
+      setPipelineStage(2);
+      setPipelineSubtitle("Copywriter: Escrevendo textos persuasivos de alto impacto...");
+      await new Promise(r => setTimeout(r, 1800));
+
+      // 4. DESIGNER
+      setPipelineStage(3);
+      setPipelineSubtitle("Designer: Selecionando visuais e aplicando sua identidade...");
+      await new Promise(r => setTimeout(r, 1800));
+
+      // 5. REVISOR & CHAMADA REAL IA
+      setPipelineStage(4);
+      setPipelineSubtitle("Revisor (IA): Auditando qualidade e limites de texto...");
+      
+      const objective = item?.objective || 'EDUCAR';
+      const realGeneratedContent = await generateContent(brand, topic || item.topic, itemType, objective);
+
+      const finishedItem = { 
+        ...(agenda[idx] || item), 
+        ...realGeneratedContent, 
+        status: 'Aguardando revisão' 
+      };
+
+      const newAgenda = agenda.map((a, i) => i === idx ? finishedItem : a);
+      setAgenda(newAgenda);
+      localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
+      
+      addNotification('content_ready', 'Pronto! ✅', `${itemType} gerado pelo seu Squad.`, '#');
+
+      // Créditos
+      setBrand(prev => {
+        let newBalance = prev.credit_balance || 0;
+        let newExtra = prev.extra_credits || 0;
+        let remaining = cost;
+        if (newBalance >= remaining) newBalance -= remaining;
+        else { remaining -= newBalance; newBalance = 0; newExtra = Math.max(0, newExtra - remaining); }
+        return { ...prev, credit_balance: newBalance, extra_credits: newExtra };
+      });
+
+      setPipelineStage(-1);
+      setGeneratingIdx(null);
+      setIsTransitioning(true);
+      
+      setTimeout(() => {
+        setIsTransitioning(false);
+        setSelectedItem(finishedItem);
+      }, 1200);
+
+    } catch (err) {
+      console.error("Erro crítico no Pipeline:", err);
+      setPipelineStage(-1);
+      setGeneratingIdx(null);
+      setGlobalAlert({
+        title: "Erro na Geração",
+        message: "O Squad falhou na entrega. Tente novamente.",
+        type: "error",
+        onConfirm: () => setGlobalAlert(null)
+      });
+    }
   };
 
   function getFrameType(idx, total, isStory) {
@@ -1203,7 +1173,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     // setSelectedItem(null); // This will be handled by the ContentReviewModal's button logic
   };
 
-  const handleCreateFirst = (topicHint) => {
+  const handleCreateFirst = (topicHint, forcedVibe = 'editorial', forcedObjective = 'EDUCAR') => {
     const type = brand.selectedType || 'CARROSSEL';
     const cost = CREDIT_COSTS[type] || 10;
 
@@ -1212,27 +1182,24 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       return;
     }
 
-    // Check de Referências (Agora opcional mas recomendado)
+    // Check de Referências
     if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
       setGlobalAlert({ 
           title: "Potencialize seu Sherlock", 
-          message: "O Sherlock trabalha com 300% mais precisão quando tem referências. Quer adicionar uma conta agora ou continuar apenas com seu DNA?", 
+          message: "A IA trabalha com 300% mais precisão tendo referências. Quer adicionar uma conta agora ou continuar com o DNA?", 
           type: "warning", 
-          confirmText: "Adicionar Referências",
-          cancelText: "Pular e Cruzar Dados DNA",
+          confirmText: "Referências",
+          cancelText: "Pular",
           onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); },
-          onCancel: () => { 
-            setGlobalAlert(null);
-            proceedWithCreation(topicHint); 
-          }
+          onCancel: () => { setGlobalAlert(null); proceedWithCreation(topicHint, forcedVibe, forcedObjective); }
       });
       return;
     }
     
-    proceedWithCreation(topicHint);
+    proceedWithCreation(topicHint, forcedVibe, forcedObjective);
   };
 
-  const proceedWithCreation = (topicHint) => {
+  const proceedWithCreation = (topicHint, v = 'editorial', obj = 'EDUCAR') => {
     const type = brand.selectedType || 'CARROSSEL';
     const topics = generateAITopics(brand);
     const newItem = {
@@ -1240,6 +1207,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       topic: topicHint || topics[0],
       type: type, 
       status: 'Gerando...',
+      objective: obj,
+      vibe: v,
       createdAt: new Date().toISOString(),
     };
 
@@ -1248,11 +1217,14 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     setRecentContent(newRecent);
     localStorage.setItem(`postdna_recent_${userKey}`, JSON.stringify(newRecent));
 
-    setDashView('home');
+    // ATIVAÇÃO INSTANTÂNEA DO SQUAD
+    setGeneratingIdx(0);
+    setPipelineStage(0);
+    setPipelineSubtitle("Sherlock: Investigando nicho e tendências para o tema...");
+    
     setAgenda(newAgenda);
     localStorage.setItem(`postdna_agenda_${userKey}`, JSON.stringify(newAgenda));
-    setGeneratingIdx(0);
-    setSelectedItem(newItem);
+    setDashView('home'); // Mudar de tela depois de já ter ativado o Squad
     runPipeline(0, approvedContent.length === 0, topicHint);
   };
 
@@ -1446,7 +1418,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
                     {pipelineSubtitle || "Seu Squad está processando os dados..."}
                   </p>
                   <p className="text-[8px] text-accent font-black uppercase tracking-[0.2em] opacity-80">
-                    {getEstimate()}
+                    Processando via Neural PostDNA Agent...
                   </p>
                 </div>
               </div>
@@ -1521,8 +1493,8 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
         if (totalCredits < cost) {
           setIsLimitModalOpen(true);
         } else {
-          // Iniciar fluxo Sherlock
-          handleCreateFirst(data.topic);
+          // Iniciar fluxo Sherlock com a vibe e objetivo corretos
+          handleCreateFirst(data.topic, data.vibe, data.objective);
         }
       }}
     />
