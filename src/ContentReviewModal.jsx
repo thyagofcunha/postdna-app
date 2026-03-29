@@ -7,13 +7,19 @@ import {
 import { saveContentToSupabase } from './aiAnalyzer';
 
 export default function ContentReviewModal({ item, brand, onApprove, onClose, setGlobalAlert, readOnly = false, showPushBanner = false, onRequestPush }) {
-   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy'
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPublishing, setIsPublishing] = useState(false);
+   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy' | 'editor'
+   const [isPublishing, setIsPublishing] = useState(false);
+   const [activeSlide, setActiveSlide] = useState(0);
+   
+   // --- ESTADOS DO EDITOR (FASE 1.1) ---
+   const [vibe, setVibe] = useState('editorial'); // 'editorial' (light) | 'shadow' (dark)
+   const [logoPos, setLogoPos] = useState('top-right'); // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+   const [logoOpacity, setLogoOpacity] = useState(0.6);
+   const [editedSlides, setEditedSlides] = useState(item.slides || []);
 
   const isStory = item.type?.includes('STORY');
   const slides = item.slides || [];
-  const currentItem = slides[currentSlide] || {};
+  const currentItem = slides[activeSlide] || {};
 
   const primaryColor = brand.colors?.[0] || '#00BFC6';
   const bgColor = brand.colors?.[1] || '#000000';
@@ -81,23 +87,19 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
             
             {/* Tabs */}
             <div className="flex gap-2 p-1 bg-white/5 rounded-2xl w-fit">
-              {[
-                { id: 'preview', label: 'Visualização', icon: <Palette size={14}/> },
-                { id: 'copy', label: 'Legenda & Texto', icon: <Type size={14}/> },
-                { id: 'estrutura', label: 'Estratégia Sherlock', icon: <Search size={14}/> }
-              ].map(tab => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black transition-all ${
-                    activeTab === tab.id 
-                      ? 'bg-accent text-black shadow-lg shadow-accent/10' 
-                      : 'text-white/70 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10'
-                  }`}
-                >
-                  {tab.icon} {tab.label}
-                </button>
-              ))}
+                <div className="flex gap-1 bg-white/5 p-1 rounded-2xl border border-white/5 self-center">
+                  {['preview', 'editor', 'copy'].map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                        activeTab === tab ? 'bg-accent text-black shadow-lg shadow-accent/20' : 'text-neutral-500 hover:text-white'
+                      }`}
+                    >
+                      {tab === 'preview' ? 'Visual' : tab === 'editor' ? '⚙️ Editor' : 'Legenda'}
+                    </button>
+                  ))}
+                </div>
             </div>
 
             {/* TAB: PREVIEW */}
@@ -105,64 +107,67 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
               <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start justify-center">
                 {/* Visual Preview */}
                 <div className="relative group">
+                  {/* --- PREVIEW DO SLIDE (EDITOR INTEGRATED) --- */}
                   <div className={`${isStory ? 'w-[280px] aspect-[9/16]' : 'w-[360px] aspect-square'} rounded-[32px] overflow-hidden border-8 border-white/5 shadow-2xl relative shadow-accent/5 bg-black transition-all duration-500`}>
                     
                     {/* INDICADOR DE PROGRESSO (Story) */}
                     {isStory && (
                       <div className="absolute top-6 left-0 right-0 px-6 flex gap-1 z-20">
                         {slides.map((_, dotIdx) => (
-                          <div key={dotIdx} className={`h-0.5 flex-1 rounded-full transition-all duration-300 ${dotIdx === currentSlide ? 'bg-white' : 'bg-white/20'}`} />
+                          <div key={dotIdx} className={`h-0.5 flex-1 rounded-full transition-all duration-300 ${dotIdx === activeSlide ? 'bg-white' : 'bg-white/20'}`} />
                         ))}
                       </div>
                     )}
 
-                    <div className="absolute inset-0">
-                      {currentItem.layout === 'editorial' ? (
-                        <div className="w-full h-full" style={{ backgroundColor: brand.colors?.[0] || '#F0EAD6' }}>
-                          {currentItem.image && (
-                            <img src={currentItem.image} className="w-full h-full object-cover opacity-30 mix-blend-multiply transition-transform duration-700 group-hover:scale-105" />
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                        </div>
-                      ) : (
-                        <div className="w-full h-full" style={{ backgroundColor: brand.colors?.[1] || '#1A2240' }}>
-                          {currentItem.image && (
-                            <img src={currentItem.image} className="w-full h-full object-cover opacity-40 transition-transform duration-700 group-hover:scale-105" />
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                        </div>
-                      )}
+                    <div className="absolute inset-0 z-0">
+                      <img 
+                        src={item.slides?.[activeSlide]?.imageUrl || `https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1080&h=1440&auto=format&fit=crop`} 
+                        className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${vibe === 'editorial' ? 'mix-blend-multiply opacity-20' : 'opacity-30'}`} 
+                        alt="Slide Background" 
+                      />
+                      {/* Vibe Gradient */}
+                      {vibe === 'shadow' && <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />}
                     </div>
-                    
+
                     <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                      {/* Brand Logo Mini - Safe Zone check for stories */}
-                      <div className={`absolute ${isStory ? 'top-12 right-6' : 'top-8 left-8'} w-10 h-10 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center backdrop-blur-md`}>
-                        {brand.logo ? <img src={brand.logo} className="w-full h-full object-contain p-1" /> : (
-                          <span className={`text-[10px] font-black ${currentItem.layout === 'editorial' ? 'text-[#1A2240]' : 'text-white'}`}>DNA</span>
-                        )}
+                      {/* BRANDING DYNAMIC POSITION */}
+                      <div className={`absolute p-10 flex flex-col gap-1 transition-all duration-700 ${
+                        logoPos === 'top-left' ? 'top-0 left-0 text-left' :
+                        logoPos === 'top-right' ? 'top-0 right-0 text-right' :
+                        logoPos === 'bottom-left' ? 'bottom-0 left-0 text-left' :
+                        'bottom-0 right-0 text-right'
+                      }`} style={{ opacity: logoOpacity }}>
+                         <div className="flex items-center gap-2">
+                            <div className={`w-6 h-6 rounded-lg ${vibe === 'editorial' ? 'bg-black' : 'bg-accent'} flex items-center justify-center p-1 shadow-2xl`}>
+                               <img src="/assets/postdna-icon.svg" className={vibe === 'editorial' ? 'invert' : ''} alt="Logo" />
+                            </div>
+                            <span className={`text-[10px] font-black tracking-tighter uppercase italic ${vibe === 'editorial' ? 'text-black' : 'text-white'}`}>
+                               {brand.businessName}
+                            </span>
+                         </div>
                       </div>
 
                       <div className="z-10 space-y-4">
                         <div 
                           className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest w-fit"
                           style={{ 
-                            backgroundColor: currentItem.layout === 'editorial' ? '#1A2240' : brand.colors?.[0] || '#C4973B',
-                            color: currentItem.layout === 'editorial' ? '#F0EAD6' : '#1A2240'
+                            backgroundColor: vibe === 'editorial' ? '#1A2240' : brand.colors?.[0] || '#C4973B',
+                            color: vibe === 'editorial' ? '#F0EAD6' : '#1A2240'
                           }}
                         >
-                          {isStory ? currentItem.frameType || 'STORY' : 'FEED'} {currentSlide + 1}
+                          {isStory ? currentItem.frameType || 'STORY' : 'FEED'} {activeSlide + 1}
                         </div>
                         <h3 
                           className={`${isStory ? 'text-3xl' : 'text-4xl'} font-black uppercase italic tracking-tighter leading-tight`}
-                          style={{ color: currentItem.layout === 'editorial' ? '#1A2240' : '#ffffff' }}
+                          style={{ color: vibe === 'editorial' ? '#1A2240' : '#ffffff' }}
                         >
-                          {currentItem.headline}
+                          {editedSlides[activeSlide]?.headline || currentItem.headline}
                         </h3>
                         <p 
                           className="text-sm font-bold leading-relaxed line-clamp-4"
-                          style={{ color: currentItem.layout === 'editorial' ? 'rgba(26, 34, 64, 0.8)' : 'rgba(255, 255, 255, 0.7)' }}
+                          style={{ color: vibe === 'editorial' ? 'rgba(26, 34, 64, 0.8)' : 'rgba(255, 255, 255, 0.7)' }}
                         >
-                          {currentItem.body}
+                          {editedSlides[activeSlide]?.body || currentItem.body}
                         </p>
                       </div>
 
@@ -170,7 +175,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                       {!isStory && (
                         <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
                           {slides.map((_, i) => (
-                            <div key={i} className={`h-1 rounded-full transition-all ${i === currentSlide ? 'w-6 bg-accent' : 'w-2 bg-white/20'}`} />
+                            <div key={i} className={`h-1 rounded-full transition-all ${i === activeSlide ? 'w-6 bg-accent' : 'w-2 bg-white/20'}`} />
                           ))}
                         </div>
                       )}
@@ -179,16 +184,16 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                   
                   {/* Nav Buttons */}
                   <button 
-                    onClick={() => setCurrentSlide(prev => Math.max(0, prev - 1))}
+                    onClick={() => setActiveSlide(prev => Math.max(0, prev - 1))}
                     className="absolute left-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-accent hover:text-black transition-all backdrop-blur-md shadow-2xl"
-                    disabled={currentSlide === 0}
+                    disabled={activeSlide === 0}
                   >
                     <ChevronLeft size={24} />
                   </button>
                   <button 
-                    onClick={() => setCurrentSlide(prev => Math.min(slides.length - 1, prev + 1))}
+                    onClick={() => setActiveSlide(prev => Math.min(slides.length - 1, prev + 1))}
                     className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-accent hover:text-black transition-all backdrop-blur-md shadow-2xl"
-                    disabled={currentSlide === slides.length - 1}
+                    disabled={activeSlide === slides.length - 1}
                   >
                     <ChevronRight size={24} />
                   </button>
@@ -224,6 +229,75 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                         : "Apliquei contraste de alto impacto e hierarquia visual focada na retenção do scroll do feed."
                       }
                     </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: EDITOR */}
+            {activeTab === 'editor' && (
+              <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 p-2">
+                <div className="space-y-4">
+                  <p className="text-[10px] font-black text-accent uppercase tracking-widest">Direção de Arte</p>
+                  
+                  {/* VIBE SWITCHER */}
+                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
+                    <label className="text-[10px] font-black text-white uppercase opacity-50">Vibe do Carrossel</label>
+                    <div className="grid grid-cols-2 gap-2">
+                       <button 
+                        onClick={() => setVibe('editorial')}
+                        className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'editorial' ? 'bg-white text-black border-white' : 'border-white/10 text-white/40 hover:border-white/30'}`}
+                       >Editorial (Light)</button>
+                       <button 
+                        onClick={() => setVibe('shadow')}
+                        className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'shadow' ? 'bg-neutral-800 text-white border-neutral-700' : 'border-white/10 text-white/40 hover:border-white/30'}`}
+                       >Shadow (Dark)</button>
+                    </div>
+                  </div>
+
+                  {/* LOGO POS */}
+                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
+                    <label className="text-[10px] font-black text-white uppercase opacity-50">Posição da Logo</label>
+                    <div className="grid grid-cols-4 gap-2">
+                       {[
+                         { id: 'top-left', icon: '↖️' },
+                         { id: 'top-right', icon: '↗️' },
+                         { id: 'bottom-left', icon: '↙️' },
+                         { id: 'bottom-right', icon: '↘️' }
+                       ].map(pos => (
+                         <button 
+                          key={pos.id}
+                          onClick={() => setLogoPos(pos.id)}
+                          className={`aspect-square rounded-xl border flex items-center justify-center text-xl transition-all ${logoPos === pos.id ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/20 hover:border-white/20'}`}
+                         >{pos.icon}</button>
+                       ))}
+                    </div>
+                  </div>
+
+                  {/* TEXT EDITING */}
+                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
+                    <label className="text-[10px] font-black text-white uppercase opacity-50">Ajustar Conteúdo (Slide {activeSlide + 1})</label>
+                    <input 
+                      type="text" 
+                      value={editedSlides[activeSlide]?.headline || ''}
+                      onChange={(e) => {
+                        const newSlides = [...editedSlides];
+                        newSlides[activeSlide].headline = e.target.value;
+                        setEditedSlides(newSlides);
+                      }}
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-accent outline-none"
+                      placeholder="Headline do Slide"
+                    />
+                    <textarea 
+                      value={editedSlides[activeSlide]?.body || ''}
+                      onChange={(e) => {
+                        const newSlides = [...editedSlides];
+                        newSlides[activeSlide].body = e.target.value;
+                        setEditedSlides(newSlides);
+                      }}
+                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-[10px] font-medium text-neutral-400 focus:border-accent outline-none h-20"
+                      placeholder="Texto de apoio"
+                    />
                   </div>
                 </div>
               </div>

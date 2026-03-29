@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { cn } from "@/lib/utils"
+import { motion, AnimatePresence } from "framer-motion"
 import { TypingAnimation } from "@/components/ui/typing-animation"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Safari } from "@/components/ui/safari"
