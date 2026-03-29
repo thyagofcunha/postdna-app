@@ -602,6 +602,12 @@ export default function App() {
   });
 
   const [dashView, setDashView] = useState('home');
+
+  // EFITO DE SEGURANÇA: Reset scroll on view change
+  React.useEffect(() => {
+    const main = document.querySelector('main > div');
+    if (main) main.scrollTop = 0;
+  }, [dashView]);
   const [analysisStatus, setAnalysisStatus] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [colorTab, setColorTab] = useState('curadoria'); 
@@ -1039,10 +1045,14 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
     // 1. SHERLOCK (PULANDO SE TIVER CACHE)
     if (!hasCache) {
-      setTimeout(() => {
-        setPipelineStage(1);
+      setGeneratingIdx(0); 
+      setPipelineStage(0);
+      
+      // Delay consciente de 800ms para garantir que o usuário veja a transição do Squad
+      (async () => {
+        await new Promise(r => setTimeout(r, 800));
         setPipelineSubtitle("Estrategista: Definindo estrutura e direção visual de cada slide...");
-      }, delays[0]);
+      })();
     }
 
     // 2. ESTRATEGISTA
@@ -1322,7 +1332,11 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
               <div className="flex flex-col gap-1">
                 {section.items.map(item => (
                   <button key={item.key}
-                    onClick={() => { setDashView(item.key); setIsSidebarOpen(false); }}
+                    onClick={() => { 
+                      setDashView(item.key); 
+                      setIsSidebarOpen(false); 
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                     title={isCollapsed ? t(item.label) : ''}
                     className={`group flex items-center gap-4 p-3 rounded-lg text-[12px] font-bold tracking-tight transition-all relative ${
                       dashView === item.key
@@ -1413,22 +1427,23 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
   // ── PIPELINE OVERLAY: A EXPERIÊNCIA DO SQUAD (FASE 2.2) ──
   const PipelineOverlay = () => {
+    // IMPORTANTE: Garantir que o overlay só feche quando não houver index gerando E o estágio for negativo
     if (generatingIdx === null && pipelineStage < 0) return null;
     
     return (
       <AnimatePresence>
-        {pipelineStage >= 0 && (
+        {(pipelineStage >= 0 || generatingIdx !== null) && (
           <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] flex items-center justify-center">
             <motion.div initial={{y:24,opacity:0}} animate={{y:0,opacity:1}}
               className="glass border border-white/10 rounded-[40px] p-10 w-full max-w-md mx-4 space-y-6">
               <div className="text-center">
-                <div className="w-14 h-14 rounded-[20px] bg-accent/10 border border-[#c4973b]/30 flex items-center justify-center mx-auto mb-4 text-2xl">⚡</div>
+                <div className="w-14 h-14 rounded-[20px] bg-accent/10 border border-[#00BFC6]/30 flex items-center justify-center mx-auto mb-4 text-2xl">⚡</div>
                 <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">PostDNA Em Ação</h3>
                 
                 <div className="mt-2 space-y-1">
                   <p className={`text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
-                    {pipelineSubtitle}
+                    {pipelineSubtitle || "Seu Squad está processando os dados..."}
                   </p>
                   <p className="text-[8px] text-accent font-black uppercase tracking-[0.2em] opacity-80">
                     {getEstimate()}
@@ -1440,7 +1455,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
                   const done    = i < pipelineStage;
                   const current = i === pipelineStage;
                   return (
-                    <div key={i} className={`flex items-center gap-4 p-3 rounded-[16px] transition-all ${current ? 'bg-accent/10 border border-[#c4973b]/20' : 'opacity-40'}`}>
+                    <div key={i} className={`flex items-center gap-4 p-3 rounded-[16px] transition-all ${current ? 'bg-accent/10 border border-[#00BFC6]/20' : 'opacity-40'}`}>
                       <span className="text-lg shrink-0">
                         {done ? '✅' : current ? <span className="inline-block animate-pulse">⏳</span> : '◻️'}
                       </span>

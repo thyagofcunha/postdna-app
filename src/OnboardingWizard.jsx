@@ -123,9 +123,9 @@ export default function OnboardingWizard({ brand, setBrand, onComplete }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0B0F] text-white flex flex-col items-center justify-center p-6 relative overflow-hidden font-inter">
+    <div className="h-screen w-full bg-[#0B0B0F] text-white flex flex-col items-center p-6 relative overflow-y-auto custom-scrollbar font-inter">
       {/* Background Decor */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-accent/10 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-[#00BFC6]/10 to-transparent blur-[120px] pointer-events-none" />
       
       <AnimatePresence mode="wait">
         {step === 0 && (
@@ -134,14 +134,14 @@ export default function OnboardingWizard({ brand, setBrand, onComplete }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="w-full max-w-xl space-y-8 relative z-10"
+            className="w-full max-w-xl space-y-8 relative z-10 py-12"
           >
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center shadow-2xl shadow-accent/20 text-accent">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-[#00BFC6]/10 border border-[#00BFC6]/30 flex items-center justify-center shadow-2xl shadow-[#00BFC6]/20 text-[#00BFC6]">
                 <Sparkles size={32} />
               </div>
               <h1 className="text-3xl font-black uppercase italic tracking-tighter">
-                Descoberta do <span className="text-accent">DNA</span>
+                Descoberta do <span className="text-[#00BFC6]">DNA</span>
               </h1>
               <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] leading-relaxed">
                 Forneça o máximo de informações possível.<br/> 

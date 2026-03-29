@@ -15,10 +15,10 @@ const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onC
       <span>{leftLabel}</span><span>{label}</span><span>{rightLabel}</span>
     </div>
     <div className="flex gap-3 text-[10px] text-gray-400">
-      <div className={`flex-1 p-3 rounded-xl border transition-all ${value <= 2 ? 'border-[#c4973b]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
+      <div className={`flex-1 p-3 rounded-xl border transition-all ${value <= 2 ? 'border-[#00BFC6]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
         {leftEx}
       </div>
-      <div className={`flex-1 p-3 rounded-xl border transition-all text-right ${value >= 4 ? 'border-[#c4973b]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
+      <div className={`flex-1 p-3 rounded-xl border transition-all text-right ${value >= 4 ? 'border-[#00BFC6]/40 bg-accent/5' : 'border-white/5 bg-white/5'} italic`}>
         {rightEx}
       </div>
     </div>
@@ -37,7 +37,7 @@ const VoiceSlider = ({ label, leftLabel, rightLabel, leftEx, rightEx, value, onC
 const Section = ({ title, icon, children, onSave, saveLabel, saving }) => (
   <div className="glass border border-white/5 rounded-[28px] p-7 space-y-6">
     <div className="flex items-center gap-3">
-      <div className="w-9 h-9 rounded-xl bg-accent/10 border border-[#c4973b]/20 flex items-center justify-center text-accent">
+      <div className="w-9 h-9 rounded-xl bg-accent/10 border border-[#00BFC6]/20 flex items-center justify-center text-accent">
         {icon}
       </div>
       <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white">{title}</h3>
@@ -88,12 +88,12 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
   ];
 
   const FONT_OPTIONS = [
-    { key: 'bold',    name: t('dnaPage.fonts.bold'),   css: 'font-black',   sample: t('onboarding.step1.fontPreview') },
-    { key: 'elegant', name: t('dnaPage.fonts.elegant'),  css: 'font-bold',    sample: t('onboarding.step1.fontPreview') },
-    { key: 'modern',  name: t('dnaPage.fonts.modern'),   css: 'font-semibold',sample: t('onboarding.step1.fontPreview')    },
-    { key: 'rounded', name: t('dnaPage.fonts.rounded'),  css: 'font-black',   sample: t('onboarding.step1.fontPreview')   },
-    { key: 'mono',    name: t('dnaPage.fonts.mono'),     css: 'font-medium',  sample: t('onboarding.step1.fontPreview')      },
-    { key: 'thin',    name: t('dnaPage.fonts.thin'),     css: 'font-light',   sample: t('onboarding.step1.fontPreview')   },
+    { key: 'sora',     name: 'SORA (TECH)',      css: 'font-sora font-extrabold',   style: { fontFamily: "'Sora', sans-serif" }, sample: 'DIGITAL-DNA IDENTITY.' },
+    { key: 'playfair', name: 'PLAYFAIR (LUX)',   css: 'font-playfair font-black',   style: { fontFamily: "'Playfair Display', serif" }, sample: 'Pure Elegance & Style.' },
+    { key: 'syne',     name: 'SYNE (VIRAL)',     css: 'font-syne font-black',      style: { fontFamily: "'Syne', sans-serif" }, sample: 'LOUD. BOLD. VIRAL.' },
+    { key: 'outfit',   name: 'OUTFIT (MODERN)',  css: 'font-outfit font-black',    style: { fontFamily: "'Outfit', sans-serif" }, sample: 'Minimalist approach.' },
+    { key: 'inter',    name: 'INTER (SWISS)',    css: 'font-inter font-black',     style: { fontFamily: "'Inter', sans-serif" }, sample: 'Clean. Sharp. Real.' },
+    { key: 'mono',     name: 'JETBRAINS (TECH)',css: 'font-mono font-extrabold',    style: { fontFamily: "'JetBrains Mono', monospace" }, sample: 'CODE_DNA_SYSTEM_01.' },
   ];
 
   const showMsg = (msg) => {
@@ -103,7 +103,8 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
   };
 
   const save = () => {
-    setBrand(prev => ({ ...prev, ...local, onboardingComplete: true }));
+    // IMPORTANTE: Não seta onboardingComplete aqui para não expulsar o usuário do wizard
+    setBrand(prev => ({ ...prev, ...local }));
     showMsg(t('common.saved'));
   };
 
@@ -122,21 +123,23 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
     showMsg("Sherlock analisando site...");
     
     try {
-      // Usaremos url crua - aiAnalyzer limpa.
        const dna = await analyzeWebsiteDNA(url);
-       setLocal(prev => ({
-          ...prev,
-          colors: dna.colors || prev.colors,
-          voice: { ...(prev.voice || {}), ...(dna.voice || {}) },
-          visualStyle: dna.visualStyle || prev.visualStyle,
-          businessName: dna.businessName || prev.businessName,
-          product: dna.product || prev.product,
-          targetAudience: dna.targetAudience || prev.targetAudience,
+       const updated = {
+          ...local,
+          colors: (dna.colors && dna.colors.length >= 3) ? dna.colors : local.colors,
+          voice: { ...(local.voice || {}), ...(dna.voice || {}) },
+          visualStyle: dna.visualStyle || local.visualStyle,
+          businessName: dna.businessName || local.businessName,
+          product: dna.product || local.product,
+          targetAudience: dna.targetAudience || local.targetAudience,
           persona: {
-             ...(prev.persona || {}),
-             mainPain: dna.mainPain || prev.persona?.mainPain
+             ...(local.persona || {}),
+             mainPain: dna.mainPain || local.persona?.mainPain
           }
-       }));
+       };
+       setLocal(updated);
+       // Sincroniza logo com o estado global para persistência imediata
+       setBrand(prev => ({ ...prev, ...updated }));
        showMsg("DNA Escaneado com Sucesso! Confirme abaixo.");
     } catch (error) {
        setGlobalAlert?.({
@@ -197,7 +200,8 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
             <div className="self-start px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest" style={{ background: primary, color: '#000' }}>
               {name.split(' ')[0].toUpperCase()}
             </div>
-            <h3 className={`text-lg uppercase tracking-tight leading-tight text-white italic ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-black'}`}>
+            <h3 className={`text-lg uppercase tracking-tight leading-tight text-white italic ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-black'}`}
+              style={FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.style || {fontFamily: 'Sora'}} >
               DNA<br/><span style={{ color: primary }}>IDENTIFIED.</span>
             </h3>
             <p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">PostDNA AI Agent</p>
@@ -337,8 +341,9 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
             <div className="space-y-3">
               <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">{t('dnaPage.fields.typography')}</p>
               <div className="bg-white/5 border border-white/5 rounded-[18px] p-4 flex items-center justify-between">
-                <p className={`text-lg text-white ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-black'}`}>
-                  {FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.sample || 'Seu produto. Sua marca.'}
+                <p className={`text-lg text-white ${FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.css || 'font-extrabold'}`}
+                   style={FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.style || {fontFamily: 'Sora'}}>
+                  {FONT_OPTIONS.find(f=>f.key===local.fontStyle)?.sample || 'PostDNA Branding Design.'}
                 </p>
                 <button onClick={() => setShowFontPicker(v => !v)}
                   className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-accent transition-colors whitespace-nowrap ml-4">
@@ -351,10 +356,10 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
                   {FONT_OPTIONS.map(f => (
                     <button key={f.key}
                       onClick={() => { setLocal(p => ({ ...p, fontStyle: f.key })); setShowFontPicker(false); }}
-                      className={`p-4 rounded-[16px] border text-left transition-all ${local.fontStyle === f.key ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
-                      <p className={`text-sm text-white ${f.css} mb-1`}>{f.sample}</p>
+                      className={`p-4 rounded-[16px] border text-left transition-all relative ${local.fontStyle === f.key ? 'border-[#00BFC6] bg-[#00BFC6]/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
+                      <p className={`text-base text-white ${f.css} mb-1`} style={f.style}>{f.sample}</p>
                       <p className="text-[8px] uppercase tracking-widest text-gray-400 font-bold">{f.name}</p>
-                      {local.fontStyle === f.key && <Check size={12} className="absolute top-3 right-3 text-accent"/>}
+                      {local.fontStyle === f.key && <Check size={12} className="absolute top-3 right-3 text-[#00BFC6]"/>}
                     </button>
                   ))}
                 </motion.div>
@@ -405,25 +410,25 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
             <div className="space-y-3">
               
               {/* SPECIAL FIELD: WEBSITE WITH AI EXTRACTOR */}
-              <div className="p-4 bg-accent/5 border border-[#c4973b]/20 rounded-[18px] space-y-3 relative overflow-hidden">
+              <div className="p-4 bg-accent/5 border border-[#00BFC6]/20 rounded-[18px] space-y-3 relative overflow-hidden">
                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-[50px] pointer-events-none" />
                  <div className="flex items-center gap-2 relative z-10">
                     <Sparkles size={14} className="text-accent" />
-                    <label className="text-[10px] font-black uppercase tracking-widest text-[#c4973b]">Site da Marca (Escaneamento IA)</label>
+                    <label className="text-[10px] font-black uppercase tracking-widest text-[#00BFC6]">Site da Marca (Escaneamento IA)</label>
                  </div>
                  <div className="flex gap-2 relative z-10">
                     <input type="text" placeholder="ex: www.suamarca.com.br" value={local.salesLink || ''}
                       onChange={e => setLocal(p => ({ ...p, salesLink: e.target.value }))}
-                      className="flex-1 h-12 bg-black/40 border border-[#c4973b]/20 rounded-[12px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/80 transition-all placeholder:text-gray-700"/>
+                      className="flex-1 h-12 bg-black/40 border border-[#00BFC6]/20 rounded-[12px] px-4 text-sm font-bold outline-none focus:border-[#00BFC6]/80 transition-all placeholder:text-gray-700"/>
                     <button 
                       onClick={handleSiteAnalysis}
                       disabled={isAnalyzingSite || !local.salesLink}
-                      className="px-6 rounded-[12px] bg-[#c4973b] text-black font-black uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(196,151,59,0.3)]"
+                      className="px-6 rounded-[12px] bg-[#00BFC6] text-black font-black uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,191,198,0.3)]"
                     >
                       {isAnalyzingSite ? <Loader2 size={14} className="animate-spin" /> : "Extrair DNA"}
                     </button>
                  </div>
-                 <p className="text-[9px] text-[#c4973b]/60 font-bold uppercase tracking-widest relative z-10">O Sherlock lerá o seu site e preencherá a Identidade Visual, Tom de Voz e Persona magicamente.</p>
+                 <p className="text-[9px] text-[#00BFC6]/60 font-bold uppercase tracking-widest relative z-10">O SHERLOCK LERÁ O SEU SITE E PREENCHERÁ A IDENTIDADE VISUAL, TOM DE VOZ E PERSONA MAGICAMENTE.</p>
               </div>
 
               <div className="space-y-4">

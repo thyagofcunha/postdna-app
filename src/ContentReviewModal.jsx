@@ -61,6 +61,17 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
   const bgColor = brand.colors?.[1] || '#000000';
   const textColor = brand.colors?.[2] || '#ffffff';
 
+  const FONT_OPTIONS = [
+    { key: 'sora',     style: { fontFamily: "'Sora', sans-serif" } },
+    { key: 'playfair', style: { fontFamily: "'Playfair Display', serif" } },
+    { key: 'syne',     style: { fontFamily: "'Syne', sans-serif" } },
+    { key: 'outfit',   style: { fontFamily: "'Outfit', sans-serif" } },
+    { key: 'inter',    style: { fontFamily: "'Inter', sans-serif" } },
+    { key: 'mono',     style: { fontFamily: "'JetBrains Mono', monospace" } },
+  ];
+
+  const currentFontFace = FONT_OPTIONS.find(f => f.key === brand.fontStyle)?.style || { fontFamily: "'Sora', sans-serif" };
+
   return (
     <motion.div 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -140,11 +151,11 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
 
             {/* TAB: PREVIEW */}
             {activeTab === 'preview' && (
-              <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start justify-center">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-start justify-center min-h-[500px]">
                 {/* Visual Preview */}
-                <div className="relative group">
+                <div className="relative group shrink-0">
                   {/* --- PREVIEW DO SLIDE (MULTIMODAL) --- */}
-                  <div className={`w-full aspect-[3/4] relative overflow-hidden shadow-2xl transition-all duration-700 flex items-center justify-center ${vibe === 'editorial' ? 'bg-amber-50 text-black' : 'bg-zinc-950 text-white'}`}>
+                  <div className={`w-[320px] md:w-[400px] aspect-[3/4] relative overflow-hidden shadow-2xl transition-all duration-700 flex items-center justify-center rounded-[32px] ${vibe === 'editorial' ? 'bg-amber-50 text-black' : 'bg-zinc-950 text-white'}`}>
                     
                     {/* 🐦 LAYOUT: TWEET CARD */}
                     {editedSlides[activeSlide]?.layout === 'tweet' ? (
@@ -155,10 +166,9 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                             handle: `@${(brand.businessName || "user").toLowerCase().replace(/\s+/g, '')}`,
                             avatar: brand.logo || "https://api.dicebear.com/7.x/avataaars/svg?seed=brand"
                           }}
-                          content={{
-                            text: editedSlides[activeSlide]?.headline || "Nova Ideia Editorial",
-                            subText: editedSlides[activeSlide]?.body || "Gerado pelo Squad PostDNA."
-                          }}
+                          // Corrigindo erro #31: Garantindo que passamos strings, não objetos
+                          text={String(editedSlides[activeSlide]?.headline || "Nova Ideia Editorial")}
+                          subText={String(editedSlides[activeSlide]?.body || "Gerado pelo Squad PostDNA.")}
                           className="w-[90%] rotate-1 shadow-2xl border-none"
                         />
                         <div className="flex gap-4 opacity-10">
@@ -169,7 +179,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                     ) : editedSlides[activeSlide]?.layout === 'minimalist' ? (
                       /* 🌫️ LAYOUT: MINIMALIST */
                       <div className="p-16 flex flex-col justify-center items-center text-center space-y-12">
-                         <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.85]">
+                         <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.85]" style={currentFontFace}>
                             {editedSlides[activeSlide]?.headline}
                          </h2>
                          <div className="w-20 h-2 bg-accent rounded-full" />
@@ -187,6 +197,13 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                             alt="Visual" 
                           />
                           {vibe === 'shadow' && <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />}
+                          
+                          {/* 📸 ATRIBUIÇÃO UNSPLASH (ULTRA-DISCRETA PARA AUDITORIA) */}
+                          {editedSlides[activeSlide]?.unsplashAuthor && (
+                            <div className="absolute bottom-4 left-4 z-20 text-[6px] font-black uppercase tracking-widest text-white/10 hover:text-white/80 transition-all duration-700 opacity-20 hover:opacity-100">
+                               Foto de <a href={editedSlides[activeSlide].unsplashLink} target="_blank" rel="noreferrer" className="underline">{editedSlides[activeSlide].unsplashAuthor}</a> no Unsplash
+                            </div>
+                          )}
                         </div>
 
                         <div className="absolute inset-0 z-10 p-16 flex flex-col justify-between">
@@ -206,7 +223,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
 
                           <div className="space-y-6 mt-12 relative z-10">
                             <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30">{item.slides?.[activeSlide]?.frameType || 'STORY SLIDE'}</span>
-                            <h2 className="text-6xl font-black uppercase italic tracking-tighter leading-[0.9]">
+                            <h2 className="text-6xl font-black uppercase italic tracking-tighter leading-[0.9]" style={currentFontFace}>
                               {editedSlides[activeSlide]?.headline}
                             </h2>
                           </div>
@@ -268,7 +285,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                       ))}
                     </div>
                   </div>
-                  <div className="bg-accent/5 border border-[#c4973b]/10 rounded-2xl p-6 space-y-3">
+                  <div className="bg-accent/5 border border-[#00BFC6]/10 rounded-2xl p-6 space-y-3">
                     <div className="flex items-center gap-2">
                        <Zap size={14} className="text-accent" />
                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Agente Designer</p>
@@ -362,6 +379,8 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                           <div key={img.id} onClick={() => {
                             const newSlides = [...editedSlides];
                             newSlides[activeSlide].imageUrl = img.url;
+                            newSlides[activeSlide].unsplashAuthor = img.author;
+                            newSlides[activeSlide].unsplashLink = img.link;
                             setEditedSlides(newSlides);
                             setGlobalAlert({ type: 'success', title: 'Imagem Atualizada', text: 'O Designer aplicou a nova foto ao slide.' });
                           }} className="aspect-square rounded-xl overflow-hidden cursor-pointer group relative border border-white/5 hover:border-accent transition-all">
@@ -485,8 +504,8 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
           </div>
 
           {/* Right Sidebar - Actions */}
-          <div className="w-full lg:w-96 border-l border-white/5 p-10 bg-white/[0.01] flex flex-col justify-between">
-            <div className="space-y-10">
+          <div className="w-full lg:w-96 border-l border-white/5 p-8 lg:p-10 bg-white/[0.01] flex flex-col overflow-y-auto scrollbar-hide max-h-full">
+            <div className="space-y-10 pb-8 flex-1">
               <div className="space-y-3">
                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Controle Final</p>
                 <div className="flex items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/5">
@@ -517,25 +536,24 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                 </div>
               </div>
 
-              <div className="p-6 bg-gradient-to-br from-[#c4973b]/10 to-transparent border border-[#c4973b]/10 rounded-[28px] relative overflow-hidden group">
+              <div className="p-6 bg-gradient-to-br from-[#00BFC6]/10 to-transparent border border-[#00BFC6]/10 rounded-[28px] relative overflow-hidden group">
                 <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent/20 blur-2xl group-hover:bg-accent/40 transition-all" />
                 <p className="text-[9px] font-black uppercase text-accent mb-3 flex items-center gap-2">
                   <Zap size={12} fill="currentColor" /> Recomendação IA
                 </p>
                 <p className="text-[11px] text-gray-300 font-bold leading-relaxed italic">
-                  "Este conteúdo utiliza o gatilho de autoridade focado na sua dor rincipal: {brand.persona?.mainPain || 'falta de automação'}."
+                  "Este conteúdo utiliza o gatilho de autoridade focado na sua dor principal: {brand.persona?.mainPain || 'falta de automação'}."
                 </p>
               </div>
             </div>
 
-              {!readOnly && (
-              <div className="space-y-4 pt-10">
+            {!readOnly && (
+              <div className="space-y-4 pt-10 mt-auto border-t border-white/5">
                 <button 
                   disabled={isPublishing}
                   onClick={async () => {
                     setIsPublishing(true);
                     try {
-                      // Mesclar as edições realizadas no editor antes de salvar
                       const updatedItem = {
                         ...item,
                         slides: editedSlides,
@@ -549,7 +567,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                         message: `Conteúdo de ${item.type} salvo no seu Cloud/Supabase com sucesso.`,
                         type: "success"
                       });
-                      onApprove(); // Marcar como aprovado no local
+                      onApprove();
                     } catch (err) {
                       setGlobalAlert({
                         title: "Erro de Salvamento",
@@ -570,27 +588,26 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                 <div className="flex gap-2">
                   <button 
                     onClick={() => {
-                        // In a real app, this would call a prop function like onRegenerateText(item, currentSlide)
                         setGlobalAlert({
                           title: "IA em Ação",
-                          message: "Estamos regerando o texto deste slide com uma nova abordagem persuasiva. Aguarde um instante...",
+                          message: "Regerando texto...",
                           type: "info"
                         });
                         setTimeout(() => setGlobalAlert(null), 2000);
                     }}
-                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
+                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5">
                     REGERAR TEXTO
                   </button>
                   <button 
                     onClick={() => {
                         setGlobalAlert({
                           title: "Novo Visual",
-                          message: "O Agente Designer está buscando uma nova composição visual para este slide.",
+                          message: "Trocando design...",
                           type: "info"
                         });
                         setTimeout(() => setGlobalAlert(null), 2000);
                     }}
-                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5 disabled:opacity-50">
+                    className="flex-1 py-4 text-gray-400 font-black uppercase tracking-widest text-[9px] hover:text-accent transition-colors bg-white/5 rounded-xl border border-white/5">
                     TROCAR DESIGN
                   </button>
                 </div>
@@ -598,22 +615,20 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
             )}
             
             {readOnly && (
-               <div className="p-8 bg-green-500/5 border border-green-500/10 rounded-[32px] text-center space-y-4">
+               <div className="p-8 bg-green-500/5 border border-green-500/10 rounded-[32px] text-center space-y-4 mt-auto">
                   <div className="w-12 h-12 rounded-2xl bg-green-500/10 text-green-500 flex items-center justify-center mx-auto shadow-xl">
                     <Check size={24} />
                   </div>
                   <div className="space-y-1">
                     <p className="text-xs font-black uppercase tracking-widest text-green-500">Conteúdo Finalizado</p>
-                    <p className="text-[10px] text-gray-600 font-bold uppercase tracking-widest leading-relaxed">
-                       O Squad concluiu esta tarefa e os arquivos já estão prontos para entrega.
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed">
+                       O Squad concluiu esta tarefa e os arquivos já estão prontos.
                     </p>
                   </div>
                </div>
             )}
           </div>
-
         </div>
-
       </div>
     </motion.div>
   );

@@ -14,9 +14,9 @@
 ## Objetivo do Negócio
 
 O PostDNA existe para:
-1. Automatizar a produção de conteúdo (Instagram + Blog SEO) para múltiplos nichos.
-2. Garantir um padrão visual premium (1080x1440) e SEO técnico rigoroso.
-3. Escalar a presença digital de marcas como Magic Dani, O Cara do Jogo e outros nichos sem perder a alma da marca (o "DNA").
+1. Automatizar a produção de conteúdo (Instagram + Blog SEO) para múltiplos nichos simultaneamente.
+2. Garantir um padrão visual premium (1080x1440) e SEO técnico rigoroso em larga escala.
+3. Escalar a presença digital de marcas globais de qualquer segmento sem perder o DNA e a alma do negócio.
 
 ## Público-Alvo
 

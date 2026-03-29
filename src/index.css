@@ -2,6 +2,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;800&family=Outfit:wght@400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&family=Sora:wght@400;700;800&family=Syne:wght@400;700;800&display=swap');
+
 :root {
   --background: #0d0d0d;
   --foreground: #f5f5f5;
