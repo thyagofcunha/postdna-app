@@ -113,66 +113,119 @@ export default function LandingPage({ onGetStarted, onLogin }) {
          </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
-      <section className="relative flex flex-col items-center justify-center pt-48 pb-20 px-4 overflow-hidden">
-        {/* Ambient Background Glows */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#00BFC6]/10 blur-[150px] rounded-full pointer-events-none" />
+      {/* --- HERO SECTION: EDITORIAL TITANIC --- */}
+      <section className="relative flex flex-col items-center justify-center pt-56 pb-32 px-4 overflow-hidden">
+        {/* Background Gradients: Deeper & More Dramatic */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-accent/20 blur-[180px] rounded-full pointer-events-none" />
         
-        <div className="max-w-6xl mx-auto text-center space-y-10 relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] font-bold tracking-[0.1em] text-[#00BFC6] uppercase animate-fade-in">
-             Inteligência Artificial de Elite para Marcas
+        <div className="max-w-[1400px] mx-auto text-center relative z-10 flex flex-col items-center">
+          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black tracking-[0.4em] text-accent uppercase mb-12 animate-in fade-in slide-in-from-top-4 duration-1000">
+             <Fingerprint size={14} /> Design Editorial para Marcas de Elite
           </div>
           
-          <h1 className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.9] max-w-5xl mx-auto uppercase italic">
-            Pare de pagar designer. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00BFC6] to-white/50">Comece a criar com o seu DNA.</span>
-          </h1>
+          <div className="relative">
+            <h1 className="text-[12vw] md:text-[8rem] lg:text-[11rem] font-black tracking-[-0.06em] leading-[0.8] max-w-[1200px] mx-auto uppercase italic text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
+              CONTEÚDO <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-accent/30 drop-shadow-none">SEM ALMA</span> <br />
+              É INVISÍVEL.
+            </h1>
+            <div className="absolute -top-10 -right-10 hidden xl:block animate-pulse-slow">
+               <div className="glass px-6 py-4 rounded-3xl border border-accent/30 backdrop-blur-3xl rotate-12">
+                  <p className="text-[10px] font-black text-accent uppercase tracking-widest leading-none">Padrão 2026</p>
+                  <p className="text-xl font-black text-white italic tracking-tighter">1080x1440</p>
+               </div>
+            </div>
+          </div>
           
-          <p className="text-xl md:text-2xl text-neutral-400 max-w-4xl mx-auto leading-relaxed font-medium">
-            O PostDNA usa inteligência artificial para criar carrosséis, posts e artigos com a identidade visual da sua marca — em minutos.
-          </p>
-
-          <div className="flex flex-col items-center gap-6">
-            <button 
-              onClick={onGetStarted}
-              className="px-16 py-8 bg-[#00BFC6] text-black font-black rounded-3xl text-xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_0_60px_rgba(0,191,198,0.4)] relative group overflow-hidden"
-            >
-              <span className="relative z-10">ENTRAR AGORA →</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-            </button>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-neutral-500">
-              Sem cartão de crédito · Sem compromisso
+          <div className="mt-16 space-y-12 max-w-4xl mx-auto">
+            <p className="text-2xl md:text-3xl text-neutral-500 font-bold leading-[1.2] tracking-tight">
+              O PostDNA decodifica sua Identidade Visual e ativa um <span className="text-white">Squad de Elite de IA</span> para criar seus carrosséis e posts em segundos.
             </p>
-          </div>
+           </div>
         </div>
+      </section>
 
-        {/* --- SECTION 2: PROVA SOCIAL IMEDIATA --- */}
-        <div className="max-w-5xl mx-auto mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 w-full border-t border-white/5 pt-12">
-           <div className="flex items-center justify-center gap-4 group">
-              <div className="flex text-yellow-500 gap-0.5">
-                 {[...Array(5)].map((_, i) => <Sparkles key={i} size={14} className="fill-current" />)}
+      {/* --- SECTION: EDITORIAL SHOWCASE (O PODER DO 1080x1440) --- */}
+      <section className="py-20 px-4 relative overflow-hidden bg-black/60">
+        <div className="max-w-[1400px] mx-auto space-y-20">
+           <div className="flex flex-col md:flex-row items-end justify-between gap-8 border-b border-white/10 pb-12">
+              <div className="space-y-4">
+                 <p className="text-accent font-black tracking-[0.3em] uppercase text-[10px]">O Padrão Editorial 2026</p>
+                 <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter leading-none text-white">
+                    Sua marca, <br /> em Alta Definição.
+                 </h2>
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#00BFC6] group-hover:text-white transition-colors">+2.500 Marcas Criando Conteúdo</span>
+              <p className="text-neutral-500 max-w-sm font-bold text-sm leading-relaxed mb-1">
+                 O PostDNA é o único sistema que gera conteúdos no formato 3:4 (1080x1440), capturando 20% mais atenção no feed do que posts comuns.
+              </p>
            </div>
-           <div className="flex items-center justify-center gap-4 group">
-              <Zap size={18} className="text-[#00BFC6]" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-white">Conteúdo gerado em menos de 3 minutos</span>
-           </div>
-           <div className="flex items-center justify-center gap-4 group">
-              <Shield size={18} className="text-[#00BFC6]" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-white">7 dias de garantia ou dinheiro de volta</span>
+
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { 
+                  title: "A Ascensão do Digital", 
+                  style: "editorial", 
+                  img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=600&h=800",
+                  tag: "CAPA / HOOK"
+                },
+                { 
+                  title: "Estratégia Silenciosa", 
+                  style: "dark", 
+                  img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600&h=800",
+                   tag: "CONTEÚDO"
+                },
+                { 
+                  title: "O Futuro das Marcas", 
+                  style: "editorial", 
+                  img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=600&h=800",
+                   tag: "AUTORIDADE"
+                },
+                { 
+                  title: "Conversão Imediata", 
+                  style: "dark", 
+                  img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600&h=800",
+                  tag: "CTA"
+                }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  whileHover={{ y: -10 }}
+                  className={`aspect-[3/4] rounded-[48px] overflow-hidden border-8 border-white/5 relative group cursor-pointer shadow-2xl transition-all duration-700 ${item.style === 'editorial' ? 'bg-[#F0EAD6]' : 'bg-[#0A0A0C]'}`}
+                >
+                   <img 
+                    src={item.img} 
+                    className={`absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 ${item.style === 'editorial' ? 'mix-blend-multiply opacity-30' : 'opacity-40 group-hover:opacity-50'}`} 
+                   />
+                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                   
+                   <div className="absolute inset-0 p-10 flex flex-col justify-between z-10">
+                      <div className="flex justify-between items-start">
+                         <div className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${item.style === 'editorial' ? 'bg-black text-white border-black' : 'bg-accent text-black border-accent'}`}>
+                            {item.tag}
+                         </div>
+                         <Fingerprint className={item.style === 'editorial' ? 'text-black/20' : 'text-white/20'} size={24} />
+                      </div>
+                      <div className="space-y-4">
+                         <h4 className={`text-4xl font-black uppercase italic tracking-tighter leading-none ${item.style === 'editorial' ? 'text-black' : 'text-white'}`}>
+                            {item.title}
+                         </h4>
+                         <div className={`w-12 h-1 bg-accent rounded-full group-hover:w-full transition-all duration-500`} />
+                      </div>
+                   </div>
+                </motion.div>
+              ))}
            </div>
         </div>
 
-        {/* --- DEVICE COMBO MOCKUP --- */}
-        <div className="relative mt-24 max-w-6xl w-full px-4 perspective-1000">
+        {/* --- DEVICE COMBO MOCKUP (Deslocado para impacto) --- */}
+        <div className="relative mt-40 max-w-6xl w-full px-4 mx-auto perspective-1000">
            <div className="relative flex items-center justify-center">
               {/* Safari Desktop */}
               <div className="w-full max-w-5xl transform-gpu transition-all duration-700 hover:scale-[1.01]">
                 <div className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)]">
                   <Safari 
                     url="app.postdna.com.br" 
-                    imageSrc="/assets/dashboard-preview.png"
+                    imageSrc="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1200"
                     className="w-full"
                   />
                   <BorderBeam size={400} duration={12} delay={9} />
@@ -182,22 +235,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
               {/* iPhone Overlay */}
               <div className="absolute -bottom-10 -right-4 md:right-10 w-[240px] md:w-[280px] drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] transform-gpu hover:-translate-y-4 hover:rotate-2 transition-all duration-500">
                  <Iphone 
-                   src="/assets/mobile-preview.png" 
+                   src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=1080&h=1920" 
                    className="w-full"
                  />
-              </div>
-
-              {/* Floating Notifications or Stats */}
-              <div className="absolute top-20 left-0 md:-left-10 p-6 bg-black/60 backdrop-blur-xl border border-white/10 rounded-3xl hidden lg:block animate-bounce-slow">
-                 <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#00BFC6]/20 flex items-center justify-center">
-                       <TrendingUp className="w-5 h-5 text-[#00BFC6]" />
-                    </div>
-                    <div>
-                       <div className="text-xs font-bold text-neutral-400">Alcance Estimado</div>
-                       <div className="text-xl font-black text-white">+24.8%</div>
-                    </div>
-                 </div>
               </div>
            </div>
         </div>

@@ -15,7 +15,7 @@ import ContentReviewModal from './ContentReviewModal';
 import CreateContentPage from './CreateContentPage';
 import LimitModal from './LimitModal';
 import { useTranslation } from 'react-i18next';
-import { extractDNA } from './dnaUtils';
+import { analyzeWebsiteDNA, generateContent } from './aiAnalyzer';
 import SignupView from './SignupView';
 import SavedIdeasPage from './SavedIdeasPage';
 import ImageBankPage from './ImageBankPage';
@@ -1069,74 +1069,67 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
       setPipelineSubtitle("Revisor: Verificando legibilidade, contraste e identidade visual...");
     }, delays[3]);
 
-    // 5. REVISOR & Conclusão
-    setTimeout(() => {
-      setPipelineStage(-1);
-      setGeneratingIdx(null);
-      
-      const numFrames = itemType === 'STORY' ? 3 : 8; // STORIES ou CARROSSEL_STORIES
+    // 5. REVISOR & Conclusão (CHAMADA REAL PARA OPENAI)
+    setTimeout(async () => {
+      try {
+        const objective = item?.objective || 'EDUCAR'; // Fallback se não definido
+        
+        // Chamada Assíncrona para o Squad de Agentes no OpenAI
+        const realGeneratedContent = await generateContent(brand, topic, itemType, objective);
 
-      const generatedContent = {
-        id: Date.now(),
-        topic: topic || "Conteúdo Automático",
-        type: itemType,
-        status: 'Aguardando revisão',
-        date: new Date().toISOString().split('T')[0],
-        // Lógica Narrativa para Stories ou Feed
-        slides: Array.from({ length: numFrames }).map((_, i) => {
-          const isStory = itemType.includes('STORY');
-          const frameType = getFrameType(i, numFrames, isStory);
-          
-          return {
-            index: i + 1,
-            type: 'text_image',
-            frameType: frameType,
-            headline: getHeadlineForFrame(frameType, topic),
-            body: getBodyForFrame(frameType),
-            image: selectImageForSlide(i, brand, topic, isStory),
-            layout: selectLayoutForSlide(i, isStory),
-            safe_zone: isStory,
-            max_lines: isStory ? 4 : 8
-          };
-        }),
-        caption: `Legenda gerada para ${topic}... #postdna #marketing`,
-        hasImages: true
-      };
+        setPipelineStage(-1);
+        setGeneratingIdx(null);
+        
+        const finishedItem = { 
+          ...(agenda[idx] || item), 
+          ...realGeneratedContent, 
+          status: 'Aguardando revisão' 
+        };
 
-      const finishedItem = { ...(agenda[idx] || item), ...generatedContent, status: 'Aguardando revisão' };
-      const newAgenda = agenda.map((a, i) => i === idx ? finishedItem : a);
-      setAgenda(newAgenda);
-      localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
-      
-      // Trigger Notification
-      addNotification(
-        'content_ready', 
-        'Seu conteúdo está pronto ✅', 
-        `${itemType} sobre '${topic}' está pronto para revisão.`,
-        '#'
-      );
+        const newAgenda = agenda.map((a, i) => i === idx ? finishedItem : a);
+        setAgenda(newAgenda);
+        localStorage.setItem('postdna_agenda', JSON.stringify(newAgenda));
+        
+        addNotification(
+          'content_ready', 
+          'Seu conteúdo está pronto ✅', 
+          `${itemType} sobre '${topic}' está pronto para revisão.`,
+          '#'
+        );
 
-      setBrand(prev => {
-        let newBalance = prev.credit_balance || 0;
-        let newExtra = prev.extra_credits || 0;
-        let remaining = cost;
-        if (newBalance >= remaining) {
-          newBalance -= remaining;
-        } else {
-          remaining -= newBalance;
-          newBalance = 0;
-          newExtra = Math.max(0, newExtra - remaining);
-        }
-        return { ...prev, credit_balance: newBalance, extra_credits: newExtra };
-      });
+        setBrand(prev => {
+          let newBalance = prev.credit_balance || 0;
+          let newExtra = prev.extra_credits || 0;
+          let remaining = cost;
+          if (newBalance >= remaining) {
+            newBalance -= remaining;
+          } else {
+            remaining -= newBalance;
+            newBalance = 0;
+            newExtra = Math.max(0, newExtra - remaining);
+          }
+          return { ...prev, credit_balance: newBalance, extra_credits: newExtra };
+        });
 
-      setIsTransitioning(true);
-      setIsSherlockCached(false); // Reset cache flag
-      setTimeout(() => {
-        setIsTransitioning(false);
-        setSelectedItem(finishedItem);
-      }, 1500);
-    }, delays[4] + (isFirst ? 1000 : 500)); // Add a small buffer at the end
+        setIsTransitioning(true);
+        setIsSherlockCached(false);
+        setTimeout(() => {
+          setIsTransitioning(false);
+          setSelectedItem(finishedItem);
+        }, 1500);
+
+      } catch (err) {
+        console.error("Erro no Pipeline:", err);
+        setPipelineStage(-1);
+        setGeneratingIdx(null);
+        setGlobalAlert({
+          title: "Erro na Geração",
+          message: "O motor de IA falhou. Verifique sua chave da OpenAI ou tente novamente.",
+          type: "error",
+          onConfirm: () => setGlobalAlert(null)
+        });
+      }
+    }, delays[3] + (isFirst ? 1000 : 500)); 
   };
 
   function getFrameType(idx, total, isStory) {

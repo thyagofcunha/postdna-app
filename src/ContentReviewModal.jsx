@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, Check, ChevronLeft, ChevronRight, 
-  Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell
+  Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell, Globe, Loader2, Cloud
 } from 'lucide-react';
+import { saveContentToSupabase } from './aiAnalyzer';
 
 export default function ContentReviewModal({ item, brand, onApprove, onClose, setGlobalAlert, readOnly = false, showPushBanner = false, onRequestPush }) {
-  const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy'
+   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy'
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const isStory = item.type?.includes('STORY');
   const slides = item.slides || [];
@@ -343,13 +345,36 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
               </div>
             </div>
 
-            {!readOnly && (
+              {!readOnly && (
               <div className="space-y-4 pt-10">
                 <button 
-                  onClick={onApprove}
-                  className="w-full intel-gradient text-black py-5 rounded-[24px] font-black uppercase tracking-widest text-sm shadow-2xl flex items-center justify-center gap-3 hover:scale-[1.03] active:scale-95 transition-all shadow-accent/20"
+                  disabled={isPublishing}
+                  onClick={async () => {
+                    setIsPublishing(true);
+                    try {
+                      await saveContentToSupabase(item);
+                      setGlobalAlert({
+                        title: "Sucesso!",
+                        message: `Conteúdo de ${item.type} salvo no seu Cloud/Supabase com sucesso.`,
+                        type: "success"
+                      });
+                      onApprove(); // Marcar como aprovado no local
+                    } catch (err) {
+                      setGlobalAlert({
+                        title: "Erro de Salvamento",
+                        message: err.message,
+                        type: "error"
+                      });
+                    } finally {
+                      setIsPublishing(false);
+                    }
+                  }}
+                  className={`w-full py-5 rounded-[24px] font-black uppercase tracking-widest text-sm shadow-2xl flex items-center justify-center gap-3 transition-all ${
+                    isPublishing ? 'bg-white/10 text-gray-400' : 'bg-green-600 hover:bg-green-500 text-white shadow-green-900/20'
+                  }`}
                 >
-                  <Check size={20} /> APROVAR E AGENDAR
+                  {isPublishing ? <Loader2 size={20} className="animate-spin" /> : <Cloud size={20} />}
+                  {isPublishing ? 'SALVANDO...' : `APROVAR E SALVAR NO CLOUD`}
                 </button>
                 <div className="flex gap-2">
                   <button 

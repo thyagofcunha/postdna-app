@@ -96,45 +96,44 @@ export async function generateContent(brand, topic, type, objective) {
   const funnelPhase = funnelMap[objective] || 'EDUCAR';
   const numSlides = (type === 'POST' || type === 'CAPTION') ? 1 : (type === 'STORY_SIMPLE' ? 3 : 8);
 
-  const systemPrompt = `Você é o OPENSQUAD da Magic Dani (Estrategista + Copywriter + Designer).
-Sua missão é gerar um conteúdo de ALTA CONVERSÃO para o Instagram baseado no DNA da marca abaixo.
+  const systemPrompt = `### ROLE: POSTDNA AGENTIC SQUAD
+Você é o motor de inteligência do PostDNA, operando como um squad unificado: SHERLOCK (Pesquisa), ESTRATEGISTA (Estrutura), COPYWRITER (Texto) e DESIGNER (Layout).
 
---- DNA DA MARCA ---
-Nome: ${brand.businessName} (O Cara do Jogo)
-O que vende: ${brand.product}
-Público Alvo: ${brand.targetAudience}
-Voz: Formalidade(${brand.voice?.formality}/5), Profundidade(${brand.voice?.depth}/5), Energia(${brand.voice?.energy}/5)
-Persona (Dor): ${brand.persona?.mainPain}
-Estilo Visual Sugerido: ${brand.visualStyle}
-Cores Principais: ${brand.colors?.join(', ')}
+### DNA DA MARCA:
+- NOME: ${brand.businessName}
+- PRODUTO: ${brand.product}
+- PÚBLICO: ${brand.targetAudience}
+- VOZ: Formalidade(${brand.voice?.formality}/5), Profundidade(${brand.voice?.depth}/5), Energia(${brand.voice?.energy}/5)
+- ESTILO: ${brand.visualStyle} (Cores: ${brand.colors?.join(', ')})
 
---- BRIEFING DO POST ---
-Tema: ${topic}
-Formato: ${type} (${numSlides} slides/frames)
-Fase do Funil: ${funnelPhase}
+### BRIEFING DO CONTEÚDO:
+- TEMA: "${topic}"
+- FORMATO: ${type}
+- QUANTIDADE: Gerar exatamente ${numSlides} slides/frames.
+- FASE DO FUNIL: ${funnelPhase}
 
---- REGRAS DOS AGENTES ---
-1. ESTRATEGISTA: Se for TOPO/MEIO, foque em VALOR para o jogador. Não mencione venda. 
-2. COPYWRITER: Use o tom da marca. Seja persuasivo e humano. Máximo 15 palavras por slide.
-3. DESIGNER: Capa (slide 1) sempre IMPACTANTE para parar o scroll. Alterne layouts entre slides.
-4. MOBILE-FIRST: Headlines gigantes e legíveis.
+### REGRAS DOS AGENTES:
+1. **Sherlock & Estrategista**: Entregue valor prático e alinhe à fase do funil.
+2. **Copywriter**: Máximo 12-15 palavras por slide. Headlines de 90px+ style. 
+3. **Designer**: Use 1080x1440 para Feed ou 1080x1920 para Stories. Alterne entre layouts 'editorial' e 'dark'.
 
---- FORMATO DE RETORNO (JSON) ---
+### FORMATO DE SAÍDA (JSON):
 {
   "topic": "${topic}",
   "type": "${type}",
+  "content": "Markdown body (APENAS se for BLOG)",
   "slides": [
     {
       "index": 1,
-      "frameType": "hook/context/problem/solution/cta",
-      "headline": "Headline curta e potente",
-      "body": "Texto de apoio curto",
-      "imageTheme": "palavra-chave simples em inglês para imagem (ex: 'soccer field', 'tired player')",
-      "layout": "editorial"
+      "headline": "Título",
+      "body": "Texto",
+      "layout": "editorial",
+      "imageTheme": "English keyword"
     }
   ],
-  "caption": "Legenda otimizada com 5 hashtags."
+  "caption": "Legenda com 5 hashtags."
 }`;
+
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -180,4 +179,45 @@ Fase do Funil: ${funnelPhase}
     console.error("Erro na geração de conteúdo:", err);
     throw err;
   }
+}
+
+export async function saveContentToSupabase(item) {
+  const apiKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  
+  if (!apiKey || !url) throw new Error("Supabase não configurado.");
+
+  // Mapeamento inteligente de dados baseado no tipo (Blog vs Social)
+  const isSocial = item.type !== 'BLOG';
+  
+  const payload = {
+    title: item.topic || "Sem título",
+    slug: item.slug || `dna-${item.type.toLowerCase()}-${Date.now()}`,
+    content: isSocial ? JSON.stringify(item.slides) : item.content,
+    caption: item.caption || null,
+    type: item.type,
+    summary: item.topic,
+    keywords: item.keywords?.join(', ') || null,
+    status: 'Aprovado',
+    published: item.type === 'BLOG' ? true : false,
+    published_at: item.type === 'BLOG' ? new Date().toISOString() : null
+  };
+
+  const response = await fetch(`${url}/rest/v1/posts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': apiKey,
+      'Authorization': `Bearer ${apiKey}`,
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Erro ao salvar no Supabase.");
+  }
+
+  return await response.json();
 }
