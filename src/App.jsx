@@ -1442,7 +1442,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
                 <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">PostDNA Em Ação</h3>
                 
                 <div className="mt-2 space-y-1">
-                  <p className={`text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>
+                  <p className={`text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed ${(pipelineSubtitle?.length || 0) > 20 ? 'italic' : ''}`}>
                     {pipelineSubtitle || "Seu Squad está processando os dados..."}
                   </p>
                   <p className="text-[8px] text-accent font-black uppercase tracking-[0.2em] opacity-80">
