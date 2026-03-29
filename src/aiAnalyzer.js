@@ -115,7 +115,11 @@ Você é o motor de inteligência do PostDNA, operando como um squad unificado: 
 ### REGRAS DOS AGENTES:
 1. **Sherlock & Estrategista**: Entregue valor prático e alinhe à fase do funil.
 2. **Copywriter**: Máximo 12-15 palavras por slide. Headlines de 90px+ style. 
-3. **Designer**: Use 1080x1440 para Feed ou 1080x1920 para Stories. Alterne entre layouts 'editorial' e 'dark'.
+3. **Designer (Padrão 2026)**: Escolha o layout para cada slide:
+   - **EDITORIAL**: Use para capas e slides de impacto com imagem cinematográfica. (1080x1440)
+   - **MINIMALIST**: Use para insights profundos. Sem imagens, apenas tipografia massiva em fundo preto ou branco.
+   - **TWEET**: Use para citações, depoimentos de clientes (simulados) ou "thoughts". O estilo Twitter Card.
+   - **REVOLUÇÃO**: Alterne entre layouts para manter a atenção do usuário no carrossel.
 
 ### FORMATO DE SAÍDA (JSON):
 {
@@ -125,10 +129,10 @@ Você é o motor de inteligência do PostDNA, operando como um squad unificado: 
   "slides": [
     {
       "index": 1,
-      "headline": "Título",
-      "body": "Texto",
-      "layout": "editorial",
-      "imageTheme": "English keyword"
+      "headline": "Título Impactante",
+      "body": "Texto curto",
+      "layout": "editorial | minimalist | tweet",
+      "imageTheme": "English keyword for Unsplash"
     }
   ],
   "caption": "Legenda com 5 hashtags."
@@ -193,7 +197,15 @@ export async function saveContentToSupabase(item) {
   const payload = {
     title: item.topic || "Sem título",
     slug: item.slug || `dna-${item.type.toLowerCase()}-${Date.now()}`,
-    content: isSocial ? JSON.stringify(item.slides) : item.content,
+    // Para Social, salvamos o objeto completo (slides + design) no content
+    content: isSocial ? JSON.stringify({ 
+      slides: item.slides, 
+      design: { 
+        vibe: item.vibe, 
+        logoPos: item.logoPos,
+        logoOpacity: item.logoOpacity 
+      } 
+    }) : item.content,
     caption: item.caption || null,
     type: item.type,
     summary: item.topic,

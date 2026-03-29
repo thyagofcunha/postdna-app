@@ -1360,7 +1360,23 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
             ))}
           </div>
         )}
-          <div className={`intel-gradient border border-white/10 rounded-[20px] relative overflow-hidden group transition-all shadow-[0_0_20px_rgba(0,191,198,0.1)] ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
+
+        {/* PODER DO SQUAD (FASE 2.2) */}
+        {!isCollapsed && (
+          <div className="px-2 mb-4">
+             <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-2">
+                <div className="flex items-center gap-2">
+                   <Zap size={12} className="text-accent" />
+                   <p className="text-[9px] font-black uppercase text-accent tracking-widest">Poder do Squad</p>
+                </div>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed">
+                   Operado por Sherlock e Designer Editorial.
+                </p>
+             </div>
+          </div>
+        )}
+
+        <div className={`intel-gradient border border-white/10 rounded-[20px] relative overflow-hidden group transition-all shadow-[0_0_20px_rgba(0,191,198,0.1)] ${isCollapsed ? 'p-2' : 'p-4 space-y-3'}`}>
           {!isCollapsed ? (
             <>
               <div className="absolute top-0 right-0 w-12 h-12 bg-accent/10 rounded-full blur-xl group-hover:bg-accent/20 transition-all"/>
@@ -1390,17 +1406,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     );
   };
 
-  // ── PIPELINE OVERLAY ──
+  // ── PIPELINE OVERLAY: A EXPERIÊNCIA DO SQUAD (FASE 2.2) ──
   const PipelineOverlay = () => {
-    // Cálculo da estimativa
-    const getEstimate = () => {
-      if (pipelineStage === 0) return "Aproximadamente 3 minutos";
-      if (pipelineStage === 1 || pipelineStage === 2) return "Aproximadamente 2 minutos";
-      if (pipelineStage === 3) return "Menos de 1 minuto";
-      if (pipelineStage === 4) return "Finalizando...";
-      return "";
-    };
-
+    if (!isGenerating && pipelineStage < 0) return null;
+    
     return (
       <AnimatePresence>
         {pipelineStage >= 0 && (
@@ -1410,7 +1419,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
               className="glass border border-white/10 rounded-[40px] p-10 w-full max-w-md mx-4 space-y-6">
               <div className="text-center">
                 <div className="w-14 h-14 rounded-[20px] bg-accent/10 border border-[#c4973b]/30 flex items-center justify-center mx-auto mb-4 text-2xl">⚡</div>
-                <h3 className="text-xl font-black uppercase italic tracking-tighter">PostDNA Em Ação</h3>
+                <h3 className="text-xl font-black uppercase italic tracking-tighter text-white">PostDNA Em Ação</h3>
                 
                 <div className="mt-2 space-y-1">
                   <p className={`text-[10px] text-gray-300 font-bold uppercase tracking-widest leading-relaxed ${pipelineSubtitle.length > 20 ? 'italic' : ''}`}>

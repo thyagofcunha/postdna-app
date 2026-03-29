@@ -5,17 +5,33 @@ import {
   Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell, Globe, Loader2, Cloud
 } from 'lucide-react';
 import { saveContentToSupabase } from './aiAnalyzer';
+import { TweetCard } from "@/components/ui/tweet-card";
 
 export default function ContentReviewModal({ item, brand, onApprove, onClose, setGlobalAlert, readOnly = false, showPushBanner = false, onRequestPush }) {
-   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'estrutura' | 'copy' | 'editor'
+   const [activeTab, setActiveTab] = useState('preview'); // 'preview' | 'editor' | 'copy'
    const [isPublishing, setIsPublishing] = useState(false);
    const [activeSlide, setActiveSlide] = useState(0);
    
-   // --- ESTADOS DO EDITOR (FASE 1.1) ---
-   const [vibe, setVibe] = useState('editorial'); // 'editorial' (light) | 'shadow' (dark)
-   const [logoPos, setLogoPos] = useState('top-right'); // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-   const [logoOpacity, setLogoOpacity] = useState(0.6);
-   const [editedSlides, setEditedSlides] = useState(item.slides || []);
+   // --- LÓGICA DE HIDRATAÇÃO CLOUD (FASE 1.3) ---
+   // Se o item vem do Supabase, o design vive dentro do item.content parseado
+   let savedDesign = null;
+   let savedSlides = item.slides || [];
+
+   if (typeof item.content === 'string' && item.content.startsWith('{')) {
+      try {
+        const parsed = JSON.parse(item.content);
+        if (parsed.design) savedDesign = parsed.design;
+        if (parsed.slides) savedSlides = parsed.slides;
+      } catch (e) {
+        console.error("Erro ao decodificar conteúdo cloud:", e);
+      }
+   }
+
+   // --- ESTADOS DO EDITOR ---
+   const [vibe, setVibe] = useState(savedDesign?.vibe || item.vibe || 'editorial');
+   const [logoPos, setLogoPos] = useState(savedDesign?.logoPos || item.logoPos || 'top-right');
+   const [logoOpacity, setLogoOpacity] = useState(savedDesign?.logoOpacity || 0.6);
+   const [editedSlides, setEditedSlides] = useState(savedSlides);
 
   const isStory = item.type?.includes('STORY');
   const slides = item.slides || [];
@@ -107,94 +123,108 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
               <div className="flex flex-col lg:flex-row gap-12 items-center lg:items-start justify-center">
                 {/* Visual Preview */}
                 <div className="relative group">
-                  {/* --- PREVIEW DO SLIDE (EDITOR INTEGRATED) --- */}
-                  <div className={`${isStory ? 'w-[280px] aspect-[9/16]' : 'w-[360px] aspect-square'} rounded-[32px] overflow-hidden border-8 border-white/5 shadow-2xl relative shadow-accent/5 bg-black transition-all duration-500`}>
+                  {/* --- PREVIEW DO SLIDE (MULTIMODAL) --- */}
+                  <div className={`w-full aspect-[3/4] relative overflow-hidden shadow-2xl transition-all duration-700 flex items-center justify-center ${vibe === 'editorial' ? 'bg-amber-50 text-black' : 'bg-zinc-950 text-white'}`}>
                     
-                    {/* INDICADOR DE PROGRESSO (Story) */}
-                    {isStory && (
-                      <div className="absolute top-6 left-0 right-0 px-6 flex gap-1 z-20">
-                        {slides.map((_, dotIdx) => (
-                          <div key={dotIdx} className={`h-0.5 flex-1 rounded-full transition-all duration-300 ${dotIdx === activeSlide ? 'bg-white' : 'bg-white/20'}`} />
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="absolute inset-0 z-0">
-                      <img 
-                        src={item.slides?.[activeSlide]?.imageUrl || `https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1080&h=1440&auto=format&fit=crop`} 
-                        className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${vibe === 'editorial' ? 'mix-blend-multiply opacity-20' : 'opacity-30'}`} 
-                        alt="Slide Background" 
-                      />
-                      {/* Vibe Gradient */}
-                      {vibe === 'shadow' && <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />}
-                    </div>
-
-                    <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                      {/* BRANDING DYNAMIC POSITION */}
-                      <div className={`absolute p-10 flex flex-col gap-1 transition-all duration-700 ${
-                        logoPos === 'top-left' ? 'top-0 left-0 text-left' :
-                        logoPos === 'top-right' ? 'top-0 right-0 text-right' :
-                        logoPos === 'bottom-left' ? 'bottom-0 left-0 text-left' :
-                        'bottom-0 right-0 text-right'
-                      }`} style={{ opacity: logoOpacity }}>
-                         <div className="flex items-center gap-2">
-                            <div className={`w-6 h-6 rounded-lg ${vibe === 'editorial' ? 'bg-black' : 'bg-accent'} flex items-center justify-center p-1 shadow-2xl`}>
-                               <img src="/assets/postdna-icon.svg" className={vibe === 'editorial' ? 'invert' : ''} alt="Logo" />
-                            </div>
-                            <span className={`text-[10px] font-black tracking-tighter uppercase italic ${vibe === 'editorial' ? 'text-black' : 'text-white'}`}>
-                               {brand.businessName}
-                            </span>
-                         </div>
-                      </div>
-
-                      <div className="z-10 space-y-4">
-                        <div 
-                          className="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest w-fit"
-                          style={{ 
-                            backgroundColor: vibe === 'editorial' ? '#1A2240' : brand.colors?.[0] || '#C4973B',
-                            color: vibe === 'editorial' ? '#F0EAD6' : '#1A2240'
+                    {/* 🐦 LAYOUT: TWEET CARD */}
+                    {editedSlides[activeSlide]?.layout === 'tweet' ? (
+                      <div className="w-full h-full p-6 flex flex-col items-center justify-center space-y-6">
+                        <TweetCard 
+                          author={{
+                            name: brand.businessName || "PostDNA User",
+                            handle: `@${(brand.businessName || "user").toLowerCase().replace(/\s+/g, '')}`,
+                            avatar: brand.logo || "https://api.dicebear.com/7.x/avataaars/svg?seed=brand"
                           }}
-                        >
-                          {isStory ? currentItem.frameType || 'STORY' : 'FEED'} {activeSlide + 1}
+                          content={{
+                            text: editedSlides[activeSlide]?.headline || "Nova Ideia Editorial",
+                            subText: editedSlides[activeSlide]?.body || "Gerado pelo Squad PostDNA."
+                          }}
+                          className="w-[90%] rotate-1 shadow-2xl border-none"
+                        />
+                        <div className="flex gap-4 opacity-10">
+                          <div className={`w-12 h-1 rounded-full ${vibe === 'editorial' ? 'bg-black' : 'bg-white'}`} />
+                          <div className={`w-12 h-1 rounded-full ${vibe === 'editorial' ? 'bg-black' : 'bg-white'}`} />
                         </div>
-                        <h3 
-                          className={`${isStory ? 'text-3xl' : 'text-4xl'} font-black uppercase italic tracking-tighter leading-tight`}
-                          style={{ color: vibe === 'editorial' ? '#1A2240' : '#ffffff' }}
-                        >
-                          {editedSlides[activeSlide]?.headline || currentItem.headline}
-                        </h3>
-                        <p 
-                          className="text-sm font-bold leading-relaxed line-clamp-4"
-                          style={{ color: vibe === 'editorial' ? 'rgba(26, 34, 64, 0.8)' : 'rgba(255, 255, 255, 0.7)' }}
-                        >
-                          {editedSlides[activeSlide]?.body || currentItem.body}
-                        </p>
                       </div>
-
-                      {/* Controls Overlay para Feed */}
-                      {!isStory && (
-                        <div className="absolute inset-x-0 bottom-4 flex justify-center gap-2">
-                          {slides.map((_, i) => (
-                            <div key={i} className={`h-1 rounded-full transition-all ${i === activeSlide ? 'w-6 bg-accent' : 'w-2 bg-white/20'}`} />
-                          ))}
+                    ) : editedSlides[activeSlide]?.layout === 'minimalist' ? (
+                      /* 🌫️ LAYOUT: MINIMALIST */
+                      <div className="p-16 flex flex-col justify-center items-center text-center space-y-12">
+                         <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.85]">
+                            {editedSlides[activeSlide]?.headline}
+                         </h2>
+                         <div className="w-20 h-2 bg-accent rounded-full" />
+                         <p className="text-xl font-bold opacity-60 leading-relaxed max-w-sm">
+                            {editedSlides[activeSlide]?.body}
+                         </p>
+                      </div>
+                    ) : (
+                      /* 🖼️ LAYOUT: EDITORIAL (CLASSIC) */
+                      <>
+                        <div className="absolute inset-0 z-0">
+                          <img 
+                            src={item.slides?.[activeSlide]?.imageUrl || `https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1080&h=1440&auto=format&fit=crop`} 
+                            className={`w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 ${vibe === 'editorial' ? 'mix-blend-multiply opacity-20' : 'opacity-20'}`} 
+                            alt="Visual" 
+                          />
+                          {vibe === 'shadow' && <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />}
                         </div>
-                      )}
-                    </div>
+
+                        <div className="absolute inset-0 z-10 p-16 flex flex-col justify-between">
+                          <div className={`absolute p-10 flex flex-col gap-1 transition-all duration-700 ${
+                            logoPos === 'top-left' ? 'top-0 left-0 text-left' :
+                            logoPos === 'top-right' ? 'top-0 right-0 text-right' :
+                            logoPos === 'bottom-left' ? 'bottom-0 left-0 text-left' :
+                            'bottom-0 right-0 text-right'
+                          }`} style={{ opacity: logoOpacity }}>
+                             <div className="flex items-center gap-2">
+                                <div className={`w-6 h-6 rounded-lg ${vibe === 'editorial' ? 'bg-black font-black' : 'bg-accent'} flex items-center justify-center text-[8px] shadow-2xl`}>DNA</div>
+                                <span className={`text-[10px] font-black tracking-tighter uppercase italic ${vibe === 'editorial' ? 'text-black' : 'text-white'}`}>
+                                   {brand.businessName}
+                                </span>
+                             </div>
+                          </div>
+
+                          <div className="space-y-6 mt-12 relative z-10">
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30">{item.slides?.[activeSlide]?.frameType || 'STORY SLIDE'}</span>
+                            <h2 className="text-6xl font-black uppercase italic tracking-tighter leading-[0.9]">
+                              {editedSlides[activeSlide]?.headline}
+                            </h2>
+                          </div>
+
+                          <div className="space-y-6 relative z-10">
+                             <p className={`text-lg font-bold leading-tight max-w-[80%] ${vibe === 'editorial' ? 'text-black/60' : 'text-white/60'}`}>
+                               {editedSlides[activeSlide]?.body}
+                             </p>
+                             <div className="flex items-center gap-4">
+                                <div className={`h-1 w-20 rounded-full ${vibe === 'editorial' ? 'bg-black font-black' : 'bg-accent'}`} />
+                                <span className="text-[10px] font-black uppercase tracking-widest opacity-40">Slide {activeSlide + 1} / {item.slides?.length}</span>
+                             </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
-                  
-                  {/* Nav Buttons */}
+
+                  {/* INDICADOR DE PROGRESSO */}
+                  {!isStory && slides.length > 1 && (
+                    <div className="absolute inset-x-0 -bottom-8 flex justify-center gap-2">
+                       {slides.map((_, i) => (
+                         <div key={i} className={`h-1 rounded-full transition-all ${i === activeSlide ? 'w-6 bg-accent' : 'w-2 bg-white/20'}`} />
+                       ))}
+                    </div>
+                  )}
+
+                  {/* NAV CONTROLS */}
                   <button 
                     onClick={() => setActiveSlide(prev => Math.max(0, prev - 1))}
                     className="absolute left-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-accent hover:text-black transition-all backdrop-blur-md shadow-2xl"
-                    disabled={activeSlide === 0}
-                  >
+                    disabled={activeSlide === 0}>
                     <ChevronLeft size={24} />
                   </button>
                   <button 
                     onClick={() => setActiveSlide(prev => Math.min(slides.length - 1, prev + 1))}
                     className="absolute right-[-24px] top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/10 flex items-center justify-center hover:bg-accent hover:text-black transition-all backdrop-blur-md shadow-2xl"
-                    disabled={activeSlide === slides.length - 1}
-                  >
+                    disabled={activeSlide === slides.length - 1}>
                     <ChevronRight size={24} />
                   </button>
                 </div>
@@ -242,7 +272,7 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                   
                   {/* VIBE SWITCHER */}
                   <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
-                    <label className="text-[10px] font-black text-white uppercase opacity-50">Vibe do Carrossel</label>
+                    <label className="text-[10px] font-black text-white uppercase opacity-50">Vibe & Layout</label>
                     <div className="grid grid-cols-2 gap-2">
                        <button 
                         onClick={() => setVibe('editorial')}
@@ -252,6 +282,25 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                         onClick={() => setVibe('shadow')}
                         className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'shadow' ? 'bg-neutral-800 text-white border-neutral-700' : 'border-white/10 text-white/40 hover:border-white/30'}`}
                        >Shadow (Dark)</button>
+                    </div>
+
+                    {/* LAYOUT PICKER (FASE 1.2) */}
+                    <div className="grid grid-cols-3 gap-2 pt-2">
+                       {[
+                         { id: 'editorial', label: 'Art' },
+                         { id: 'minimalist', label: 'Clean' },
+                         { id: 'tweet', label: 'Tweet' }
+                       ].map(style => (
+                         <button 
+                          key={style.id}
+                          onClick={() => {
+                            const newSlides = [...editedSlides];
+                            newSlides[activeSlide].layout = style.id;
+                            setEditedSlides(newSlides);
+                          }}
+                          className={`py-2 rounded-lg border text-[9px] font-black uppercase transition-all ${editedSlides[activeSlide]?.layout === style.id ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/40'}`}
+                         >{style.label}</button>
+                       ))}
                     </div>
                   </div>
 
@@ -426,7 +475,15 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
                   onClick={async () => {
                     setIsPublishing(true);
                     try {
-                      await saveContentToSupabase(item);
+                      // Mesclar as edições realizadas no editor antes de salvar
+                      const updatedItem = {
+                        ...item,
+                        slides: editedSlides,
+                        vibe,
+                        logoPos,
+                        logoOpacity
+                      };
+                      await saveContentToSupabase(updatedItem);
                       setGlobalAlert({
                         title: "Sucesso!",
                         message: `Conteúdo de ${item.type} salvo no seu Cloud/Supabase com sucesso.`,

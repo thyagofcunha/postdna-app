@@ -115,38 +115,170 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       </nav>
 
       {/* --- HERO SECTION: EDITORIAL TITANIC --- */}
-      <section className="relative flex flex-col items-center justify-center pt-56 pb-32 px-4 overflow-hidden">
-        {/* Background Gradients: Deeper & More Dramatic */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-accent/20 blur-[180px] rounded-full pointer-events-none" />
+      <section className="relative pt-32 pb-20 overflow-hidden">
+      <div className="container px-6 mx-auto text-center relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-accent/20 text-accent text-[10px] font-black uppercase tracking-widest mb-8"
+        >
+          <Zap size={14} fill="currentColor" /> A Evolução da Automação Chegou
+        </motion.div>
         
-        <div className="max-w-[1400px] mx-auto text-center relative z-10 flex flex-col items-center">
-          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black tracking-[0.4em] text-accent uppercase mb-12 animate-in fade-in slide-in-from-top-4 duration-1000">
-             <Fingerprint size={14} /> Design Editorial para Marcas de Elite
-          </div>
-          
-          <div className="relative">
-            <h1 className="text-[12vw] md:text-[8rem] lg:text-[11rem] font-black tracking-[-0.06em] leading-[0.8] max-w-[1200px] mx-auto uppercase italic text-white drop-shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-              CONTEÚDO <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-accent/30 drop-shadow-none">SEM ALMA</span> <br />
-              É INVISÍVEL.
-            </h1>
-            <div className="absolute -top-10 -right-10 hidden xl:block animate-pulse-slow">
-               <div className="glass px-6 py-4 rounded-3xl border border-accent/30 backdrop-blur-3xl rotate-12">
-                  <p className="text-[10px] font-black text-accent uppercase tracking-widest leading-none">Padrão 2026</p>
-                  <p className="text-xl font-black text-white italic tracking-tighter">1080x1440</p>
-               </div>
-            </div>
-          </div>
-          
-          <div className="mt-16 space-y-12 max-w-4xl mx-auto">
-            <p className="text-2xl md:text-3xl text-neutral-500 font-bold leading-[1.2] tracking-tight">
-              O PostDNA decodifica sua Identidade Visual e ativa um <span className="text-white">Squad de Elite de IA</span> para criar seus carrosséis e posts em segundos.
-            </p>
-           </div>
-        </div>
-      </section>
+        <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase italic tracking-tighter leading-[0.8] mb-12 drop-shadow-2xl">
+           PARE DE SER <br />
+           <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-white to-gray-500">GENÉRICO</span>
+        </h1>
+        
+        <p className="text-xl md:text-2xl font-bold text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12 uppercase tracking-tight">
+          Sua marca merece uma <span className="text-accent italic">Grife Editorial</span>, não apenas uma IA que faz posts. Automatizamos sua autoridade global com Squads Especialistas.
+        </p>
 
-      {/* --- SECTION: EDITORIAL SHOWCASE (O PODER DO 1080x1440) --- */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+           <button 
+             onClick={onGetStarted}
+             className="px-10 py-5 bg-accent text-black font-black rounded-2xl text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_20px_60px_rgba(0,191,198,0.3)]"
+           >
+             Começar agora
+           </button>
+           <button className="px-10 py-5 bg-white/5 border border-white/10 text-white font-black rounded-2xl text-sm uppercase tracking-widest hover:bg-white/10 transition-all">
+             Ver demonstração
+           </button>
+         </div>
+      </div>
+    </section>
+
+    {/* SECTION: A NOVA ERA (COMPARATIVO DE CATEGORIA) */}
+    <section className="py-24 bg-[#0a0a0c] border-y border-white/5 relative overflow-hidden">
+       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full" />
+       <div className="container px-6 mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+             <div className="space-y-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-gray-400">
+                   Conveniência vs Qualidade
+                </div>
+                <h2 className="text-5xl font-black uppercase italic tracking-tighter leading-[0.9] text-white">
+                   O Fim das IAs <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Commoditizadas.</span>
+                </h2>
+                <p className="text-xl text-gray-400 font-bold leading-relaxed max-w-lg">
+                   Não somos apenas mais um gerador com templates prontos. Enquanto sistemas comuns criam ruído industrial, nós criamos sinal de alta frequência.
+                </p>
+                <div className="space-y-4 pt-4">
+                   <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-red-500/50 group-hover:bg-red-500/10 transition-all"><X size={20} /></div>
+                      <div>
+                         <p className="text-sm font-black uppercase text-gray-500">Automação Comum</p>
+                         <p className="text-xs font-bold text-gray-600">Posts que "gritam" inteligência artificial genérica.</p>
+                      </div>
+                   </div>
+                   <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent"><CheckCircle2 size={20} /></div>
+                      <div>
+                         <p className="text-sm font-black uppercase text-accent">Squad PostDNA</p>
+                         <p className="text-xs font-bold text-white uppercase tracking-widest italic">Conexão humana e design de grife.</p>
+                      </div>
+                   </div>
+                </div>
+             </div>
+
+             {/* Tabela de Contraste Visual */}
+             <div className="glass rounded-[40px] border border-white/10 overflow-hidden shadow-2xl p-8 lg:p-12 relative">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
+                <div className="space-y-10">
+                   <div className="flex justify-between items-center border-b border-white/5 pb-6">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Recurso</span>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">PostDNA Elite</span>
+                   </div>
+                   {[
+                      { l: 'Fidelidade Visual', r: '1080x1440 Editorial' },
+                      { l: 'Estratégia de Copy', r: 'Investigação do Sherlock' },
+                      { l: 'Direção de Arte', r: 'Agente Designer In-App' },
+                      { l: 'Conveniência', r: 'Dashboard Hub (BYOK)' }
+                   ].map((row, i) => (
+                      <div key={i} className="flex justify-between items-center">
+                         <span className="text-xs font-bold text-gray-400 uppercase tracking-tight">{row.l}</span>
+                         <span className="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
+                            <Zap size={10} className="text-accent" /> {row.r}
+                         </span>
+                      </div>
+                   ))}
+                </div>
+             </div>
+          </div>
+       </div>
+    </section>
+
+      {/* SECTION: SHOWCASE EDITORIAL (FASE 2.1) */}
+    <section className="py-32 bg-black relative">
+       <div className="container px-6 mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between items-end gap-12 mb-20 border-b border-white/5 pb-12">
+             <div className="space-y-4 max-w-2xl">
+                <p className="text-xs font-black text-accent uppercase tracking-[0.4em]">Curadoria Visual</p>
+                <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter leading-[0.9]">
+                   3 Modelos, <br /> Milhares de <span className="text-accent">Diferenciais</span>.
+                </h2>
+             </div>
+             <p className="text-lg text-gray-400 font-bold max-w-sm leading-relaxed uppercase tracking-tight italic">
+                Enquanto sistemas comuns alucinam com templates datados, o PostDNA gera designs baseados em hierarquia editorial real.
+             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+             {/* MODEL 1: EDITORIAL */}
+             <motion.div whileHover={{ y: -10 }} className="space-y-6">
+                <div className="aspect-[3/4] rounded-[40px] overflow-hidden border border-white/10 relative group bg-amber-50">
+                   <img src="https://images.unsplash.com/photo-1541461985943-9590d7474b5a?q=80&w=1080&h=1440&auto=format&fit=crop" className="w-full h-full object-cover mix-blend-multiply opacity-20" />
+                   <div className="absolute inset-0 p-12 flex flex-col justify-between text-black">
+                      <div className="flex items-center gap-2"><div className="w-6 h-6 bg-black rounded-lg"></div><span className="text-[10px] font-black uppercase italic">LUXURY BRAND</span></div>
+                      <div>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Capas de Alto Impacto</span>
+                        <h3 className="text-5xl font-black uppercase italic tracking-tighter leading-[0.8] mt-4">Editorial de Autoridade</h3>
+                      </div>
+                   </div>
+                </div>
+                <div className="px-4">
+                   <h4 className="text-xl font-black uppercase text-white">01. Layout Editorial</h4>
+                   <p className="text-sm text-gray-500 font-bold mt-2">O padrão de ouro das revistas de luxo aplicadas ao seu feed.</p>
+                </div>
+             </motion.div>
+
+             {/* MODEL 2: MINIMALIST */}
+             <motion.div whileHover={{ y: -10 }} className="space-y-6">
+                <div className="aspect-[3/4] rounded-[40px] overflow-hidden border border-white/10 relative group bg-zinc-950 flex flex-col items-center justify-center text-center p-12">
+                   <h3 className="text-5xl font-black uppercase italic tracking-tighter leading-[0.8] text-white">Insights que dominam o Scroll</h3>
+                   <div className="w-16 h-1.5 bg-accent rounded-full mt-8"></div>
+                </div>
+                <div className="px-4">
+                   <h4 className="text-xl font-black uppercase text-white">02. Minimalist Mode</h4>
+                   <p className="text-sm text-gray-500 font-bold mt-2">Clareza alemã. Foco total na sua sabedoria e tipografia massiva.</p>
+                </div>
+             </motion.div>
+
+             {/* MODEL 3: TWEET CARD */}
+             <motion.div whileHover={{ y: -10 }} className="space-y-6">
+                <div className="aspect-[3/4] rounded-[40px] overflow-hidden border border-white/10 relative group bg-zinc-900 flex flex-col items-center justify-center p-8">
+                   <TweetCard 
+                      author={{
+                        name: "Sua Marca",
+                        handle: "@autoridade",
+                        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=brand"
+                      }}
+                      content={{
+                        text: "A automação comum cria ruído. O PostDNA cria sinal de alta frequência. Escolha seu DNA.",
+                        subText: "Venda mais com menos esforço."
+                      }}
+                      className="w-full border-none shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+                   />
+                </div>
+                <div className="px-4">
+                   <h4 className="text-xl font-black uppercase text-white">03. Social Mode</h4>
+                   <p className="text-sm text-gray-500 font-bold mt-2">O clássico Tweet Card que gera as maiores taxas de compartilhamento.</p>
+                </div>
+             </motion.div>
+          </div>
+       </div>
+    </section>
+
+      {/* --- DEVICE COMBO MOCKUP (Deslocado para impacto) --- */}
       <section className="py-20 px-4 relative overflow-hidden bg-black/60">
         <div className="max-w-[1400px] mx-auto space-y-20">
            <div className="flex flex-col md:flex-row items-end justify-between gap-8 border-b border-white/10 pb-12">
