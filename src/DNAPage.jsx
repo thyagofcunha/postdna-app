@@ -105,9 +105,6 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
   const save = () => {
     setBrand(prev => ({ ...prev, ...local, onboardingComplete: true }));
     showMsg(t('common.saved'));
-    if (onDone) {
-      setTimeout(() => onDone(), 500);
-    }
   };
 
   const handleSiteAnalysis = async () => {

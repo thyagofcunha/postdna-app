@@ -558,7 +558,6 @@ const ColorFullPicker = ({ label, color, desc, onChange }) => (
 
 // ─── MAIN APP ───────────────────────────────────────────────────────────────
 export default function App() {
-  const [globalAlert, setGlobalAlert] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -767,6 +766,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [dashView, setDashView]   = useState(initialView);
+  const [globalAlert, setGlobalAlert] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarPinned, setIsSidebarPinned] = useState(true);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
@@ -1916,12 +1916,14 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
                <p className="text-[10px] text-gray-400 font-bold leading-relaxed uppercase tracking-widest">Seu Sherlock precisa de mais dados para ser preciso. Complete seu Brand Kit.</p>
                <button onClick={() => { setIsDNAIncomplete(false); setDashView('dna'); }} className="w-full py-3 bg-accent text-black font-black uppercase tracking-widest text-[9px] rounded-xl hover:scale-105 transition-all">Completar Agora</button>
             </div>
-     </div>
-  )}
-
-  {globalAlert && (
-    <CustomAlert isOpen={true} {...globalAlert} onConfirm={globalAlert.onConfirm || (() => setGlobalAlert(null))} />
-  )}
-</div>
-);
+         </div>
+      )}
+      
+      {globalAlert && (
+          <CustomAlert isOpen={true} {...globalAlert} onConfirm={globalAlert.onConfirm || (() => setGlobalAlert(null))} />
+      )}
+    </div>
+  );
 }
+
+// ─── UTILS E CONTEÚDOS ESTATICOS ──────────────────────────────────────────
