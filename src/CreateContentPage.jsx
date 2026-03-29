@@ -15,6 +15,10 @@ const CreateContentPage = ({ brand, onRunPipeline, recentContent = [], onOpenIte
     if (initialTopic) setTopic(initialTopic);
   }, [initialTopic]);
 
+  useEffect(() => {
+    if (initialType) setType(initialType);
+  }, [initialType]);
+
   const plan = brand.plan || 'free';
   const balance = brand.credit_balance || 0;
   const extra = brand.extra_credits || 0;

@@ -622,9 +622,32 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                    </p>
                 </div>
 
-                <div className="flex gap-2 justify-center">
+                <div className="flex gap-4 justify-center">
                    {logoProposal.colors.map((c,i) => (
-                      <div key={i} className="w-10 h-10 rounded-full border-2 border-white/10 shadow-xl" style={{backgroundColor:c}} />
+                      <div key={i} className="flex flex-col items-center gap-2">
+                         <div className="w-12 h-12 rounded-[16px] border-2 border-white/10 shadow-xl relative overflow-hidden" style={{backgroundColor:c}}>
+                            <input 
+                              type="color" 
+                              value={c}
+                              onChange={e => {
+                                 const nc = [...logoProposal.colors];
+                                 nc[i] = e.target.value;
+                                 setLogoProposal(p => ({ ...p, colors: nc }));
+                              }}
+                              className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                            />
+                         </div>
+                         <input 
+                           type="text" 
+                           value={c.toUpperCase()}
+                           onChange={e => {
+                              const nc = [...logoProposal.colors];
+                              nc[i] = e.target.value;
+                              setLogoProposal(p => ({ ...p, colors: nc }));
+                           }}
+                           className="w-16 bg-white/5 border border-white/10 rounded-md px-1 py-1 text-center text-[9px] font-mono text-white outline-none focus:border-accent transition-all uppercase"
+                         />
+                      </div>
                    ))}
                 </div>
 

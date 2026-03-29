@@ -24,6 +24,8 @@ import LandingPage from './LandingPage';
 import SettingsPage from './SettingsPage';
 import CancellationFlow from './CancellationFlow';
 import OnboardingWizard from './OnboardingWizard';
+import CustomAlert from './CustomAlert';
+
 
 const sanitizeColor = (c, fallback = '#000000') => 
   (typeof c === 'string' && c.startsWith('#') && (c.length === 4 || c.length === 7 || c.length === 9)) ? c : fallback;
@@ -556,6 +558,7 @@ const ColorFullPicker = ({ label, color, desc, onChange }) => (
 
 // ─── MAIN APP ───────────────────────────────────────────────────────────────
 export default function App() {
+  const [globalAlert, setGlobalAlert] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -1014,8 +1017,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
     // NOVO: Check de Referências
     if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
-      alert("Para um conteúdo de alta conversão, o Sherlock precisa de pelo menos uma referência (Inspiração ou Concorrente) no menu 'Referências'.");
-      setDashView('referencias');
+      setGlobalAlert({ 
+          title: "Faltam Referências", 
+          message: "Para um conteúdo de alta conversão, o Sherlock precisa de pelo menos uma referência (Inspiração ou Concorrente) na aba Referências.", 
+          type: "warning", 
+          onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); } 
+      });
       return;
     }
     
@@ -1209,8 +1216,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
     // Check de Referências
     if ((brand.inspirations?.length || 0) === 0 && (brand.competitors?.length || 0) === 0) {
-      alert("O Sherlock precisa de referências para começar a investigar. Adicione pelo menos uma conta em 'Referências'.");
-      setDashView('referencias');
+      setGlobalAlert({ 
+          title: "Sherlock Travado", 
+          message: "O Sherlock precisa de referências para começar a investigar. Adicione pelo menos uma conta em Referências.", 
+          type: "warning", 
+          onConfirm: () => { setGlobalAlert(null); setDashView('referencias'); } 
+      });
       return;
     }
 
@@ -1476,7 +1487,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
     <CreateContentPage 
       brand={brand} 
       recentContent={recentContent}
+      initialType={brand.selectedType}
+      initialTopic={topicHint}
       onOpenItem={(item) => setSelectedItem(item)}
+      onRefreshSuggestions={() => setIsSherlockConfirmOpen(true)}
       onRunPipeline={(data) => {
         const type = brand.selectedType || 'CARROSSEL';
         const cost = CREDIT_COSTS[type] || 10;
@@ -1500,10 +1514,10 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="led-active animate-pulse shadow-[0_0_10px_#00BFC6]" />
-            <span className="text-[9px] label-mono opacity-70 italic font-black uppercase">DOCK DISPONÍVEL</span>
+            <span className="text-[9px] label-mono opacity-70 italic font-black uppercase">SISTEMA ONLINE</span>
           </div>
           <div className="w-1 h-1 rounded-full bg-white/10" />
-          <span className="text-[9px] label-mono text-accent/80 font-black">{PLAN_SPECS[plan]?.name} NODE</span>
+          <span className="text-[9px] label-mono text-accent/80 font-black">PLANO {PLAN_SPECS[plan]?.name}</span>
         </div>
       </div>
 
@@ -1902,8 +1916,12 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
                <p className="text-[10px] text-gray-400 font-bold leading-relaxed uppercase tracking-widest">Seu Sherlock precisa de mais dados para ser preciso. Complete seu Brand Kit.</p>
                <button onClick={() => { setIsDNAIncomplete(false); setDashView('dna'); }} className="w-full py-3 bg-accent text-black font-black uppercase tracking-widest text-[9px] rounded-xl hover:scale-105 transition-all">Completar Agora</button>
             </div>
-         </div>
-      )}
-    </div>
-  );
+     </div>
+  )}
+
+  {globalAlert && (
+    <CustomAlert isOpen={true} {...globalAlert} onConfirm={globalAlert.onConfirm || (() => setGlobalAlert(null))} />
+  )}
+</div>
+);
 }
