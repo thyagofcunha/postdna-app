@@ -1,0 +1,12 @@
+{
+  "name": "magic-dani-blog-seo",
+  "version": "1.0.0",
+  "description": "Squad de Blog SEO — Magic Dani",
+  "scripts": {
+    "publish": "node scripts/publish-to-supabase.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "pg": "^8.20.0"
+  }
+}

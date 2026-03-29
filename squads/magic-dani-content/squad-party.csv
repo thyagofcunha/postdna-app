@@ -1,0 +1,6 @@
+agent_id,name,role,agent_file,description
+sherlock,Sherlock,Investigador de Tendências,_opensquad/agents/sherlock.agent.md,Pesquisa tendências e analisa perfis de referência no nicho Disney/Orlando
+estrategista,Estrategista,Estrategista de Conteúdo,_opensquad/agents/estrategista.agent.md,Cria briefings criativos com estrutura de 8 slides e stories por etapa de funil
+copywriter,Copywriter,Copywriter de Redes Sociais,_opensquad/agents/copywriter.agent.md,Escreve o texto de cada slide, stories e gera a legenda.md obrigatória
+designer,Designer,Designer de Conteúdo,_opensquad/agents/designer.agent.md,Gera os HTMLs de slides e stories com o design system da Magic Dani
+revisor,Revisor,Editor e Revisor,_opensquad/agents/revisor.agent.md,Atualiza as memórias do squad e garante o checklist de qualidade

@@ -1,0 +1,213 @@
+name: magic-dani-content
+description: Squad de produção de conteúdo de Instagram para a Magic Dani — carrossel 8 slides + stories + legenda completa
+version: "2.0"
+language: pt-BR
+updated_at: "2026-03-25"
+
+brand:
+  name: Magic Dani
+  niche: Turismo / Viagens Disney e Orlando
+  product: Disney Smart
+  product_description: App PWA de planejamento completo de viagem para Orlando/Disney
+  product_cta: "Link na bio — @magic.danii"
+  instagram: "@magic.danii"
+  tiktok: "@magic..dani"
+  editorial_line:
+    pilares:
+      - "Planejamento inteligente"
+      - "Economia real com números e comparativos"
+      - "Novidades e atualizações Disney 2026"
+      - "Experiência prática para brasileiros"
+      - "Disney Smart como ferramenta natural"
+    linguagem:
+      - "Primeira pessoa, tom didático e próximo"
+      - "Exemplos concretos e dados sempre que possível"
+      - "CTA claro + pergunta aberta para comentários"
+  design_system:
+    bg_light: "#F0EAD6"
+    bg_dark: "#1A2240"
+    gold: "#C4973B"
+    fonts: "Playfair Display (serif) + Lato (sans-serif)"
+    slide_size: "1080x1440px"
+    story_size: "1080x1920px"
+    variables:
+      NOME_DA_MARCA: "Magic Dani"
+      PERFIL_INSTAGRAM: "@magic.danii"
+      URL_PRODUTO: "magicdani.com.br/disneysmart"
+      PRECO_OFERTA: "Consultar no app"
+      PUBLICO_ALVO: "Turistas brasileiros planejando viagem para Orlando/Disney"
+      TOM_DE_VOZ: "Amigável, energético, apaixonado e prático"
+      COR_PRIMARIA: "#C4973B"
+      COR_BACKGROUND: "#F0EAD6"
+      COR_TEXTO: "#1A2240"
+      FONTE_DISPLAY: "Playfair Display"
+      FONTE_BODY: "Lato"
+    ratio_semanal: "1 TOPO + 2 MEIO + 1 FUNDO"
+    hashtag_limit: 5
+
+references:
+  - "@orlandodiferente"
+  - "@turistorlando"
+  - "@nossaorlando"
+  - "@japaorlando"
+  - "@viajandobaratoparaorlando"
+
+funnel_stages:
+  TOPO:
+    objetivo: "Descoberta e identificação — sem menção direta ao produto"
+    slides: 8
+    stories: 3
+    story_files:
+      - "story-01_DIA-DO-POST_divulgacao"
+      - "story-02_DIA-DO-POST_enquete"
+      - "story-04_DIA-SEGUINTE_dica-rapida"
+    layout_predominante: editorial
+    mencao_produto: nenhuma
+
+  MEIO:
+    objetivo: "Educação e nutrição — menção suave e natural ao Disney Smart"
+    slides: 8
+    stories: 3
+    story_files:
+      - "story-01_DIA-DO-POST_divulgacao"
+      - "story-02_DIA-DO-POST_enquete"
+      - "story-04_DIA-SEGUINTE_dica-rapida"
+    layout_predominante: editorial
+    mencao_produto: suave
+
+  FUNDO:
+    objetivo: "Conversão direta — CTA explícito, preço se aplicável, link na bio"
+    slides: 8
+    stories: 5
+    story_files:
+      - "story-01_DIA-DO-POST_divulgacao"
+      - "story-02_DIA-DO-POST_enquete"
+      - "story-03_DIA-DO-POST_objecao"
+      - "story-04_DIA-SEGUINTE_dica-rapida"
+      - "story-06_DOIS-DIAS-DEPOIS_cta"
+    layout_predominante: dark
+    mencao_produto: direta_com_cta
+
+output_naming: "slug-do-post"
+output_base: "squads/magic-dani-content/output"
+
+pipeline:
+
+  - step: 1
+    name: checkpoint_tema
+    type: checkpoint
+    agent: null
+    description: "Dani define o tema, etapa de funil e contexto especial"
+    questions:
+      - id: tema
+        label: "Tema do conteúdo"
+        description: "Descreva em uma frase o assunto principal do post. Ex: 'economizar nas refeições na Disney', 'quando comprar os ingressos', 'parques para crianças pequenas'"
+      - id: etapa_funil
+        label: "Etapa do funil"
+        options:
+          - value: TOPO
+            description: "Viral/descoberta — sem mencionar o Disney Smart"
+          - value: MEIO
+            description: "Educativo — menção suave ao Disney Smart"
+          - value: FUNDO
+            description: "Conversão direta — CTA explícito para baixar o app"
+      - id: contexto_extra
+        label: "Instruções especiais"
+        description: "Contexto adicional, objeção a quebrar, produto a destacar, datas relevantes, ou deixe em branco"
+
+  - step: 2
+    name: pesquisa_tendencias
+    type: task
+    agent: sherlock
+    description: "Sherlock pesquisa tendências, hashtags e analisa perfis de referência para o tema"
+    inputs:
+      - tema
+      - etapa_funil
+      - contexto_extra
+    outputs:
+      - tendencias_encontradas
+      - insights_dos_perfis
+      - angulos_sugeridos
+      - hashtags_relevantes
+
+  - step: 3
+    name: briefing_criativo
+    type: task
+    agent: estrategista
+    description: "Estrategista define o briefing completo: ângulo, estrutura de 8 slides, estrutura de stories e conexão com produto"
+    inputs:
+      - tema
+      - etapa_funil
+      - contexto_extra
+      - tendencias_encontradas
+      - insights_dos_perfis
+      - angulos_sugeridos
+    outputs:
+      - briefing_criativo
+      - slug
+      - data_formatada
+      - estrutura_slides
+      - estrutura_stories
+
+  - step: 4
+    name: producao_copy
+    type: task
+    agent: copywriter
+    description: "Copywriter escreve o texto completo de cada slide, cada story e gera o arquivo legenda.md"
+    inputs:
+      - briefing_criativo
+      - slug
+      - data_formatada
+      - estrutura_slides
+      - estrutura_stories
+      - etapa_funil
+      - hashtags_relevantes
+    outputs:
+      - content_document
+      - legenda_md_content
+
+  - step: 5
+    name: producao_design
+    type: task
+    agent: designer
+    description: "Designer gera todos os arquivos HTML dos slides e stories com o design system da Magic Dani"
+    inputs:
+      - content_document
+      - etapa_funil
+      - slug
+      - data_formatada
+    outputs:
+      - html_files_list
+      - output_folder_path
+
+  - step: 6
+    name: checkpoint_aprovacao
+    type: checkpoint
+    agent: null
+    description: "Dani revisa o conteúdo (textos e estrutura) antes de gerar as imagens finais"
+    questions:
+      - id: aprovacao
+        label: "Conteúdo aprovado?"
+        description: "Verifique a legenda.md e o content.md na pasta de output. O conteúdo está OK? Há alguma alteração antes de gerar as imagens?"
+
+  - step: 7
+    name: conversao_imagens
+    type: script
+    description: "Converte todos os HTMLs em JPGs (1080×1080 slides, 1080×1920 stories) e deleta os HTMLs"
+    script: "node squads/magic-dani-content/scripts/html-to-jpg.js"
+    inputs:
+      - output_folder_path
+    note: "O script é chamado pelo runner com o caminho da pasta como argumento"
+
+  - step: 8
+    name: atualizar_memorias
+    type: task
+    agent: revisor
+    description: "Revisor registra o conteúdo produzido nas memórias do squad"
+    inputs:
+      - slug
+      - data_formatada
+      - etapa_funil
+      - briefing_criativo
+    outputs:
+      - memories_updated

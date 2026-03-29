@@ -1,0 +1,101 @@
+name: blog-seo
+description: Squad de produção de artigos SEO para o Blog Magic Dani
+version: "1.0"
+language: pt-BR
+updated_at: "2026-03-27"
+
+brand:
+  name: Magic Dani
+  niche: Turismo / Viagens Disney e Orlando
+  product: Disney Smart
+  product_description: App PWA de planejamento completo de viagem para Orlando/Disney
+  blog_domain: "blog.magicdani.com.br"
+  editorial_guide: "squads/blog-seo/editorial.md"
+
+output_base: "squads/blog-seo/output"
+output_naming: "slug-do-artigo"
+
+pipeline:
+
+  - step: 1
+    name: checkpoint_tema
+    type: checkpoint
+    agent: null
+    description: "Dani define o tema, objetivo do artigo e contexto especial"
+    questions:
+      - id: tema
+        label: "Tema do artigo"
+        description: "Assunto principal do artigo. Ex: 'vale a pena hotel Disney', 'como economizar em 2026', 'Lightning Lane 2026'"
+      - id: objetivo
+        label: "Objetivo"
+        description: "Educar, responder dúvida frequente, comparar opções, ou converter para o Disney Smart"
+      - id: contexto_extra
+        label: "Instruções especiais"
+        description: "Dados/ângulos que precisam aparecer, ou deixe em branco"
+
+  - step: 2
+    name: pesquisa_tendencias
+    type: task
+    agent: sherlock
+    description: "Sherlock pesquisa tendências, dúvidas comuns e palavras-chave para o tema"
+    inputs:
+      - tema
+      - objetivo
+      - contexto_extra
+    outputs:
+      - tendencias_encontradas
+      - duvidas_frequentes
+      - palavras_chave
+      - angulos_sugeridos
+
+  - step: 3
+    name: briefing_artigo
+    type: task
+    agent: estrategista-blog
+    description: "Estrategista cria briefing de artigo com estrutura H2/H3, checklist e CTA suave. Deve seguir a linha editorial."
+    inputs:
+      - tema
+      - objetivo
+      - contexto_extra
+      - tendencias_encontradas
+      - duvidas_frequentes
+      - palavras_chave
+      - angulos_sugeridos
+    outputs:
+      - briefing_artigo
+      - slug
+      - data_formatada
+      - estrutura_h2_h3
+
+  - step: 4
+    name: redacao_artigo
+    type: task
+    agent: copywriter-blog
+    description: "Copywriter escreve o artigo completo no formato artigo.json e conteúdo em Markdown/HTML conforme editorial.md"
+    inputs:
+      - briefing_artigo
+      - slug
+      - data_formatada
+      - estrutura_h2_h3
+      - palavras_chave
+    outputs:
+      - artigo_json_path
+
+  - step: 5
+    name: revisao_final
+    type: task
+    agent: revisor
+    description: "Revisor verifica consistência editorial e campos obrigatórios do artigo.json"
+    inputs:
+      - artigo_json_path
+    outputs:
+      - aprovado
+
+  - step: 6
+    name: publicar_supabase
+    type: script
+    description: "Publica o artigo no Supabase (opcional, após aprovação)"
+    script: "node squads/blog-seo/scripts/publish-to-supabase.js"
+    inputs:
+      - artigo_json_path
+    note: "O script é chamado pelo runner com o caminho do artigo.json como argumento"

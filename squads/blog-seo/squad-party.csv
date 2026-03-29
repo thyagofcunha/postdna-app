@@ -1,0 +1,5 @@
+agent_id,name,role,agent_file,description
+sherlock,Sherlock,Investigador de Tendências,_opensquad/agents/sherlock.agent.md,Pesquisa tendências e palavras-chave para o tema do artigo
+estrategista,Estrategista,Estrategista de Conteúdo,_opensquad/agents/estrategista.agent.md,Cria briefing editorial e estrutura H2/H3 do artigo
+copywriter,Copywriter,Copywriter Editorial,_opensquad/agents/copywriter.agent.md,Escreve o artigo completo seguindo a linha editorial
+revisor,Revisor,Editor e Revisor,_opensquad/agents/revisor.agent.md,Valida consistência editorial e campos obrigatórios
