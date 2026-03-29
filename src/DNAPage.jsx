@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Check, Upload, Palette, Type, ChevronRight, Globe, Zap,
-  RefreshCw, Save, AlertTriangle, Sparkles, ImageIcon, User, X, Loader2
+  RefreshCw, Save, AlertTriangle, Sparkles, ImageIcon, User, X, Loader2, Search
 } from 'lucide-react';
 import { extractDNA } from './dnaUtils';
 import { analyzeWebsiteDNA } from './aiAnalyzer';
@@ -367,8 +367,6 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
             </div>
           </Section>
 
-          {/* Estilo Visual removido conforme feedback */}
-
           {/* 3. Tom de Voz */}
           <Section title={t('dnaPage.sections.voice')} icon={<Type size={16}/>} onSave={save} saveLabel={t('common.save')}>
             <div className="space-y-8">
@@ -412,23 +410,43 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone, se
               {/* SPECIAL FIELD: WEBSITE WITH AI EXTRACTOR */}
               <div className="p-4 bg-accent/5 border border-[#00BFC6]/20 rounded-[18px] space-y-3 relative overflow-hidden">
                  <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 blur-[50px] pointer-events-none" />
-                 <div className="flex items-center gap-2 relative z-10">
-                    <Sparkles size={14} className="text-accent" />
-                    <label className="text-[10px] font-black uppercase tracking-widest text-[#00BFC6]">Site da Marca (Escaneamento IA)</label>
-                 </div>
-                 <div className="flex gap-2 relative z-10">
-                    <input type="text" placeholder="ex: www.suamarca.com.br" value={local.salesLink || ''}
-                      onChange={e => setLocal(p => ({ ...p, salesLink: e.target.value }))}
-                      className="flex-1 h-12 bg-black/40 border border-[#00BFC6]/20 rounded-[12px] px-4 text-sm font-bold outline-none focus:border-[#00BFC6]/80 transition-all placeholder:text-gray-700"/>
-                    <button 
-                      onClick={handleSiteAnalysis}
-                      disabled={isAnalyzingSite || !local.salesLink}
-                      className="px-6 rounded-[12px] bg-[#00BFC6] text-black font-black uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,191,198,0.3)]"
-                    >
-                      {isAnalyzingSite ? <Loader2 size={14} className="animate-spin" /> : "Extrair DNA"}
-                    </button>
-                 </div>
-                 <p className="text-[9px] text-[#00BFC6]/60 font-bold uppercase tracking-widest relative z-10">O SHERLOCK LERÁ O SEU SITE E PREENCHERÁ A IDENTIDADE VISUAL, TOM DE VOZ E PERSONA MAGICAMENTE.</p>
+                 <div className="flex gap-2">
+                  <div className="flex-1 relative">
+                    <input 
+                      type="url" 
+                      value={url} 
+                      onChange={(e) => setUrl(e.target.value)} 
+                      placeholder="https://sua-marca.com.br" 
+                      className="w-full h-12 bg-black/40 border border-[#00BFC6]/20 rounded-[12px] px-4 text-sm font-bold outline-none focus:border-[#00BFC6]/80 transition-all placeholder:text-gray-700"/>
+                    <Zap className="absolute right-4 top-1/2 -translate-y-1/2 text-[#00BFC6]/40" size={12} />
+                  </div>
+                  <button 
+                    onClick={handleSiteAnalysis}
+                    disabled={isAnalyzingSite}
+                    className={`px-8 rounded-[12px] font-black uppercase tracking-widest text-[10px] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(0,191,198,0.3)] ${
+                      isAnalyzingSite ? 'bg-white/10 text-gray-400 cursor-not-allowed' : 'bg-[#00BFC6] text-black hover:scale-105 active:scale-95'
+                    }`}>
+                    {isAnalyzingSite ? (
+                      <>
+                        <Loader2 className="animate-spin" size={14} />
+                        Lendo Identidade...
+                      </>
+                    ) : (
+                      <>
+                        <Search size={14} />
+                        Extrair DNA
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="flex items-start gap-3 p-4 bg-black/20 rounded-[14px] border border-white/5 relative overflow-hidden group">
+                   <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                   <Sparkles size={14} className="text-[#00BFC6] shrink-0 mt-0.5" />
+                   <div className="space-y-1 relative z-10">
+                     <p className="text-[10px] text-[#00BFC6] font-black uppercase tracking-widest">Sinal de Vida Ativado</p>
+                     <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest leading-relaxed">O SHERLOCK LERÁ O SEU SITE E PREENCHERÁ A IDENTIDADE VISUAL, TOM DE VOZ E PERSONA MAGICAMENTE.</p>
+                   </div>
+                </div>
               </div>
 
               <div className="space-y-4">
