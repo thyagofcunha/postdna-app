@@ -42,6 +42,15 @@ h1, h2, h3, h4, .font-sora {
   letter-spacing: -0.02em;
 }
 
+::selection {
+  background-color: rgba(196, 151, 59, 0.4); /* Ouro (accent principal) suave */
+  color: #fff; /* Força cor branca nítida sempre */
+}
+::-moz-selection {
+  background-color: rgba(196, 151, 59, 0.4);
+  color: #fff;
+}
+
 .label-mono {
   font-family: 'Inter', sans-serif;
   letter-spacing: 0.3em;

@@ -308,7 +308,16 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                       </div>
                     </div>
                     <p className="text-[8px] font-black uppercase tracking-widest text-gray-400">{label}</p>
-                    <p className="text-[8px] font-mono text-gray-700">{(local.colors?.[idx] || '').toUpperCase()}</p>
+                    <input 
+                      type="text" 
+                      value={(local.colors?.[idx] || '').toUpperCase()}
+                      onChange={e => {
+                         const nc = [...(local.colors || [])];
+                         nc[idx] = e.target.value;
+                         setLocal(p => ({ ...p, colors: nc }));
+                      }}
+                      className="w-16 bg-white/5 border border-white/10 rounded-md px-1 py-1 text-center text-[9px] font-mono text-white outline-none focus:border-accent transition-all mt-1 uppercase"
+                    />
                   </div>
                 ))}
               </div>
@@ -348,41 +357,7 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
             </div>
           </Section>
 
-          {/* 2. Estilo de Conteúdo */}
-          <Section title={t('dnaPage.sections.style')} icon={<ImageIcon size={16}/>} onSave={save} saveLabel={t('common.save')}>
-            <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 -mt-2">
-              {t('dnaPage.fields.vibe')}: <span className="text-accent">{STYLE_VIBES.find(s=>s.key===local.visualStyle)?.label || 'Vibrante'}</span>
-            </p>
-            {!showStylePicker ? (
-              <div className="flex items-center gap-4 bg-white/5 border border-white/5 rounded-[18px] p-4">
-                <div className="flex-1">
-                  <p className="font-black text-sm uppercase tracking-tight text-white">
-                    {STYLE_VIBES.find(s=>s.key===local.visualStyle)?.label || 'Vibrante'}
-                  </p>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    {STYLE_VIBES.find(s=>s.key===local.visualStyle)?.desc}
-                  </p>
-                </div>
-                <button onClick={() => setShowStylePicker(true)}
-                  className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-accent transition-colors whitespace-nowrap">
-                  {t('dnaPage.actions.chooseStyle')}
-                </button>
-              </div>
-            ) : (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="grid grid-cols-2 gap-3">
-                {STYLE_VIBES.map(v => (
-                  <button key={v.key}
-                    onClick={() => { setLocal(p => ({ ...p, visualStyle: v.key })); setShowStylePicker(false); }}
-                    className={`p-5 rounded-[20px] border-2 text-left transition-all relative ${local.visualStyle === v.key ? 'border-[#c4973b] bg-accent/5' : 'border-white/5 bg-white/5 hover:border-white/15'}`}>
-                    {local.visualStyle === v.key && <Check size={14} className="absolute top-3 right-3 text-accent"/>}
-                    <h4 className="font-black text-sm uppercase tracking-tight mb-1">{v.label}</h4>
-                    <p className="text-[9px] text-gray-400 uppercase font-bold tracking-widest">{v.desc}</p>
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </Section>
+          {/* Estilo Visual removido conforme feedback */}
 
           {/* 3. Tom de Voz */}
           <Section title={t('dnaPage.sections.voice')} icon={<Type size={16}/>} onSave={save} saveLabel={t('common.save')}>
@@ -399,12 +374,23 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                 leftEx={t('onboarding.step5.energyLowEx')} rightEx={t('onboarding.step5.energyHighEx')}
                 value={local.voice?.energy || 3}
                 onChange={v => setLocal(p => ({ ...p, voice: { ...p.voice, energy: v } }))} />
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">{t('dnaPage.fields.forbiddenWords')}</p>
-                <input type="text" placeholder="..."
-                  defaultValue={local.voice?.forbiddenWords || ''}
-                  onBlur={e => setLocal(p => ({ ...p, voice: { ...p.voice, forbiddenWords: e.target.value } }))}
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Palavras Proibidas</p>
+                  <input type="text" placeholder="Ex: barato, promo, grátis..."
+                    defaultValue={local.voice?.forbiddenWords || ''}
+                    onBlur={e => setLocal(p => ({ ...p, voice: { ...p.voice, forbiddenWords: e.target.value } }))}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
+                  <span className="text-[8px] text-gray-500 font-bold tracking-widest mt-1 block uppercase">Evita que a IA use esses termos.</span>
+                </div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">Adjetivos da Marca</p>
+                  <input type="text" placeholder="Ex: Didático, Sarcástico, Elegante..."
+                    defaultValue={local.voice?.adjectives || ''}
+                    onBlur={e => setLocal(p => ({ ...p, voice: { ...p.voice, adjectives: e.target.value } }))}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
+                  <span className="text-[8px] text-gray-500 font-bold tracking-widest mt-1 block uppercase">Como a sua marca QUER soar ("A Vibe").</span>
+                </div>
               </div>
             </div>
           </Section>
@@ -435,32 +421,50 @@ export default function DNAPage({ brand, setBrand, approvedCount = 0, onDone }) 
                  <p className="text-[9px] text-[#c4973b]/60 font-bold uppercase tracking-widest relative z-10">O Sherlock lerá o seu site e preencherá a Identidade Visual, Tom de Voz e Persona magicamente.</p>
               </div>
 
-              {[
-                { key: 'businessName',   label: t('onboarding.step3.businessLabel'),   ph: t('onboarding.step3.businessPh')              },
-                { key: 'product',        label: t('onboarding.step3.productLabel'),    ph: t('onboarding.step3.productPh') },
-                { key: 'targetAudience', label: t('onboarding.step6.audienceLabel'),   ph: t('onboarding.step6.audiencePh')  },
-                { key: 'price',          label: t('onboarding.step3.priceLabel'),      ph: t('onboarding.step3.pricePh')                   },
-              ].map(({ key, label, ph }) => (
-                <div key={key}>
-                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1">{label}</label>
-                  <input type="text" placeholder={ph} value={local[key] || ''}
-                    onChange={e => setLocal(p => ({ ...p, [key]: e.target.value }))}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1 text-left">Nome do Negócio</label>
+                  <input type="text" placeholder="Ex: GestorChef" value={local.businessName || ''}
+                    onChange={e => setLocal(p => ({ ...p, businessName: e.target.value }))}
                     className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
                 </div>
-              ))}
+                <div>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1 text-left">O Que Você Vende? (Nicho/Solução Diária)</label>
+                  <input type="text" placeholder="Ex: Sistema de Gestão para Restaurantes, Roupas de Ginástica Premium..." value={local.product || ''}
+                    onChange={e => setLocal(p => ({ ...p, product: e.target.value }))}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
+                </div>
+                <div>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1 text-left">Preço ou Condição <span className="text-[8px] font-bold text-gray-600">(Para a IA não errar o CTA e tom de oferta)</span></label>
+                  <input type="text" placeholder="Ex: Entre R$1k a R$5k (High Ticket), Assinatura Mensal, etc." value={local.price || ''}
+                    onChange={e => setLocal(p => ({ ...p, price: e.target.value }))}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-[14px] px-4 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700"/>
+                </div>
+                
+                <div className="border border-white/5 rounded-[18px] bg-white/5 p-4 space-y-2 mt-4">
+                   <div className="flex gap-2 items-center text-[#c4973b]">
+                      <User size={14} />
+                      <label className="text-[10px] font-black uppercase tracking-widest">Para quem é este conteúdo? (Público/Persona)</label>
+                   </div>
+                   <textarea rows={3} placeholder="Descreva sua persona rica em detalhes. Ex: Mães empreendedoras de 25-40 anos que buscam praticidade na cozinha e não têm tempo..." 
+                     value={local.targetAudience || ''}
+                     onChange={e => setLocal(p => ({ ...p, targetAudience: e.target.value }))}
+                     className="w-full bg-black/20 border border-white/10 rounded-[14px] px-4 py-3 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700 resize-none"/>
+                   <span className="text-[8px] font-bold uppercase tracking-widest text-gray-500 block">Este é o campo mais importante para garantir que a cópia converta. Quanto mais descritivo melhor.</span>
+                </div>
+              </div>
             </div>
           </Section>
 
-          {/* 5. Sobre o Público */}
-          <Section title={t('dnaPage.sections.public')} icon={<User size={16}/>} onSave={save} saveLabel={t('common.save')}>
+          {/* A seção 5 original "Sobre o Público" foi absorvida ou ajustada nas Dores Profundas */}
+          <Section title="Dores & Objeções da Persona" icon={<User size={16}/>} onSave={save} saveLabel={t('common.save')}>
             <div className="space-y-4">
               {[
-                { key: 'description',      label: t('onboarding.step6.audienceLabel'), ph: t('onboarding.step6.audiencePh') },
-                { key: 'mainPain',         label: t('onboarding.step6.painLabel'),     ph: t('onboarding.step6.painPh')                       },
-                { key: 'previousAttempts', label: t('onboarding.step6.attemptsLabel'), ph: t('onboarding.step6.attemptsPh')              },
+                { key: 'mainPain',         label: "DOR PRINCIPAL DO CLIENTE",     ph: "Qual a dor mais ardida? Ex: Perde produto no estoque e toma prejuízo invisivel." },
+                { key: 'previousAttempts', label: "POR QUE NÃO CONSEGUIRAM ANTES? (TENTATIVAS FRUSTRADAS)", ph: "O que eles já tentaram e deu errado? Ex: Planilhas confusas, sistemas caros demais..." },
               ].map(({ key, label, ph }) => (
                 <div key={key}>
-                  <label className="block text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1 pl-1">{label}</label>
+                  <label className="block text-[9px] font-black uppercase tracking-widest text-[#c4973b] opacity-80 mb-1 pl-1 text-left">{label}</label>
                   <textarea rows={2} placeholder={ph} defaultValue={local.persona?.[key] || ''}
                     onBlur={e => setLocal(p => ({ ...p, persona: { ...p.persona, [key]: e.target.value } }))}
                     className="w-full bg-white/5 border border-white/10 rounded-[14px] px-4 py-3 text-sm font-bold outline-none focus:border-[#c4973b]/60 transition-all placeholder:text-gray-700 resize-none"/>
