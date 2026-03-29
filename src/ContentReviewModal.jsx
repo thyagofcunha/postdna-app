@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, Check, ChevronLeft, ChevronRight, 
-  Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell, Globe, Loader2, Cloud
+  Copy, Layout, Type, Palette, Search, Zap, Maximize2, Bell, Globe, Loader2, Cloud,
+  Download, Share2, Edit3, Trash2, Save, Sparkles, Image as ImageIcon, MessageSquare, Send
 } from 'lucide-react';
 import { saveContentToSupabase } from './aiAnalyzer';
+import { searchUnsplashImages } from './unsplashService';
 import { TweetCard } from "@/components/ui/tweet-card";
 
 export default function ContentReviewModal({ item, brand, onApprove, onClose, setGlobalAlert, readOnly = false, showPushBanner = false, onRequestPush }) {
@@ -32,6 +34,24 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
    const [logoPos, setLogoPos] = useState(savedDesign?.logoPos || item.logoPos || 'top-right');
    const [logoOpacity, setLogoOpacity] = useState(savedDesign?.logoOpacity || 0.6);
    const [editedSlides, setEditedSlides] = useState(savedSlides);
+
+   // 🚀 NOVAS FERRAMENTAS (FASE 3.0)
+   const [unsplashQuery, setUnsplashQuery] = useState('');
+   const [unsplashResults, setUnsplashResults] = useState([]);
+   const [isSearching, setIsSearching] = useState(false);
+   const [creativeCommand, setCreativeCommand] = useState('');
+   const [chatHistory, setChatHistory] = useState([
+     { role: 'agent', text: 'Saudações! Sou seu Diretor Criativo. O que deseja ajustar neste slide?' }
+   ]);
+   const [activeSubTab, setActiveSubTab] = useState('design'); // design, images, chat
+
+   const handleUnsplashSearch = async () => {
+     if (!unsplashQuery) return;
+     setIsSearching(true);
+     const results = await searchUnsplashImages(unsplashQuery);
+     setUnsplashResults(results);
+     setIsSearching(false);
+   };
 
   const isStory = item.type?.includes('STORY');
   const slides = item.slides || [];
@@ -264,90 +284,130 @@ export default function ContentReviewModal({ item, brand, onApprove, onClose, se
               </div>
             )}
 
-            {/* TAB: EDITOR */}
+            {/* TAB: EDITOR COM SUB-ABAS */}
             {activeTab === 'editor' && (
-              <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 p-2">
-                <div className="space-y-4">
-                  <p className="text-[10px] font-black text-accent uppercase tracking-widest">Direção de Arte</p>
-                  
-                  {/* VIBE SWITCHER */}
-                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
-                    <label className="text-[10px] font-black text-white uppercase opacity-50">Vibe & Layout</label>
-                    <div className="grid grid-cols-2 gap-2">
-                       <button 
-                        onClick={() => setVibe('editorial')}
-                        className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'editorial' ? 'bg-white text-black border-white' : 'border-white/10 text-white/40 hover:border-white/30'}`}
-                       >Editorial (Light)</button>
-                       <button 
-                        onClick={() => setVibe('shadow')}
-                        className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'shadow' ? 'bg-neutral-800 text-white border-neutral-700' : 'border-white/10 text-white/40 hover:border-white/30'}`}
-                       >Shadow (Dark)</button>
-                    </div>
+              <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500 p-2 h-full flex flex-col">
+                {/* SUB-NAV */}
+                <div className="flex gap-1 bg-white/5 p-1 rounded-2xl border border-white/10 shrink-0">
+                   {[
+                     { id: 'design', label: 'Design', icon: <Palette size={12} /> },
+                     { id: 'images', label: 'Imagens', icon: <ImageIcon size={12} /> },
+                     { id: 'chat', label: 'Squad Chat', icon: <MessageSquare size={12} /> }
+                   ].map(st => (
+                     <button key={st.id}
+                       onClick={() => setActiveSubTab(st.id)}
+                       className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-[9px] font-black uppercase transition-all ${activeSubTab === st.id ? 'bg-accent text-black shadow-lg' : 'text-gray-500 hover:text-white'}`}>
+                       {st.icon} {st.label}
+                     </button>
+                   ))}
+                </div>
 
-                    {/* LAYOUT PICKER (FASE 1.2) */}
-                    <div className="grid grid-cols-3 gap-2 pt-2">
-                       {[
-                         { id: 'editorial', label: 'Art' },
-                         { id: 'minimalist', label: 'Clean' },
-                         { id: 'tweet', label: 'Tweet' }
-                       ].map(style => (
-                         <button 
-                          key={style.id}
-                          onClick={() => {
+                <div className="flex-1 overflow-y-auto pr-1 space-y-6 custom-scrollbar">
+                  {/* SUB-TAB: DESIGN */}
+                  {activeSubTab === 'design' && (
+                    <div className="space-y-6 animate-in fade-in duration-300">
+                      <p className="text-[10px] font-black text-accent uppercase tracking-widest">Direção de Arte</p>
+                      
+                      {/* VIBE SWITCHER */}
+                      <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
+                        <label className="text-[10px] font-black text-white uppercase opacity-50">Vibe & Layout</label>
+                        <div className="grid grid-cols-2 gap-2">
+                           <button onClick={() => setVibe('editorial')} className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'editorial' ? 'bg-white text-black border-white' : 'border-white/10 text-white/40 hover:border-white/30'}`}>Editorial (Light)</button>
+                           <button onClick={() => setVibe('shadow')} className={`py-3 rounded-xl border text-[10px] font-black uppercase transition-all ${vibe === 'shadow' ? 'bg-neutral-800 text-white border-neutral-700' : 'border-white/10 text-white/40 hover:border-white/30'}`}>Shadow (Dark)</button>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 pt-2">
+                           {['editorial', 'minimalist', 'tweet'].map(style => (
+                             <button key={style} onClick={() => {
+                               const newSlides = [...editedSlides];
+                               newSlides[activeSlide].layout = style;
+                               setEditedSlides(newSlides);
+                             }} className={`py-2 rounded-lg border text-[9px] font-black uppercase transition-all ${editedSlides[activeSlide]?.layout === style ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/40'}`}>
+                               {style}
+                             </button>
+                           ))}
+                        </div>
+                      </div>
+
+                      {/* LOGO POS */}
+                      <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
+                        <label className="text-[10px] font-black text-white uppercase opacity-50">Posição da Logo</label>
+                        <div className="grid grid-cols-4 gap-2">
+                           {['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(pos => (
+                             <button key={pos} onClick={() => setLogoPos(pos)} className={`aspect-square rounded-xl border flex items-center justify-center text-xl transition-all ${logoPos === pos ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/20'}`}>
+                               {pos === 'top-left' ? '↖️' : pos === 'top-right' ? '↗️' : pos === 'bottom-left' ? '↙️' : '↘️'}
+                             </button>
+                           ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SUB-TAB: IMAGES (UNSPLASH) */}
+                  {activeSubTab === 'images' && (
+                    <div className="space-y-6 animate-in fade-in duration-300">
+                      <div className="flex gap-2">
+                        <input 
+                          type="text" value={unsplashQuery} onChange={(e) => setUnsplashQuery(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleUnsplashSearch()}
+                          placeholder="Buscar no Unsplash..." 
+                          className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-accent outline-none"
+                        />
+                        <button onClick={handleUnsplashSearch} className="p-3 bg-accent text-black rounded-xl hover:scale-105 transition-all">
+                          {isSearching ? <Loader2 className="animate-spin" size={18} /> : <Search size={18} />}
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        {unsplashResults.map(img => (
+                          <div key={img.id} onClick={() => {
                             const newSlides = [...editedSlides];
-                            newSlides[activeSlide].layout = style.id;
+                            newSlides[activeSlide].imageUrl = img.url;
                             setEditedSlides(newSlides);
-                          }}
-                          className={`py-2 rounded-lg border text-[9px] font-black uppercase transition-all ${editedSlides[activeSlide]?.layout === style.id ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/40'}`}
-                         >{style.label}</button>
-                       ))}
+                            setGlobalAlert({ type: 'success', title: 'Imagem Atualizada', text: 'O Designer aplicou a nova foto ao slide.' });
+                          }} className="aspect-square rounded-xl overflow-hidden cursor-pointer group relative border border-white/5 hover:border-accent transition-all">
+                             <img src={img.thumb || img.url} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                <span className="text-[8px] font-black uppercase bg-accent text-black px-2 py-1 rounded">Aplicar</span>
+                             </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  {/* LOGO POS */}
-                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
-                    <label className="text-[10px] font-black text-white uppercase opacity-50">Posição da Logo</label>
-                    <div className="grid grid-cols-4 gap-2">
-                       {[
-                         { id: 'top-left', icon: '↖️' },
-                         { id: 'top-right', icon: '↗️' },
-                         { id: 'bottom-left', icon: '↙️' },
-                         { id: 'bottom-right', icon: '↘️' }
-                       ].map(pos => (
-                         <button 
-                          key={pos.id}
-                          onClick={() => setLogoPos(pos.id)}
-                          className={`aspect-square rounded-xl border flex items-center justify-center text-xl transition-all ${logoPos === pos.id ? 'bg-accent border-accent text-black' : 'border-white/5 bg-white/5 text-white/20 hover:border-white/20'}`}
-                         >{pos.icon}</button>
-                       ))}
+                  {/* SUB-TAB: SQUAD CHAT */}
+                  {activeSubTab === 'chat' && (
+                    <div className="space-y-4 animate-in fade-in duration-300 flex flex-col h-full">
+                       <div className="flex-1 bg-black/20 rounded-2xl p-4 overflow-y-auto space-y-4 custom-scrollbar min-h-[250px]">
+                          {chatHistory.map((msg, i) => (
+                            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                               <div className={`max-w-[80%] p-3 rounded-2xl text-[10px] font-bold leading-relaxed ${msg.role === 'user' ? 'bg-accent text-black' : 'bg-white/5 text-gray-300 border border-white/5'}`}>
+                                  {msg.text}
+                               </div>
+                            </div>
+                          ))}
+                       </div>
+                       <div className="flex gap-2 shrink-0">
+                          <input 
+                            type="text" value={creativeCommand} onChange={(e) => setCreativeCommand(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && creativeCommand) {
+                                setChatHistory([...chatHistory, { role: 'user', text: creativeCommand }]);
+                                setTimeout(() => {
+                                  setChatHistory(prev => [...prev, { role: 'agent', text: 'Entendido. Estou processando sua alteração no slide atual...' }]);
+                                }, 1000);
+                                setCreativeCommand('');
+                              }
+                            }}
+                            placeholder="Comando para o Squad..." 
+                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-accent outline-none"
+                          />
+                          <button className="p-3 bg-white/5 text-accent rounded-xl border border-white/10 hover:bg-accent hover:text-black transition-all">
+                             <Send size={18} />
+                          </button>
+                       </div>
                     </div>
-                  </div>
-
-                  {/* TEXT EDITING */}
-                  <div className="bg-white/5 p-4 rounded-3xl border border-white/5 space-y-4">
-                    <label className="text-[10px] font-black text-white uppercase opacity-50">Ajustar Conteúdo (Slide {activeSlide + 1})</label>
-                    <input 
-                      type="text" 
-                      value={editedSlides[activeSlide]?.headline || ''}
-                      onChange={(e) => {
-                        const newSlides = [...editedSlides];
-                        newSlides[activeSlide].headline = e.target.value;
-                        setEditedSlides(newSlides);
-                      }}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-xs font-bold text-white focus:border-accent outline-none"
-                      placeholder="Headline do Slide"
-                    />
-                    <textarea 
-                      value={editedSlides[activeSlide]?.body || ''}
-                      onChange={(e) => {
-                        const newSlides = [...editedSlides];
-                        newSlides[activeSlide].body = e.target.value;
-                        setEditedSlides(newSlides);
-                      }}
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-[10px] font-medium text-neutral-400 focus:border-accent outline-none h-20"
-                      placeholder="Texto de apoio"
-                    />
-                  </div>
+                  )}
                 </div>
               </div>
             )}

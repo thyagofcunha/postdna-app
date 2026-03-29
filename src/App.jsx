@@ -252,32 +252,32 @@ const CREDIT_COSTS = {
 
 const PLAN_SPECS = {
   free: { 
-    name: 'GRATUITO', 
+    name: 'TESTE-DRIVE', 
     price: 0, 
     credits: 10, 
     isMonthly: false,
-    features: ['1 Carrossel completo', 'Sherlock Básico']
+    features: ['1 Post de Autoridade', 'Análise Sherlock Básica', '1 Marca']
   },
   basico: { 
-    name: 'BÁSICO', 
-    price: 67, 
-    credits: 80, 
+    name: 'BÁSICO (AUTHORITY)', 
+    price: 97, 
+    credits: 100, 
     isMonthly: true,
-    features: ['80 créditos/mês', 'Carrossel, Posts & Stories', 'Estratégia IA']
+    features: ['100 créditos/mês', 'Carrossel e Posts Editorial', '1 Marca única (DNA)']
   },
   crescimento: { 
-    name: 'CRESCIMENTO', 
+    name: 'CRESCIMENTO (SCALER)', 
     price: 147, 
-    credits: 240, 
+    credits: 300, 
     isMonthly: true,
-    features: ['240 créditos/mês', 'Carrossel, Post Estático, Stories, Story Carrossel', 'Análise de Nicho']
+    features: ['300 créditos/mês', 'Todos os Agentes de Elite', 'Até 3 Marcas (DNAs)']
   },
   completo: { 
-    name: 'COMPLETO', 
-    price: 197, 
-    credits: 400, 
+    name: 'COMPLETO (AGENCY HUB)', 
+    price: 247, 
+    credits: 600, 
     isMonthly: true,
-    features: ['400 créditos/mês', 'Todos os tipos de conteúdo', 'Blog incluso (8 créditos/artigo)']
+    features: ['600 créditos/mês', 'Tudo Ilimitado', 'Marcas Ilimitadas', 'Suporte Prioritário']
   }
 };
 

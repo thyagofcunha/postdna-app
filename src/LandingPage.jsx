@@ -278,8 +278,8 @@ export default function LandingPage({ onGetStarted, onLogin }) {
        </div>
     </section>
 
-      {/* --- DEVICE COMBO MOCKUP (Deslocado para impacto) --- */}
-      <section className="py-20 px-4 relative overflow-hidden bg-black/60">
+     {/* --- GRID DE MOCKUPS EDITORIAIS --- */}
+    <section className="py-20 px-4 relative overflow-hidden bg-black/60">
         <div className="max-w-[1400px] mx-auto space-y-20">
            <div className="flex flex-col md:flex-row items-end justify-between gap-8 border-b border-white/10 pb-12">
               <div className="space-y-4">
@@ -305,13 +305,13 @@ export default function LandingPage({ onGetStarted, onLogin }) {
                   title: "Estratégia Silenciosa", 
                   style: "dark", 
                   img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600&h=800",
-                   tag: "CONTEÚDO"
+                  tag: "CONTEÚDO"
                 },
                 { 
                   title: "O Futuro das Marcas", 
                   style: "editorial", 
                   img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=600&h=800",
-                   tag: "AUTORIDADE"
+                  tag: "AUTORIDADE"
                 },
                 { 
                   title: "Conversão Imediata", 
@@ -651,11 +651,6 @@ export default function LandingPage({ onGetStarted, onLogin }) {
                 <TestimonialCard key={i} {...t} />
               ))}
            </Marquee>
-           <Marquee reverse pauseOnHover className="[--duration:50s]">
-              {testimonials.map((t, i) => (
-                <TestimonialCard key={i} {...t} />
-              ))}
-           </Marquee>
         </div>
       </section>
 
@@ -675,7 +670,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           </thead>
           <tbody className="text-sm">
              {[
-               { label: "Custo Mensal", ag: "R$800 a R$3.000", pd: "A partir de R$67" },
+               { label: "Custo Mensal", ag: "R$ 1.500 a R$ 5.000", pd: "A partir de R$ 97" },
                { label: "Prazo de Entrega", ag: "2 a 5 dias", pd: "Menos de 3 minutos" },
                { label: "Brief Semanal", ag: "Sim — toda semana", pd: "Não — DNA Fixado" },
                { label: "Disponibilidade", ag: "Horário Comercial", pd: "24 horas por dia" },
@@ -693,65 +688,69 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       </section>
 
       {/* --- SECTION 6: PLANOS --- */}
-      <section className="py-40 px-4 bg-[#00BFC6]/5 relative">
+      <section id="pricing" className="py-40 px-4 bg-[#00BFC6]/5 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-transparent pointer-events-none" />
         <div className="max-w-7xl mx-auto relative z-10 text-center space-y-20">
           <div className="space-y-6">
-            <h2 className="text-4xl md:text-7xl font-black uppercase italic tracking-tighter">Escolha o plano certo</h2>
-            <div className="flex items-center justify-center gap-4">
-               <span className="text-xs font-bold text-neutral-400">Mensal</span>
-               <div className="w-12 h-6 rounded-full bg-white/10 p-1 flex items-center justify-end cursor-pointer border border-white/10">
-                  <div className="w-4 h-4 rounded-full bg-[#00BFC6] shadow-[0_0_10px_rgba(0,191,198,0.5)]" />
+            <h2 className="text-4xl md:text-[8rem] font-black uppercase italic tracking-tighter leading-none mb-4">A Escolha de <span className="text-accent">Elite</span></h2>
+            <div className="flex items-center justify-center gap-4 bg-white/5 w-fit mx-auto p-2 rounded-2xl border border-white/10">
+               <span className="text-[10px] font-black uppercase tracking-widest text-neutral-400 px-4">Mensal</span>
+               <div className="w-12 h-6 rounded-full bg-accent p-1 flex items-center justify-end cursor-pointer shadow-[0_0_20px_rgba(0,191,198,0.3)]">
+                  <div className="w-4 h-4 rounded-full bg-black" />
                </div>
-               <span className="text-xs font-black text-[#00BFC6] uppercase tracking-widest">Anual — 20% OFF</span>
+               <span className="text-[10px] font-black uppercase tracking-widest text-accent px-4 italic">Anual — 2 Meses Grátis ✨</span>
             </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-             {/* BÁSICO */}
-             <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors">
+             {/* PLAN 1: AUTHORITY */}
+             <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors group">
                 <div className="space-y-4">
-                   <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Básico</div>
-                   <div className="text-5xl font-black uppercase italic text-white leading-none">R$67<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Authority</div>
+                   <div className="text-7xl font-black uppercase italic text-white leading-none">R$ 97<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="py-2 px-4 bg-white/5 rounded-xl border border-white/5 text-[9px] font-black uppercase tracking-[0.2em] text-accent inline-block">Mix: 4 Carrosséis + 10 Posts + Stories</div>
                 </div>
-                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2 font-bold"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 80 Créditos mensais</li>
-                   <li className="flex items-center gap-2 font-bold text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Carrossel, Post Estático, Stories</li>
-                   <li className="flex items-center gap-2 text-neutral-600"><X size={16} /> Sem blog</li>
+                <ul className="text-left space-y-4 text-[11px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2 font-bold"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 100 Créditos iniciais</li>
+                   <li className="flex items-center gap-2 text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 1 Marca (DNA Único)</li>
+                   <li className="flex items-center gap-2 text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Sherlock + Designer</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all">Assinar Agora</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all">Começar agora</button>
              </div>
 
-             {/* CRESCIMENTO */}
-             <div className="p-10 rounded-[40px] bg-[#00BFC6] text-black space-y-8 flex flex-col justify-between scale-105 shadow-[0_0_80px_rgba(0,191,198,0.2)] relative overflow-hidden group">
+             {/* PLAN 2: SCALER */}
+             <div className="p-10 rounded-[40px] bg-accent text-black space-y-8 flex flex-col justify-between scale-105 shadow-[0_40px_100px_rgba(0,191,198,0.2)] relative overflow-hidden group border-4 border-white/20">
                 <div className="absolute top-0 right-0 p-8">
-                   <div className="bg-black text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-xl">Mais Popular</div>
+                   <div className="bg-black text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-xl">Mais Vendido</div>
                 </div>
                 <div className="space-y-4">
-                   <div className="text-xs font-black uppercase tracking-widest text-black/40">Crescimento</div>
-                   <div className="text-5xl font-black uppercase italic">R$147<span className="text-xs text-black/40 not-italic">/mês</span></div>
+                   <div className="text-xs font-black uppercase tracking-widest text-black/40 italic">Scaler</div>
+                   <div className="text-7xl font-black uppercase italic leading-none">R$ 147<span className="text-xs text-black/40 not-italic">/mês</span></div>
+                   <div className="py-2 px-4 bg-black/10 rounded-xl border border-black/5 text-[9px] font-black uppercase tracking-[0.2em] inline-block">Mix: 12 Carrosséis + 30 Posts + Stories</div>
                 </div>
-                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2 font-black"><CheckCircle2 size={16} /> 240 Créditos mensais</li>
-                   <li className="flex items-center gap-2 font-black"><CheckCircle2 size={16} /> Carrossel, Post Estático, Stories</li>
-                   <li className="flex items-center gap-2 font-black text-black/80"><CheckCircle2 size={16} /> Story Carrossel</li>
-                   <li className="flex items-center gap-2 opacity-40"><X size={16} /> Sem Blog</li>
+                <ul className="text-left space-y-4 text-[11px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> 300 Créditos iniciais</li>
+                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Até 3 Marcas (DNAs)</li>
+                   <li className="flex items-center gap-2"><CheckCircle2 size={16} /> Todos os Agentes de Elite</li>
+                   <li className="flex items-center gap-2 font-black italic"><CheckCircle2 size={16} /> Baixar em Alta Resolução</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-transform">🚀 Começar Agora</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-transform shadow-2xl">⚡ Ativar Escalabilidade</button>
              </div>
 
-             {/* COMPLETO */}
-             <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors">
+             {/* PLAN 3: AGENCY HUB */}
+             <div className="p-10 rounded-[40px] border border-white/5 bg-black/40 space-y-8 flex flex-col justify-between hover:border-white/10 transition-colors group">
                 <div className="space-y-4">
-                   <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Completo</div>
-                   <div className="text-5xl font-black uppercase italic text-white leading-none">R$197<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="text-xs font-black uppercase tracking-widest text-neutral-500">Agency Hub</div>
+                   <div className="text-7xl font-black uppercase italic text-white leading-none">R$ 247<span className="text-xs text-neutral-500 not-italic">/mês</span></div>
+                   <div className="py-2 px-4 bg-accent/10 rounded-xl border border-accent/10 text-[9px] font-black uppercase tracking-[0.2em] text-accent inline-block">Mix: 30 Carrosséis + 60 Posts + Blog</div>
                 </div>
-                <ul className="text-left space-y-4 text-[10px] font-black uppercase italic tracking-wider">
-                   <li className="flex items-center gap-2 font-bold"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 400 Créditos mensais</li>
-                   <li className="flex items-center gap-2 font-bold text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Todos os tipos de conteúdo</li>
-                   <li className="flex items-center gap-2 font-black text-[#00BFC6]"><CheckCircle2 size={16} /> Blog incluso (8 créditos por artigo)</li>
+                <ul className="text-left space-y-4 text-[11px] font-black uppercase italic tracking-wider">
+                   <li className="flex items-center gap-2"><CheckCircle2 size={16} className="text-[#00BFC6]" /> 600 Créditos iniciais</li>
+                   <li className="flex items-center gap-2 text-neutral-200"><CheckCircle2 size={16} className="text-[#00BFC6]" /> Marcas Ilimitadas</li>
+                   <li className="flex items-center gap-2 text-[#00BFC6] font-black italic"><CheckCircle2 size={16} /> Suporte Prioritário</li>
+                   <li className="flex items-center gap-2 text-[#00BFC6] font-black italic"><CheckCircle2 size={16} /> Créditos Acumulativos</li>
                 </ul>
-                <button onClick={onGetStarted} className="w-full py-5 bg-[#00BFC6]/10 text-[#00BFC6] hover:bg-[#00BFC6]/20 border border-[#00BFC6]/20 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all">Assinar Agora</button>
+                <button onClick={onGetStarted} className="w-full py-5 bg-accent/10 text-accent hover:bg-accent/20 border border-accent/20 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all underline underline-offset-4">Assinar Agora</button>
              </div>
           </div>
 
