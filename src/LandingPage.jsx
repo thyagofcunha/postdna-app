@@ -262,10 +262,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
                         handle: "@autoridade",
                         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=brand"
                       }}
-                      content={{
-                        text: "A automação comum cria ruído. O PostDNA cria sinal de alta frequência. Escolha seu DNA.",
-                        subText: "Venda mais com menos esforço."
-                      }}
+                      content="A automação comum cria ruído. O PostDNA cria sinal de alta frequência. Escolha seu DNA. Venda mais com menos esforço."
                       className="w-full border-none shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                    />
                 </div>
