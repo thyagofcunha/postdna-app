@@ -1408,7 +1408,7 @@ function Dashboard({ brand, setBrand, primaryColor, onEditBrandKit, initialView 
 
   // ── PIPELINE OVERLAY: A EXPERIÊNCIA DO SQUAD (FASE 2.2) ──
   const PipelineOverlay = () => {
-    if (!isGenerating && pipelineStage < 0) return null;
+    if (generatingIdx === null && pipelineStage < 0) return null;
     
     return (
       <AnimatePresence>
